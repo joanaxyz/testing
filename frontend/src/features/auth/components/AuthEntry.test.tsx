@@ -22,7 +22,7 @@ function renderEntry(register = false) {
         <Routes>
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/login" element={<LoginForm />} />
-          <Route path="/stories/arcane-spire" element={<h1>Story map</h1>} />
+          <Route path="/stories/git-it-legacy" element={<h1>Story map</h1>} />
           <Route path="/home" element={<h1>Home</h1>} />
         </Routes>
       </MemoryRouter>

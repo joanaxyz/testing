@@ -30,6 +30,7 @@ type TierOptimisticStep = Omit<TierRunStepResponse, 'visualization_snapshot'> & 
 export type TierStepLog = TierRunStepResponse | TierOptimisticStep
 
 type TierRunRefinementKeys =
+  | 'difficulty'
   | 'tier'
   | 'scenario_context'
   | 'chapter'
@@ -50,6 +51,7 @@ export type TierRunResponse = Omit<
   ApiSchemas['AdventureLevelTierRunResponse'],
   TierRunRefinementKeys
 > & {
+  difficulty: TierDifficulty
   tier: TierRef
   scenario_context: LevelScenarioContext
   chapter: { id: number; number: number; title: string } | null

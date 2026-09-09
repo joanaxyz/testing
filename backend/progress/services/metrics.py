@@ -4,7 +4,7 @@ from django.db.models import Count, Q, Sum
 from django.db.models.functions import TruncDate
 from django.utils import timezone
 
-from adventures.models import AdventureRun, SkillMastery
+from adventures.models import AdventureLevelTierRun, AdventureRun, SkillMastery
 from challenges.models import ChallengeRun
 from common.constants import (
     DIFFICULTY_HARD,
@@ -14,7 +14,7 @@ from common.constants import (
     SESSION_STATUS_COMPLETED,
     SESSION_STATUS_FAILED,
 )
-from curriculum.models import CommandForm, CommandSkill
+from curriculum.models import Chapter, CommandForm, CommandSkill
 from curriculum.selectors import published_stories, stories_completed_map
 from practice.models import CommandStep
 from progress.models import (
@@ -30,6 +30,120 @@ TREND_DAYS = 14
 
 
 class MetricsService:
+    PERFORMANCE_STORY_SLUG = "git-it-legacy"
+    PERFORMANCE_MODULE_NUMBERS = (1, 2, 3, 4)
+
+    def performance_summary(self, *, player) -> dict:
+        """Performance KPIs for the Runebound Turret's module attempts.
+
+        CAR is the share of submitted commands the simulator could process.
+        Retry transfer is the share of retry runs that end successfully. Replays
+        are excluded from every attempt-based measure.
+        """
+        runs = AdventureLevelTierRun.objects.filter(
+            player=player,
+            is_replay=False,
+            tier__adventure_level__chapter__story__slug=self.PERFORMANCE_STORY_SLUG,
+            tier__adventure_level__chapter__number__in=self.PERFORMANCE_MODULE_NUMBERS,
+        )
+        aggregate = runs.aggregate(
+            started=Count("id"),
+            completed=Count("id", filter=Q(status=SESSION_STATUS_COMPLETED)),
+            hard_started=Count("id", filter=Q(tier__difficulty=DIFFICULTY_HARD)),
+            hard_completed=Count(
+                "id",
+                filter=Q(tier__difficulty=DIFFICULTY_HARD, status=SESSION_STATUS_COMPLETED),
+            ),
+            retry_started=Count("id", filter=Q(prior_run__isnull=False)),
+            retry_completed=Count(
+                "id", filter=Q(prior_run__isnull=False, status=SESSION_STATUS_COMPLETED)
+            ),
+            completed_retry_total=Sum("retry_index", filter=Q(status=SESSION_STATUS_COMPLETED)),
+        )
+
+        steps = CommandStep.objects.filter(adventure_tier_run__in=runs)
+        step_counts = steps.aggregate(
+            total=Count("id"),
+            unprocessable=Count(
+                "id", filter=Q(result_category__in=[RESULT_INVALID, RESULT_UNPROCESSABLE])
+            ),
+        )
+        total_commands = step_counts["total"] or 0
+        processable_commands = total_commands - (step_counts["unprocessable"] or 0)
+
+        grouped = {
+            row["tier__adventure_level__chapter_id"]: row
+            for row in runs.values("tier__adventure_level__chapter_id").annotate(
+                started=Count("id"),
+                completed=Count("id", filter=Q(status=SESSION_STATUS_COMPLETED)),
+                hard_started=Count("id", filter=Q(tier__difficulty=DIFFICULTY_HARD)),
+                hard_completed=Count(
+                    "id",
+                    filter=Q(
+                        tier__difficulty=DIFFICULTY_HARD,
+                        status=SESSION_STATUS_COMPLETED,
+                    ),
+                ),
+                retry_started=Count("id", filter=Q(prior_run__isnull=False)),
+                retry_completed=Count(
+                    "id", filter=Q(prior_run__isnull=False, status=SESSION_STATUS_COMPLETED)
+                ),
+                completed_retry_total=Sum("retry_index", filter=Q(status=SESSION_STATUS_COMPLETED)),
+            )
+        }
+        chapters = Chapter.objects.filter(
+            story__slug=self.PERFORMANCE_STORY_SLUG,
+            is_published=True,
+            number__in=self.PERFORMANCE_MODULE_NUMBERS,
+        ).order_by("sort_order", "number")
+        modules = []
+        for chapter in chapters:
+            row = grouped.get(chapter.id, {})
+            started = row.get("started") or 0
+            completed = row.get("completed") or 0
+            modules.append(
+                {
+                    "number": chapter.number,
+                    "title": chapter.title,
+                    "scr": self._rate(completed, started),
+                    "hlcr": self._rate(
+                        row.get("hard_completed") or 0,
+                        row.get("hard_started") or 0,
+                    ),
+                    "rtr": self._rate(
+                        row.get("retry_completed") or 0,
+                        row.get("retry_started") or 0,
+                    ),
+                    "arc": self._average_retry_count_from_counts(
+                        row.get("completed_retry_total") or 0,
+                        completed,
+                    ),
+                }
+            )
+
+        started = aggregate["started"] or 0
+        completed = aggregate["completed"] or 0
+        return {
+            "kpis": {
+                "scr": self._rate(completed, started),
+                "car": self._rate(processable_commands, total_commands),
+                "hlcr": self._rate(
+                    aggregate["hard_completed"] or 0,
+                    aggregate["hard_started"] or 0,
+                ),
+                "rtr": self._rate(
+                    aggregate["retry_completed"] or 0,
+                    aggregate["retry_started"] or 0,
+                ),
+                "arc": self._average_retry_count_from_counts(
+                    aggregate["completed_retry_total"] or 0,
+                    completed,
+                ),
+            },
+            "completed_sessions": completed,
+            "modules": modules,
+        }
+
     def dashboard_summary(self, *, player) -> dict:
         challenge_counts = ChallengeRun.objects.filter(player=player).aggregate(
             started=Count("id", filter=Q(is_replay=False)),

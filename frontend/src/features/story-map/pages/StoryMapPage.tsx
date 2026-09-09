@@ -46,7 +46,7 @@ function useCompactStoryMap() {
 export function StoryMapPage() {
   const userId = useAuthStore((state) => state.user?.id)
   const { storySlug: routeStorySlug } = useParams<{ storySlug: string }>()
-  const storySlug = routeStorySlug ?? 'arcane-spire'
+  const storySlug = routeStorySlug ?? 'git-it-legacy'
   const [searchParams] = useSearchParams()
   const chapterParam = searchParams.get('chapter')
   const focusedChapterId = chapterParam ? Number(chapterParam) : null

@@ -6,6 +6,7 @@ from common.openapi import WalletSummaryResponseSerializer
 from players.services import get_or_create_player
 from progress.serializers import (
     DashboardSummaryResponseSerializer,
+    PerformanceSummaryResponseSerializer,
     StatsSummaryResponseSerializer,
 )
 from progress.services import MetricsService
@@ -24,6 +25,13 @@ class StatsSummaryAPIView(APIView):
     def get(self, request):
         player = get_or_create_player(request.user)
         return Response(MetricsService().stats_summary(player=player))
+
+
+class PerformanceSummaryAPIView(APIView):
+    @extend_schema(responses={200: PerformanceSummaryResponseSerializer})
+    def get(self, request):
+        player = get_or_create_player(request.user)
+        return Response(MetricsService().performance_summary(player=player))
 
 
 class WalletSummaryAPIView(APIView):

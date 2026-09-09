@@ -24,6 +24,7 @@ import {
   DESIGN_PREVIEW_STORY_MAP_ROUTE,
   ADMIN_ROUTES,
   HOME_ROUTE,
+  PERFORMANCE_ROUTE,
   SHOP_ROUTE,
   STORIES_ROUTE,
   STORY_DETAIL_ROUTE,
@@ -127,7 +128,12 @@ const appRoutes: RouteObject[] = [
       { path: '/gallery', element: <Navigate replace to={HOME_ROUTE} /> },
       { path: '/dashboard', element: <Navigate replace to={HOME_ROUTE} /> },
       { path: '/stats', element: <Navigate replace to={`${HOME_ROUTE}?tab=overview`} /> },
-      { path: '/performance', element: <Navigate replace to={`${HOME_ROUTE}?tab=overview`} /> },
+      {
+        path: PERFORMANCE_ROUTE,
+        lazy: async () => ({
+          Component: (await import('@/features/performance/pages/PerformancePage')).PerformancePage,
+        }),
+      },
       {
         path: '/level-editor',
         lazy: async () => ({

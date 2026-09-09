@@ -49,7 +49,7 @@ describe('HomeStatsView contract', () => {
   it('renders the rich dashboard and exact Continue story destination', () => {
     renderView()
 
-    expect(screen.getByRole('link', { name: /continue story/i })).toHaveAttribute('href', '/stories/arcane-spire')
+    expect(screen.getByRole('link', { name: /continue story/i })).toHaveAttribute('href', '/stories/git-it-legacy')
 
     const statsPanel = dashboard()
     const skillRows = statsPanel.querySelectorAll('.home-overview-command-row')

@@ -1,9 +1,10 @@
 import { isLegacyStoryRoute } from './legacyRoutes'
 
-const DEFAULT_STORY_SLUG = 'arcane-spire'
+const DEFAULT_STORY_SLUG = 'git-it-legacy'
 
 export const HOME_ROUTE = '/home'
 export const SHOP_ROUTE = '/shop'
+export const PERFORMANCE_ROUTE = '/performance'
 export const STORIES_ROUTE = '/stories'
 export const STORY_DETAIL_ROUTE = `${STORIES_ROUTE}/:storySlug`
 export const DESIGN_PREVIEW_STORY_MAP_ROUTE = '/design-preview/story-map'

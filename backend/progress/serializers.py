@@ -13,6 +13,29 @@ class DashboardKpiSetSerializer(serializers.Serializer):
     hlcr = RateMetricSerializer()
 
 
+class PerformanceKpiSetSerializer(serializers.Serializer):
+    scr = RateMetricSerializer()
+    car = RateMetricSerializer()
+    hlcr = RateMetricSerializer()
+    rtr = RateMetricSerializer()
+    arc = RateMetricSerializer()
+
+
+class PerformanceModuleSerializer(serializers.Serializer):
+    number = serializers.IntegerField()
+    title = serializers.CharField()
+    scr = RateMetricSerializer()
+    hlcr = RateMetricSerializer()
+    rtr = RateMetricSerializer()
+    arc = RateMetricSerializer()
+
+
+class PerformanceSummaryResponseSerializer(serializers.Serializer):
+    kpis = PerformanceKpiSetSerializer()
+    completed_sessions = serializers.IntegerField()
+    modules = PerformanceModuleSerializer(many=True)
+
+
 class DashboardCountsSerializer(serializers.Serializer):
     started = serializers.IntegerField()
     completed = serializers.IntegerField()

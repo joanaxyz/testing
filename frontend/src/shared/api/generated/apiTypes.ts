@@ -103,6 +103,9 @@ export type ApiSchemas = {
   "PatchedAdminStoryUpdateRequest": { "difficulty"?: ApiSchemas["DifficultyEnum"]; "is_published"?: boolean; "prerequisite_story"?: number | null; "price"?: number; "sort_order"?: number; "summary"?: string; "title"?: string; "world_slug"?: string }
   "PatchedContentDefinitionUpdateRequest": { "chapter"?: number | null; "command_family"?: string; "definition"?: { [key: string]: JsonValue }; "difficulty"?: string; "kind"?: ApiSchemas["KindA5eEnum"]; "official_chapter"?: number | null; "slug"?: string; "summary"?: string; "tags"?: Array<string>; "title"?: string; "visibility"?: ApiSchemas["VisibilityEnum"] }
   "PatchedPlayerPreferences": { "motion_mode"?: ApiSchemas["MotionModeEnum"]; "onboarding_phase"?: ApiSchemas["OnboardingPhaseEnum"] }
+  "PerformanceKpiSet": { "arc": ApiSchemas["RateMetric"]; "car": ApiSchemas["RateMetric"]; "hlcr": ApiSchemas["RateMetric"]; "rtr": ApiSchemas["RateMetric"]; "scr": ApiSchemas["RateMetric"] }
+  "PerformanceModule": { "arc": ApiSchemas["RateMetric"]; "hlcr": ApiSchemas["RateMetric"]; "number": number; "rtr": ApiSchemas["RateMetric"]; "scr": ApiSchemas["RateMetric"]; "title": string }
+  "PerformanceSummaryResponse": { "completed_sessions": number; "kpis": ApiSchemas["PerformanceKpiSet"]; "modules": Array<ApiSchemas["PerformanceModule"]> }
   "PlayerPreferences": { "motion_mode"?: ApiSchemas["MotionModeEnum"]; "onboarding_phase"?: ApiSchemas["OnboardingPhaseEnum"] }
   "RateMetric": { "denominator": number; "numerator": number; "value": number | null }
   "Register": { "email": string; "password": string; "password_confirm": string; "username": string }
@@ -198,6 +201,7 @@ export type ApiPath =
   | "/api/player/loadout/companion/"
   | "/api/player/preferences/"
   | "/api/progress/dashboard/"
+  | "/api/progress/performance/"
   | "/api/progress/stats/"
   | "/api/progress/wallet/"
   | "/api/schema/"
@@ -272,6 +276,7 @@ export type ApiMethodByPath = {
   "/api/player/loadout/companion/": "POST"
   "/api/player/preferences/": "GET" | "PATCH"
   "/api/progress/dashboard/": "GET"
+  "/api/progress/performance/": "GET"
   "/api/progress/stats/": "GET"
   "/api/progress/wallet/": "GET"
   "/api/schema/": "GET"
@@ -365,6 +370,7 @@ export const apiOperations = {
   player_preferences_retrieve: { method: "GET", path: "/api/player/preferences/", operationId: "player_preferences_retrieve", tags: ["player"] },
   player_preferences_partial_update: { method: "PATCH", path: "/api/player/preferences/", operationId: "player_preferences_partial_update", tags: ["player"] },
   progress_dashboard_retrieve: { method: "GET", path: "/api/progress/dashboard/", operationId: "progress_dashboard_retrieve", tags: ["progress"] },
+  progress_performance_retrieve: { method: "GET", path: "/api/progress/performance/", operationId: "progress_performance_retrieve", tags: ["progress"] },
   progress_stats_retrieve: { method: "GET", path: "/api/progress/stats/", operationId: "progress_stats_retrieve", tags: ["progress"] },
   progress_wallet_retrieve: { method: "GET", path: "/api/progress/wallet/", operationId: "progress_wallet_retrieve", tags: ["progress"] },
   schema_retrieve: { method: "GET", path: "/api/schema/", operationId: "schema_retrieve", tags: ["schema"] },
@@ -461,6 +467,7 @@ export type ApiRequestBodyByOperation = {
   player_preferences_retrieve: null
   player_preferences_partial_update: ApiSchemas["PatchedPlayerPreferences"]
   progress_dashboard_retrieve: null
+  progress_performance_retrieve: null
   progress_stats_retrieve: null
   progress_wallet_retrieve: null
   schema_retrieve: null
@@ -554,6 +561,7 @@ export type ApiResponseBodyByOperation = {
   player_preferences_retrieve: ApiSchemas["PlayerPreferences"]
   player_preferences_partial_update: ApiSchemas["PlayerPreferences"]
   progress_dashboard_retrieve: ApiSchemas["DashboardSummaryResponse"]
+  progress_performance_retrieve: ApiSchemas["PerformanceSummaryResponse"]
   progress_stats_retrieve: ApiSchemas["StatsSummaryResponse"]
   progress_wallet_retrieve: ApiSchemas["WalletSummaryResponse"]
   schema_retrieve: { [key: string]: JsonValue }

@@ -12,7 +12,7 @@ import { DESIGN_PREVIEW_STORY_MAP_ROUTE, STORIES_ROUTE, isStoryMapRoute, storyPa
 
 describe('legacy route compatibility', () => {
   it('keeps deprecated paths isolated while canonical routes use current vocabulary', () => {
-    expect(storyPath()).toBe('/stories/arcane-spire')
+    expect(storyPath()).toBe('/stories/git-it-legacy')
     expect(STORIES_ROUTE).toBe('/stories')
     expect(DESIGN_PREVIEW_STORY_MAP_ROUTE).toBe('/design-preview/story-map')
 

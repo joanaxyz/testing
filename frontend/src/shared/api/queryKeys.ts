@@ -2,6 +2,7 @@ export const queryKeys = {
   authBootstrap: ['auth-bootstrap'] as const,
   homeSummary: ['home-summary'] as const,
   statsSummary: ['stats-summary'] as const,
+  performanceSummary: ['performance-summary'] as const,
   wallet: ['wallet'] as const,
   stories: ['stories'] as const,
   chapters: ['chapters'] as const,

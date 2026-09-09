@@ -2840,6 +2840,26 @@
                 }
             }
         },
+        "/api/progress/performance/": {
+            "get": {
+                "operationId": "progress_performance_retrieve",
+                "tags": [
+                    "progress"
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PerformanceSummaryResponse"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/api/progress/stats/": {
             "get": {
                 "operationId": "progress_stats_retrieve",
@@ -6237,6 +6257,86 @@
                         "$ref": "#/components/schemas/OnboardingPhaseEnum"
                     }
                 }
+            },
+            "PerformanceKpiSet": {
+                "type": "object",
+                "properties": {
+                    "scr": {
+                        "$ref": "#/components/schemas/RateMetric"
+                    },
+                    "car": {
+                        "$ref": "#/components/schemas/RateMetric"
+                    },
+                    "hlcr": {
+                        "$ref": "#/components/schemas/RateMetric"
+                    },
+                    "rtr": {
+                        "$ref": "#/components/schemas/RateMetric"
+                    },
+                    "arc": {
+                        "$ref": "#/components/schemas/RateMetric"
+                    }
+                },
+                "required": [
+                    "arc",
+                    "car",
+                    "hlcr",
+                    "rtr",
+                    "scr"
+                ]
+            },
+            "PerformanceModule": {
+                "type": "object",
+                "properties": {
+                    "number": {
+                        "type": "integer"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "scr": {
+                        "$ref": "#/components/schemas/RateMetric"
+                    },
+                    "hlcr": {
+                        "$ref": "#/components/schemas/RateMetric"
+                    },
+                    "rtr": {
+                        "$ref": "#/components/schemas/RateMetric"
+                    },
+                    "arc": {
+                        "$ref": "#/components/schemas/RateMetric"
+                    }
+                },
+                "required": [
+                    "arc",
+                    "hlcr",
+                    "number",
+                    "rtr",
+                    "scr",
+                    "title"
+                ]
+            },
+            "PerformanceSummaryResponse": {
+                "type": "object",
+                "properties": {
+                    "kpis": {
+                        "$ref": "#/components/schemas/PerformanceKpiSet"
+                    },
+                    "completed_sessions": {
+                        "type": "integer"
+                    },
+                    "modules": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PerformanceModule"
+                        }
+                    }
+                },
+                "required": [
+                    "completed_sessions",
+                    "kpis",
+                    "modules"
+                ]
             },
             "PlayerPreferences": {
                 "type": "object",

@@ -20,6 +20,7 @@ import '@/styles/features/shop.css'
 import '@/styles/features/auth.css'
 import '@/styles/features/settings.css'
 import '@/styles/features/onboarding.css'
+import '@/styles/features/performance.css'
 
 initializePreferences()
 

@@ -1,11 +1,11 @@
 import { useQueryClient } from '@tanstack/react-query'
 import {
   ChevronDown,
-  Home,
+  LayoutDashboard,
   LogOut,
   Settings,
   ShieldCheck,
-  ShoppingBag,
+  ChartNoAxesCombined,
   GitBranch,
   type LucideIcon,
 } from 'lucide-react'
@@ -21,7 +21,7 @@ import { useAuthStore } from '@/shared/auth/useAuth'
 import { GitCoinIcon } from '@/shared/wallet/components/GitCoinIcon'
 import { useWalletSummary } from '@/shared/wallet/hooks/useWallet'
 import { usePlayerLoadout } from '@/shared/player-loadout/usePlayerLoadout'
-import { ADMIN_ROUTES, HOME_ROUTE, SHOP_ROUTE, isStoryMapRoute, storyPath } from '@/shared/navigation/routes'
+import { ADMIN_ROUTES, HOME_ROUTE, PERFORMANCE_ROUTE, SHOP_ROUTE, isStoryMapRoute, storyPath } from '@/shared/navigation/routes'
 import { cn } from '@/shared/utils/cn'
 import { useFocusTrap } from '@/shared/utils/useFocusTrap'
 
@@ -35,23 +35,22 @@ type PrimaryNavItem = {
 const primaryNavItems: PrimaryNavItem[] = [
   {
     to: HOME_ROUTE,
-    label: 'Home',
-    Icon: Home,
+    label: 'Dashboard',
+    Icon: LayoutDashboard,
     match: (pathname) => pathname === '/' || pathname.startsWith(HOME_ROUTE),
   },
   {
     // Land on the default story map; in-page story controls handle switching.
     to: storyPath(),
-    label: 'Stories',
+    label: 'Modules',
     Icon: GitBranch,
     match: isStoryMapRoute,
   },
   {
-    to: SHOP_ROUTE,
-    label: 'Shop',
-    Icon: ShoppingBag,
-    match: (pathname) =>
-      pathname === SHOP_ROUTE || pathname === '/store' || pathname === '/design-preview/shop',
+    to: PERFORMANCE_ROUTE,
+    label: 'Performance',
+    Icon: ChartNoAxesCombined,
+    match: (pathname) => pathname === PERFORMANCE_ROUTE,
   },
 ]
 
