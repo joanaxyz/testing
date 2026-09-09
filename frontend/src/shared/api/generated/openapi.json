@@ -607,6 +607,55 @@
                 }
             }
         },
+        "/api/adventure-level-tiers/{tier_id}/runs/": {
+            "post": {
+                "operationId": "adventure_level_tiers_runs_create",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "tier_id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "adventure-level-tiers"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AdventureLevelTierRunStart"
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AdventureLevelTierRunStart"
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AdventureLevelTierRunStart"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AdventureLevelTierRunResponse"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/api/adventure-levels/{level_id}/runs/": {
             "post": {
                 "operationId": "adventure_levels_runs_create",
@@ -933,6 +982,310 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/AdventureCommandResponse"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/adventure-tier-runs/{run_id}/": {
+            "get": {
+                "operationId": "adventure_tier_runs_retrieve",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "run_id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "adventure-tier-runs"
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AdventureLevelTierRunResponse"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "adventure_tier_runs_destroy",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "run_id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "adventure-tier-runs"
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No response body"
+                    }
+                }
+            }
+        },
+        "/api/adventure-tier-runs/{run_id}/files/": {
+            "post": {
+                "operationId": "adventure_tier_runs_files_create",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "run_id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "adventure-tier-runs"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/WorkspaceFile"
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/WorkspaceFile"
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/WorkspaceFile"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AdventureLevelTierRunResponse"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            },
+            "put": {
+                "operationId": "adventure_tier_runs_files_update",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "run_id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "adventure-tier-runs"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/WorkspaceFileRename"
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/WorkspaceFileRename"
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/WorkspaceFileRename"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AdventureLevelTierRunResponse"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            },
+            "patch": {
+                "operationId": "adventure_tier_runs_files_partial_update",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "run_id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "adventure-tier-runs"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/WorkspaceFile"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AdventureLevelTierRunResponse"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "adventure_tier_runs_files_destroy",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "path",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 240
+                        },
+                        "required": true
+                    },
+                    {
+                        "in": "path",
+                        "name": "run_id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "adventure-tier-runs"
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AdventureLevelTierRunResponse"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/adventure-tier-runs/{run_id}/retry/": {
+            "post": {
+                "operationId": "adventure_tier_runs_retry_create",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "run_id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "adventure-tier-runs"
+                ],
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AdventureLevelTierRunResponse"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/adventure-tier-runs/{run_id}/submit-command/": {
+            "post": {
+                "operationId": "adventure_tier_runs_submit_command_create",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "run_id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "adventure-tier-runs"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CommandSubmit"
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CommandSubmit"
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CommandSubmit"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AdventureLevelTierCommandResponse"
                                 }
                             }
                         },
@@ -2098,6 +2451,40 @@
                 }
             }
         },
+        "/api/chapters/{chapter_id}/orientation/": {
+            "get": {
+                "operationId": "chapters_orientation_list",
+                "description": "Step-through reading lessons for one is_orientation=True chapter.\n\nDistinct from ChapterContentOverviewAPIView: orientation chapters carry no\nAdventureLevel/ChallengeLevel content, only ChapterOrientationLesson rows.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "chapter_id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "chapters"
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ChapterOrientationLessonList"
+                                    }
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/api/chapters/{chapter_id}/overview/": {
             "get": {
                 "operationId": "chapters_overview_retrieve",
@@ -2248,6 +2635,86 @@
                                 "schema": {
                                     "type": "object",
                                     "additionalProperties": {}
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/orientation-lessons/{lesson_id}/": {
+            "get": {
+                "operationId": "orientation_lessons_retrieve",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "lesson_id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "orientation-lessons"
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ChapterOrientationLessonDetail"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/orientation-lessons/{lesson_id}/complete/": {
+            "post": {
+                "operationId": "orientation_lessons_complete_create",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "lesson_id",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "orientation-lessons"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ChapterOrientationComplete"
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ChapterOrientationComplete"
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ChapterOrientationComplete"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ChapterOrientationLessonDetail"
                                 }
                             }
                         },
@@ -3764,6 +4231,340 @@
                     "run"
                 ]
             },
+            "AdventureLevelTierCommandResponse": {
+                "type": "object",
+                "properties": {
+                    "run": {
+                        "$ref": "#/components/schemas/AdventureLevelTierCommandRunResponse"
+                    },
+                    "command_outcome": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    },
+                    "stdout": {
+                        "type": "string"
+                    },
+                    "stderr": {
+                        "type": "string"
+                    },
+                    "exit_code": {
+                        "type": "integer"
+                    },
+                    "command_family": {
+                        "type": "string"
+                    },
+                    "diagnostic_metadata": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "step": {
+                        "$ref": "#/components/schemas/AdventureLevelTierCommandStepResponse"
+                    }
+                },
+                "required": [
+                    "command_family",
+                    "command_outcome",
+                    "diagnostic_metadata",
+                    "exit_code",
+                    "run",
+                    "stderr",
+                    "stdout",
+                    "step"
+                ]
+            },
+            "AdventureLevelTierCommandRunResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "replay": {
+                        "type": "boolean"
+                    },
+                    "stars": {
+                        "type": "integer"
+                    },
+                    "status": {
+                        "$ref": "#/components/schemas/GameplayRunStatus"
+                    },
+                    "failure_reason": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "completed_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "counts": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    },
+                    "repository_state": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    },
+                    "visualization": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    },
+                    "progress": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    },
+                    "completion": {
+                        "type": "object",
+                        "additionalProperties": {},
+                        "nullable": true
+                    },
+                    "next_difficulty": {
+                        "type": "object",
+                        "additionalProperties": {},
+                        "nullable": true
+                    }
+                },
+                "required": [
+                    "completed_at",
+                    "counts",
+                    "failure_reason",
+                    "id",
+                    "replay",
+                    "repository_state",
+                    "stars",
+                    "status",
+                    "visualization"
+                ]
+            },
+            "AdventureLevelTierCommandStepResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "command_text": {
+                        "type": "string"
+                    },
+                    "terminal_output": {
+                        "type": "string"
+                    },
+                    "result_category": {
+                        "type": "string"
+                    },
+                    "command_classification": {
+                        "type": "string"
+                    },
+                    "contextual_feedback": {
+                        "type": "string"
+                    },
+                    "visualization_snapshot": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "evaluation_result": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "command_classification",
+                    "command_text",
+                    "contextual_feedback",
+                    "created_at",
+                    "evaluation_result",
+                    "id",
+                    "result_category",
+                    "terminal_output",
+                    "visualization_snapshot"
+                ]
+            },
+            "AdventureLevelTierRunResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "replay": {
+                        "type": "boolean"
+                    },
+                    "stars": {
+                        "type": "integer"
+                    },
+                    "status": {
+                        "$ref": "#/components/schemas/GameplayRunStatus"
+                    },
+                    "failure_reason": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "completed_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "tier": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    },
+                    "scenario_context": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    },
+                    "chapter": {
+                        "type": "object",
+                        "additionalProperties": {},
+                        "nullable": true
+                    },
+                    "story": {
+                        "type": "object",
+                        "additionalProperties": {},
+                        "nullable": true
+                    },
+                    "difficulty": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "variant": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    },
+                    "progress": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    },
+                    "policy": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    },
+                    "counts": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    },
+                    "scaffolding": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    },
+                    "repository_state": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    },
+                    "visualization": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    },
+                    "expected_state": {
+                        "type": "object",
+                        "additionalProperties": {},
+                        "nullable": true
+                    },
+                    "steps": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AdventureLevelTierRunStepResponse"
+                        }
+                    },
+                    "next_difficulty": {
+                        "type": "object",
+                        "additionalProperties": {},
+                        "nullable": true
+                    },
+                    "completion": {
+                        "type": "object",
+                        "additionalProperties": {},
+                        "nullable": true
+                    }
+                },
+                "required": [
+                    "chapter",
+                    "completed_at",
+                    "completion",
+                    "counts",
+                    "difficulty",
+                    "expected_state",
+                    "failure_reason",
+                    "id",
+                    "next_difficulty",
+                    "policy",
+                    "progress",
+                    "replay",
+                    "repository_state",
+                    "scaffolding",
+                    "scenario_context",
+                    "stars",
+                    "status",
+                    "steps",
+                    "story",
+                    "tier",
+                    "variant",
+                    "visualization"
+                ]
+            },
+            "AdventureLevelTierRunStart": {
+                "type": "object",
+                "properties": {
+                    "source_entry_point": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/SourceEntryPointEnum"
+                            }
+                        ],
+                        "default": "level_page"
+                    },
+                    "prior_run_id": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "replay": {
+                        "type": "boolean",
+                        "default": false
+                    }
+                }
+            },
+            "AdventureLevelTierRunStepResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "command_text": {
+                        "type": "string"
+                    },
+                    "terminal_output": {
+                        "type": "string"
+                    },
+                    "result_category": {
+                        "type": "string"
+                    },
+                    "command_classification": {
+                        "type": "string"
+                    },
+                    "contextual_feedback": {
+                        "type": "string"
+                    },
+                    "visualization_snapshot": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "command_classification",
+                    "command_text",
+                    "contextual_feedback",
+                    "created_at",
+                    "id",
+                    "result_category",
+                    "terminal_output",
+                    "visualization_snapshot"
+                ]
+            },
             "AdventureRunPatchResponse": {
                 "type": "object",
                 "properties": {
@@ -4316,6 +5117,10 @@
                         "type": "boolean",
                         "readOnly": true
                     },
+                    "is_orientation": {
+                        "type": "boolean",
+                        "readOnly": true
+                    },
                     "command_skill_count": {
                         "type": "integer",
                         "readOnly": true
@@ -4368,6 +5173,7 @@
                     "command_skill_count",
                     "description",
                     "id",
+                    "is_orientation",
                     "is_playable",
                     "level_completion",
                     "lock_reason",
@@ -4376,6 +5182,111 @@
                     "slug",
                     "sort_order",
                     "story",
+                    "title"
+                ]
+            },
+            "ChapterOrientationComplete": {
+                "type": "object",
+                "properties": {
+                    "highest_step_seen": {
+                        "type": "integer",
+                        "minimum": 0
+                    }
+                },
+                "required": [
+                    "highest_step_seen"
+                ]
+            },
+            "ChapterOrientationLessonDetail": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "slug": {
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "title": {
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "subtitle": {
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "sort_order": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "is_complete": {
+                        "type": "boolean",
+                        "readOnly": true
+                    },
+                    "content_html": {
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "scoped_css": {
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "interaction_steps": {
+                        "readOnly": true
+                    },
+                    "highest_step_seen": {
+                        "type": "integer",
+                        "readOnly": true
+                    }
+                },
+                "required": [
+                    "content_html",
+                    "highest_step_seen",
+                    "id",
+                    "interaction_steps",
+                    "is_complete",
+                    "scoped_css",
+                    "slug",
+                    "sort_order",
+                    "subtitle",
+                    "title"
+                ]
+            },
+            "ChapterOrientationLessonList": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "slug": {
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "title": {
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "subtitle": {
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "sort_order": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "is_complete": {
+                        "type": "boolean",
+                        "readOnly": true
+                    }
+                },
+                "required": [
+                    "id",
+                    "is_complete",
+                    "slug",
+                    "sort_order",
+                    "subtitle",
                     "title"
                 ]
             },

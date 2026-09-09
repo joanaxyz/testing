@@ -55,6 +55,11 @@ def gameplay_response_backend_violations(sources: dict[str, str]) -> list[str]:
             "AdventureCommandRunResponseField",
             "AdventureLevelLibraryResponseSerializer",
             "AdventureCommandResponseSerializer",
+            "AdventureLevelTierRunStepResponseSerializer",
+            "AdventureLevelTierCommandStepResponseSerializer",
+            "AdventureLevelTierCommandRunResponseSerializer",
+            "AdventureLevelTierRunResponseSerializer",
+            "AdventureLevelTierCommandResponseSerializer",
         },
         GAMEPLAY_CHALLENGE_OPENAPI: {
             "ChallengeRunStepResponseSerializer",
@@ -127,6 +132,8 @@ def gameplay_response_backend_violations(sources: dict[str, str]) -> list[str]:
                 "AdventureCommandResponseSerializer",
                 "AdventureLevelLibraryResponseSerializer",
                 "AdventureRunResponseSerializer",
+                "AdventureLevelTierCommandResponseSerializer",
+                "AdventureLevelTierRunResponseSerializer",
             },
         ),
         "backend/challenges/views.py": (
