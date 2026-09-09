@@ -9,11 +9,6 @@ import type { CommandSubmissionOutcome } from '@/shared/level-runtime/commandOut
 export type TierDifficulty = 'easy' | 'medium' | 'hard'
 export type TierRunStatus = 'started' | 'completed' | 'failed' | 'abandoned'
 
-type CommandBudget = {
-  min_counted_commands: number
-  max_counted_commands: number
-}
-
 type TierRef = {
   id: number
   difficulty: TierDifficulty

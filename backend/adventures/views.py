@@ -4,7 +4,12 @@ from rest_framework.exceptions import NotFound, PermissionDenied, ValidationErro
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from adventures.models import AdventureLevel, AdventureLevelTier, AdventureLevelTierRun, AdventureRun
+from adventures.models import (
+    AdventureLevel,
+    AdventureLevelTier,
+    AdventureLevelTierRun,
+    AdventureRun,
+)
 from adventures.openapi import (
     AdventureCommandResponseSerializer,
     AdventureLevelLibraryResponseSerializer,
@@ -23,7 +28,11 @@ from adventures.services import (
     AdventureLevelTierRunService,
     AdventureRunService,
 )
-from adventures.tier_payloads import command_run_payload, prefetch_run_payload_context, tier_run_payload
+from adventures.tier_payloads import (
+    command_run_payload,
+    prefetch_run_payload_context,
+    tier_run_payload,
+)
 from adventures.tier_serializers import AdventureLevelTierRunStartSerializer
 from common.constants import SESSION_STATUS_STARTED
 from common.exceptions import Conflict, Locked

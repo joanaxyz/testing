@@ -1,4 +1,8 @@
-from adventures.models import AdventureLevelTier, AdventureLevelTierRun, AdventureLevelTierWaveVariant
+from adventures.models import (
+    AdventureLevelTier,
+    AdventureLevelTierRun,
+    AdventureLevelTierWaveVariant,
+)
 
 
 class TierVariantSelectionService:

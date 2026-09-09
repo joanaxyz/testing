@@ -12,7 +12,7 @@ from .access_helpers import (
 )
 
 if TYPE_CHECKING:
-    from progress.models import AdventureLevelCompletion, AdventureLevelTierCompletion
+    from progress.models import AdventureLevelCompletion
 
 
 @dataclass(frozen=True)

@@ -5,8 +5,8 @@ snapshots, visualization) - serializers hold input validation only.
 Payload shapes are part of the frontend contract - change them deliberately.
 """
 
-from common.constants import DIFFICULTIES, SESSION_STATUS_COMPLETED, SESSION_STATUS_STARTED
 from adventures.models import AdventureLevelTier, AdventureLevelTierRun
+from common.constants import DIFFICULTIES, SESSION_STATUS_COMPLETED, SESSION_STATUS_STARTED
 from practice.services.context import ScenarioContextNormalizer
 from practice.services.scaffolding import ScaffoldingService
 from practice.services.visualization import RepositoryVisualizationService
