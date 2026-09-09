@@ -11,7 +11,12 @@ export type ScaffoldToastProps = {
 
 const BORDER_COLOR: Record<'T1' | 'T2' | 'T3', string> = {
   T1: 'border-primary/60',
-  T2: 'border-warning/60',
+  // warning's HSL lightness (72%) is much higher than primary/destructive
+  // (50%/68%), so at the same /60 alpha it composites closer to destructive
+  // than to primary against this dark background - bumped to /85 so all
+  // three tiers stay clearly distinguishable from each other, not just from
+  // the background. See utilities.css's border-warning/85 comment.
+  T2: 'border-warning/85',
   T3: 'border-destructive/60',
 }
 
