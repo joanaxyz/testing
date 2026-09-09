@@ -77,6 +77,7 @@ def test_canonical_story_specs_have_no_deprecated_registry_names():
         ("arcane-spire", "The Arcane Spire"),
         ("frostbound-citadel", "Frostbound Citadel"),
         ("neon-backstreets", "Neon Backstreets"),
+        ("git-it-legacy", "The Runebound Turret"),
     ]
     serialized = repr(STORIES).lower()
     deprecated_slugs = ("obsidian" + "-forge", "void" + "-athenaeum")
@@ -180,10 +181,11 @@ def test_command_catalog_expands_beyond_the_original_command_families():
     assert all(len(form["label"]) >= 8 for form in advanced_forms)
 
 
-def test_seed_creates_three_story_books_and_playable_fieldwork(db):
+def test_seed_creates_story_books_and_playable_fieldwork(db):
     call_command("seed_curriculum")
 
     assert list(Story.objects.values_list("slug", flat=True)) == [
+        "git-it-legacy",
         "arcane-spire",
         "frostbound-citadel",
         "neon-backstreets",
@@ -225,7 +227,8 @@ def test_story_api_exposes_difficulty_ownership_and_prerequisite(db, django_user
 
     assert response.status_code == 200
     rows = {row["slug"]: row for row in response.json()}
-    assert rows["arcane-spire"]["owned"] is True
+    assert rows["arcane-spire"]["owned"] is False
+    assert rows["git-it-legacy"]["owned"] is True
     assert rows["arcane-spire"]["difficulty"] == "beginner"
     assert rows["frostbound-citadel"]["owned"] is True
     assert rows["frostbound-citadel"]["locked"] is True

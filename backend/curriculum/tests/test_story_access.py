@@ -20,7 +20,7 @@ def test_default_story_is_never_locked(db, django_user_model):
     call_command("seed_curriculum")
     user = make_user(django_user_model)
     player = get_or_create_player(user)
-    story = Story.objects.get(slug="arcane-spire")
+    story = Story.objects.get(slug="git-it-legacy")
 
     locked, _ = story_locked(player=player, story=story)
 
@@ -64,7 +64,8 @@ def test_story_list_api_reports_lock_state_and_price(db, django_user_model):
 
     assert response.status_code == 200
     by_slug = {row["slug"]: row for row in response.json()}
-    assert by_slug["arcane-spire"]["locked"] is False
+    assert by_slug["git-it-legacy"]["locked"] is False
+    assert by_slug["arcane-spire"]["locked"] is True
     assert by_slug["arcane-spire"]["price"] == 0
     assert by_slug["arcane-spire"]["world_slug"] == "arcane-spire"
     assert by_slug["premium-story"]["locked"] is True

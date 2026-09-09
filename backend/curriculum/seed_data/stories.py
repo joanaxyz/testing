@@ -44,14 +44,15 @@ STORIES = [
     },
     {
         "slug": "git-it-legacy",
-        "title": "GIT it! Legacy Modules",
+        "title": "The Runebound Turret",
         "summary": (
-            "The original Module 0-4 curriculum, migrated into the current chapter and adventure-level format."
+            "Ascend a rune-lit tower while mastering Git fundamentals across five modules, "
+            "from repository setup and branching to conflict resolution and history rewriting."
         ),
         "price": 0,
-        "sort_order": 100,
+        "sort_order": 0,
         "is_published": True,
-        "world_slug": "legacy-modules-placeholder",
+        "world_slug": "arcane-spire",
         "difficulty": "beginner",
         "prerequisite_story": None,
     },

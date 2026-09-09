@@ -6,7 +6,7 @@ KIND_STORY = "story"
 KIND_COMPANION = "companion"
 SHOP_KINDS = (KIND_STORY, KIND_COMPANION)
 
-DEFAULT_STORY = "arcane-spire"
+DEFAULT_STORY = "git-it-legacy"
 # No companion is free anymore - every player must buy their first one.
 DEFAULT_COMPANION = None
 

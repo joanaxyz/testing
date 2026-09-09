@@ -60,7 +60,7 @@ class Command(BaseCommand):
             )
 
         verbosity = options.get("verbosity", 1)
-        self.stdout.write(self.style.MIGRATE_HEADING("1/2 Curriculum"))
+        self.stdout.write(self.style.MIGRATE_HEADING("1/3 Curriculum"))
         call_command(
             "seed_curriculum",
             reset=reset,
@@ -68,7 +68,10 @@ class Command(BaseCommand):
             verbosity=verbosity,
         )
 
-        self.stdout.write(self.style.MIGRATE_HEADING("2/2 Command library"))
+        self.stdout.write(self.style.MIGRATE_HEADING("2/3 Runebound Turret"))
+        call_command("seed_legacy_modules", verbosity=verbosity)
+
+        self.stdout.write(self.style.MIGRATE_HEADING("3/3 Command library"))
         call_command("seed_command_library", verbosity=verbosity)
 
         mode = "reset and seeded" if reset else "safely upserted"

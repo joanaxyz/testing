@@ -78,15 +78,15 @@ def ev(state_requirements: dict | None = None, *, required: list[str] | None = N
 
 STORY_SPEC = {
     "slug": LEGACY_STORY_SLUG,
-    "title": "GIT it! Legacy Modules",
+    "title": "The Runebound Turret",
     "summary": (
-        "The original Module 0-4 curriculum, restored as its own campaign. "
-        "Placeholder art and theme - real world assets land separately."
+        "Ascend a rune-lit tower while mastering Git fundamentals across five modules, "
+        "from repository setup and branching to conflict resolution and history rewriting."
     ),
     "price": 0,
-    "sort_order": 100,
+    "sort_order": 0,
     "is_published": True,
-    "world_slug": "legacy-modules-placeholder",
+    "world_slug": "arcane-spire",
     "difficulty": Story.DIFFICULTY_BEGINNER,
 }
 
