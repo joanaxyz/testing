@@ -1,4 +1,7 @@
 import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import type { ReactElement } from 'react'
+import { MemoryRouter } from 'react-router-dom'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import type { ChallengeTrialAccess } from '@/features/challenges/types'
@@ -9,6 +12,15 @@ import type {
 } from '@/features/story-map/types'
 
 import { StoryAdventurePath } from './StoryAdventurePath'
+
+function renderPath(ui: ReactElement) {
+  const queryClient = new QueryClient()
+  return render(
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter>{ui}</MemoryRouter>
+    </QueryClientProvider>,
+  )
+}
 
 const mocks = vi.hoisted(() => ({
   openAdventureLevel: vi.fn(),
@@ -26,6 +38,7 @@ const chapter: LearningChapter = {
   command_skill_count: 1,
   description: 'Learn the foundations.',
   id: 1,
+  is_orientation: false,
   is_playable: true,
   level_completion: { denominator: 4, numerator: 1, value: 25 },
   lock_reason: '',
@@ -42,6 +55,7 @@ const adventure: AdventureLevelSummary = {
   id: 10,
   slug: 'initialize-repository',
   title: 'Initialize a Repository',
+  description: '',
   command: 'git init',
   locked: false,
   lock_reason: '',
@@ -51,6 +65,7 @@ const adventure: AdventureLevelSummary = {
     completed_at: '2026-08-25T00:00:00Z',
   },
   is_passed: true,
+  tiers: [],
 }
 
 function trial(
@@ -94,7 +109,7 @@ describe('StoryAdventurePath challenge gate', () => {
   })
 
   it('opens difficulty choices in a panel after the path instead of over its nodes', () => {
-    const { container } = render(
+    const { container } = renderPath(
       <StoryAdventurePath
         chapter={chapter}
         levels={[adventure]}
@@ -133,7 +148,7 @@ describe('StoryAdventurePath challenge gate', () => {
   })
 
   it('closes the challenge panel with Escape', () => {
-    render(
+    renderPath(
       <StoryAdventurePath
         chapter={chapter}
         levels={[adventure]}
@@ -151,7 +166,7 @@ describe('StoryAdventurePath challenge gate', () => {
   })
 
   it('moves focus into the panel on open and restores it to the Challenge Gate button on close', async () => {
-    render(
+    renderPath(
       <StoryAdventurePath
         chapter={chapter}
         levels={[adventure]}

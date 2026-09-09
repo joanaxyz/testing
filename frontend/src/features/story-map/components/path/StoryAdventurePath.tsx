@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Check, Lock, Play, Swords } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import type { AdventureLevelSummary, ChallengeSummary } from '@/features/story-map/types'
+import type { AdventureLevelSummary, AdventureLevelTierAccess, ChallengeSummary } from '@/features/story-map/types'
 import {
   actionForChallengeLevel,
   actionLabel,
@@ -12,7 +14,9 @@ import {
 import { pathDataFor, pathGeometry } from '@/features/story-map/utils/pathGeometry'
 import { useStoryArtifactNavigation } from '@/features/story-map/hooks/useStoryArtifactNavigation'
 import type { LearningChapter } from '@/features/story-map/types'
-import { StarRating } from '@/shared/level/components/StarRating'
+import { tierRunsApi } from '@/features/story-map/api/tierRunsApi'
+import { syncTierRunInCache } from '@/features/story-map/utils/tierRunCache'
+import { StarRating, type StarFillState } from '@/shared/level/components/StarRating'
 import { useFocusTrap } from '@/shared/utils/useFocusTrap'
 
 import easyIconImage from '@/assets/images/easy_icon.png'
@@ -26,8 +30,30 @@ const DIFFICULTY_ICONS: Record<(typeof DIFFICULTY_ORDER)[number], string> = {
   medium: mediumIconImage,
   hard: hardIconImage,
 }
+const DIFFICULTY_TIER_LABELS: Record<(typeof DIFFICULTY_ORDER)[number], string> = {
+  easy: 'Easy',
+  medium: 'Medium',
+  hard: 'Hard',
+}
 
 const PILL_CLOSE_MS = 180
+
+// Node-level star display only: one star per difficulty tier (easy/medium/
+// hard, in that order), full once that tier is completed, half while a wave
+// is in progress on it, empty otherwise. Distinct from the numeric `stars`
+// grade used by the tier-popup and challenge-trial-card StarRating call
+// sites, which this deliberately leaves untouched.
+function tierStarFillStates(tiers: AdventureLevelTierAccess[]): StarFillState[] {
+  return DIFFICULTY_ORDER.map((difficulty) => {
+    const tier = tiers.find((candidate) => candidate.difficulty === difficulty)
+    if (!tier) return 'empty'
+    if (tier.completion) return 'full'
+    if (tier.wave_progress.completed > 0 && tier.wave_progress.completed < tier.wave_progress.total) {
+      return 'half'
+    }
+    return 'empty'
+  })
+}
 
 export function StoryAdventurePath({
   chapter,
@@ -45,6 +71,16 @@ export function StoryAdventurePath({
   defaultTrialsOpen?: boolean
 }) {
   const { openAdventureLevel, openChallengeArtifact } = useStoryArtifactNavigation()
+  const navigate = useNavigate()
+  const queryClient = useQueryClient()
+  const startTierRunMutation = useMutation({
+    mutationFn: ({ tierId, replay }: { tierId: number; replay?: boolean }) =>
+      tierRunsApi.startRun(tierId, replay ? { replay: true } : undefined),
+    onSuccess: (run) => {
+      syncTierRunInCache(queryClient, run)
+      navigate(`/adventure-tier-runs/${run.id}`)
+    },
+  })
   const currentLevelId = nextPlayableLevelId(levels, chapter.locked)
   const placeholderCount = Math.max(3, chapter.adventure_level_count || 6)
   const nodes: Array<AdventureLevelSummary | undefined> = levels.length
@@ -140,6 +176,30 @@ export function StoryAdventurePath({
   const routePathData = useMemo(() => pathDataFor(points), [points])
   const trialPoint = points[points.length - 1]
 
+  const selectedTierNodeIndex = useMemo(
+    () => nodes.findIndex((node) => node && node.id === selectedLevelId && node.tiers.length > 0),
+    [nodes, selectedLevelId],
+  )
+  const selectedTierLevel =
+    selectedTierNodeIndex >= 0 ? (nodes[selectedTierNodeIndex] as AdventureLevelSummary) : null
+  const selectedTierPoint = selectedTierNodeIndex >= 0 ? points[selectedTierNodeIndex] : null
+  const levelTierPanelRef = useRef<HTMLElement | null>(null)
+  const [levelTierPanelSize, setLevelTierPanelSize] = useState({ width: 0, height: 0 })
+  useFocusTrap(levelTierPanelRef, Boolean(selectedTierLevel))
+
+  // Measure the panel's rendered size so it can be flipped to whichever side
+  // has room, without a layout-thrash loop (size only changes when the
+  // panel's content changes, not on every scroll/resize).
+  useEffect(() => {
+    const el = levelTierPanelRef.current
+    if (!el || !selectedTierLevel) {
+      setLevelTierPanelSize({ width: 0, height: 0 })
+      return
+    }
+    const rect = el.getBoundingClientRect()
+    setLevelTierPanelSize({ width: rect.width, height: rect.height })
+  }, [selectedTierLevel])
+
   const trialsCleared = trials.length > 0 && trials.every((trial) => trial.completion)
   const clearedTrialCount = trials.filter((trial) => trial.completion).length
   const trialState = loading
@@ -150,6 +210,30 @@ export function StoryAdventurePath({
     ? 'cleared'
     : 'ready'
   const trialDisabled = trialState === 'locked' || trialState === 'loading'
+
+  // Anchor the tier panel beside its node - a compact popup, not a banner.
+  // Prefers whichever side (right or left) has more room in the canvas, and
+  // clamps vertically so it never renders above/below the canvas edges.
+  const TIER_PANEL_WIDTH = 260
+  const TIER_PANEL_GAP = 14
+  const NODE_HALF = 28
+  const levelTierPanelStyle: React.CSSProperties | undefined = selectedTierPoint
+    ? (() => {
+        const spaceRight = pathWidth - (selectedTierPoint.x + NODE_HALF)
+        const spaceLeft = selectedTierPoint.x - NODE_HALF
+        const openRight = spaceRight >= TIER_PANEL_WIDTH + TIER_PANEL_GAP || spaceRight >= spaceLeft
+        const left = openRight
+          ? selectedTierPoint.x + NODE_HALF + TIER_PANEL_GAP
+          : selectedTierPoint.x - NODE_HALF - TIER_PANEL_GAP - TIER_PANEL_WIDTH
+        const clampedLeft = Math.min(Math.max(left, 0), Math.max(pathWidth - TIER_PANEL_WIDTH, 0))
+        const idealTop = selectedTierPoint.y - levelTierPanelSize.height / 2
+        const top = Math.min(
+          Math.max(idealTop, 0),
+          Math.max(height - levelTierPanelSize.height, 0),
+        )
+        return { left: clampedLeft, top, width: TIER_PANEL_WIDTH }
+      })()
+    : undefined
 
   return (
     <div className="story-adventure-path" ref={pathRef}>
@@ -179,11 +263,13 @@ export function StoryAdventurePath({
             : loading
             ? 'loading'
             : 'locked'
+          const hasTiers = Boolean(level && level.tiers.length > 0)
+          const starFillStates = level && hasTiers ? tierStarFillStates(level.tiers) : undefined
           const stars = level?.completion?.stars ?? 0
           const disabled = !level || state === 'locked' || state === 'loading'
           const selected = Boolean(level && selectedLevelId === level.id)
           const closing = Boolean(level && closingLevelId === level.id && !selected)
-          const showPlayPill = Boolean(level && (selected || closing))
+          const showPlayPill = Boolean(level && !hasTiers && (selected || closing))
 
           return (
             <div
@@ -233,7 +319,13 @@ export function StoryAdventurePath({
               ) : null}
 
               {state === 'locked' || state === 'loading' ? null : (
-                <StarRating stars={stars} size="sm" className="story-path-stars" label={level?.title ?? 'Level'} />
+                <StarRating
+                  stars={starFillStates ? undefined : stars}
+                  fillStates={starFillStates}
+                  size="sm"
+                  className="story-path-stars"
+                  label={level?.title ?? 'Level'}
+                />
               )}
             </div>
           )
@@ -273,6 +365,85 @@ export function StoryAdventurePath({
             </span>
           ) : null}
         </button>
+
+        {selectedTierLevel && levelTierPanelStyle ? (
+          <section
+            id="story-level-tier-panel"
+            ref={levelTierPanelRef}
+            className="story-level-tier-panel"
+            style={levelTierPanelStyle}
+            aria-labelledby="story-level-tier-panel-title"
+          >
+            <header className="story-level-tier-panel-header">
+              <h2 id="story-level-tier-panel-title">{selectedTierLevel.title}</h2>
+              <p>{selectedTierLevel.description}</p>
+            </header>
+
+            <div className="story-level-tier-panel-list">
+              {DIFFICULTY_ORDER.map((difficulty) => {
+                const tier: AdventureLevelTierAccess | undefined = selectedTierLevel.tiers.find(
+                  (item) => item.difficulty === difficulty,
+                )
+                const isLocked = !tier || tier.locked
+                const isCleared = Boolean(tier?.completion)
+                const stars = tier?.completion?.stars ?? 0
+                const progress = tier?.wave_progress ?? { completed: 0, total: 0 }
+                const isReplay = isCleared
+                const status = isLocked
+                  ? 'locked'
+                  : isCleared
+                  ? 'cleared'
+                  : progress.completed > 0
+                  ? 'in_progress'
+                  : 'not_started'
+                const actionLabel =
+                  status === 'cleared' ? 'Review' : status === 'in_progress' ? 'Continue' : 'Start'
+                const isStartingThisTier =
+                  startTierRunMutation.isPending && startTierRunMutation.variables?.tierId === tier?.id
+                const isDisabled = isLocked || !tier || startTierRunMutation.isPending
+
+                return (
+                  <button
+                    type="button"
+                    className="story-level-tier-card"
+                    data-status={status}
+                    key={`${selectedTierLevel.id}-${difficulty}`}
+                    disabled={isDisabled}
+                    aria-label={`${selectedTierLevel.title}: ${difficulty} tier. ${actionLabel}.`}
+                    title={isLocked ? 'Clear the previous difficulty to unlock this tier.' : undefined}
+                    onClick={() => {
+                      if (!tier || isLocked) return
+                      startTierRunMutation.mutate({ tierId: tier.id, replay: isReplay })
+                    }}
+                  >
+                    <span className="story-level-tier-card-medallion">
+                      <img src={DIFFICULTY_ICONS[difficulty]} alt="" />
+                      {isLocked ? <Lock className="story-trial-lock" aria-hidden="true" /> : null}
+                    </span>
+                    <span className="story-level-tier-card-copy">
+                      <strong>{DIFFICULTY_TIER_LABELS[difficulty]}</strong>
+                      <StarRating stars={stars} size="sm" label={`${difficulty} stars`} />
+                    </span>
+                    {isLocked ? (
+                      <span className="story-level-tier-card-progress">
+                        {progress.completed}/{progress.total}
+                      </span>
+                    ) : (
+                      <span className="story-level-tier-card-cta">
+                        <span className="story-level-tier-card-action">
+                          {isStartingThisTier ? 'Starting…' : actionLabel}
+                        </span>
+                        <span className="story-level-tier-card-progress">
+                          {progress.completed}/{progress.total}
+                        </span>
+                      </span>
+                    )}
+                  </button>
+                )
+              })}
+            </div>
+          </section>
+        ) : null}
       </div>
 
       {trialsOpen ? (
