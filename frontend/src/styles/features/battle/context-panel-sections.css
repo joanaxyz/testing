@@ -69,6 +69,13 @@
   padding: 0.62rem 0.75rem 0.72rem;
 }
 
+.lvlctx-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0.62rem 0.75rem 0;
+}
+
 .lvlctx-section + .lvlctx-section {
   border-top: 1px solid hsl(var(--border) / 0.55);
 }
@@ -94,7 +101,7 @@
 
 .lvlctx-story {
   margin: 0;
-  color: hsl(var(--muted-foreground));
+  color: hsl(var(--foreground));
   font-size: var(--text-xs);
   line-height: 1.55;
 }

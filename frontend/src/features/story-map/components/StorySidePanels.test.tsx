@@ -15,11 +15,13 @@ const firstLevel: AdventureLevelSummary = {
   id: 1,
   slug: 'start-a-repository',
   title: 'Start a Repository',
+  description: '',
   command: 'git init',
   locked: false,
   lock_reason: '',
   completion: null,
   is_passed: false,
+  tiers: [],
 }
 
 afterEach(cleanup)

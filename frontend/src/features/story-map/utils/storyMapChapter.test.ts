@@ -14,11 +14,13 @@ function level(overrides: Partial<AdventureLevelSummary>): AdventureLevelSummary
     id: 1,
     slug: 'level-1',
     title: 'Level 1',
+    description: '',
     command: 'git status',
     locked: false,
     lock_reason: '',
     completion: null,
     is_passed: false,
+    tiers: [],
     ...overrides,
   }
 }

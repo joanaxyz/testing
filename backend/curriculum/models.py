@@ -70,6 +70,10 @@ class Chapter(models.Model):
     title = models.CharField(max_length=160)
     description = models.TextField()
     is_published = models.BooleanField(default=True)
+    # True for a reading-only introductory chapter (step-through orientation
+    # lessons, no adventures/challenges). Orthogonal to is_playable, which
+    # tracks simulator-verification status for a chapter's playable content.
+    is_orientation = models.BooleanField(default=False)
     # A reference chapter has the same detailed book content as a playable
     # chapter but does not claim to have simulator levels before its command
     # families are implemented and verified end-to-end.
@@ -219,3 +223,63 @@ class CommandForm(models.Model):
 
     def __str__(self) -> str:
         return self.label
+
+
+class ChapterOrientationLesson(models.Model):
+    """An interactive orientation lesson attached directly to a chapter.
+
+    Independent of ChapterLesson/the book system: content is raw HTML plus
+    scoped CSS and a step script, rendered by a dedicated step-through
+    workspace rather than the static book reader. Used only by
+    is_orientation=True chapters.
+    """
+
+    chapter = models.ForeignKey(
+        Chapter, related_name="orientation_lessons", on_delete=models.CASCADE
+    )
+    slug = models.SlugField()
+    title = models.CharField(max_length=180)
+    subtitle = models.CharField(max_length=240, blank=True)
+    content_html = models.TextField()
+    scoped_css = models.TextField(blank=True)
+    interaction_steps = models.JSONField(default=list, blank=True)
+    is_published = models.BooleanField(default=True)
+    sort_order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["chapter__sort_order", "sort_order", "id"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["chapter", "slug"], name="unique_orientation_lesson_chapter_slug"
+            ),
+        ]
+
+    def __str__(self) -> str:
+        return self.title
+
+
+class ChapterOrientationProgress(models.Model):
+    """Per-player progress through one orientation lesson's step script."""
+
+    player = models.ForeignKey(
+        "players.Player", on_delete=models.CASCADE, related_name="orientation_progress"
+    )
+    lesson = models.ForeignKey(
+        ChapterOrientationLesson, on_delete=models.CASCADE, related_name="progress_rows"
+    )
+    completed_at = models.DateTimeField(null=True, blank=True)
+    highest_step_seen = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["player", "lesson"], name="unique_orientation_progress_player_lesson"
+            ),
+        ]
+
+    @property
+    def is_complete(self) -> bool:
+        return self.completed_at is not None
+
+    def __str__(self) -> str:
+        return f"ChapterOrientationProgress(player={self.player_id}, lesson={self.lesson_id})"

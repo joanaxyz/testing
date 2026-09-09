@@ -82,9 +82,17 @@
 .border-primary\/40 { border-color: hsl(var(--primary) / 0.4); }
 .border-primary\/50 { border-color: hsl(var(--primary) / 0.5); }
 .border-primary\/55 { border-color: hsl(var(--primary) / 0.55); }
+.border-primary\/60 { border-color: hsl(var(--primary) / 0.6); }
 .border-accent\/35 { border-color: hsl(var(--accent) / 0.35); }
 .border-accent\/40 { border-color: hsl(var(--accent) / 0.4); }
 .border-accent\/45 { border-color: hsl(var(--accent) / 0.45); }
+/* Scaffold-toast tier escalation (T1/T2/T3): warning needs a stronger alpha
+   than primary/destructive at the same nominal opacity - composited over a
+   dark background, --warning's much higher HSL lightness (72% vs 50%/68%)
+   otherwise lands visually closer to --destructive than to --primary, making
+   T2 and T3 hard to tell apart. See ScaffoldToast.tsx's BORDER_COLOR map. */
+.border-warning\/85 { border-color: hsl(var(--warning) / 0.85); }
+.border-destructive\/60 { border-color: hsl(var(--destructive) / 0.6); }
 .bg-background { background: hsl(var(--background)); }
 .bg-background\/30 { background: hsl(var(--background) / 0.3); }
 .bg-background\/35 { background: hsl(var(--background) / 0.35); }

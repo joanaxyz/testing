@@ -46,6 +46,7 @@ const chapter: LearningChapter = {
   command_skill_count: 1,
   description: 'Learn the foundations.',
   id: 1,
+  is_orientation: false,
   is_playable: true,
   level_completion: { denominator: 1, numerator: 0, value: 0 },
   lock_reason: '',

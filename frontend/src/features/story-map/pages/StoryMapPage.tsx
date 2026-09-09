@@ -5,6 +5,7 @@ import { PanelLeftOpen, PanelRightOpen, X } from 'lucide-react'
 
 import { StoryAdventurePath } from '@/features/story-map/components/path/StoryAdventurePath'
 import { ChapterOverview } from '@/features/story-map/components/ChapterOverview'
+import { OrientationLessonWorkspace } from '@/features/story-map/orientation/OrientationLessonWorkspace'
 import { StoryChapterList } from '@/features/story-map/components/StoryChapterList'
 import { StoryOnboarding } from '@/features/story-map/components/StoryOnboarding'
 import { StoryCompanionPanel, StorySkillFocusPanel } from '@/features/story-map/components/StorySidePanels'
@@ -98,7 +99,10 @@ export function StoryMapPage() {
   const overviewQuery = useQuery({
     queryKey: queryKeys.chapterOverview(activeChapter?.id ?? 0),
     queryFn: () => storyMapApi.getChapterOverview(activeChapter!.id),
-    enabled: Boolean(activeChapter),
+    // Orientation chapters carry no AdventureLevel/ChallengeLevel content, so
+    // their overview would always resolve to empty arrays - skip the request
+    // and route them to OrientationLessonWorkspace instead (see render below).
+    enabled: Boolean(activeChapter) && !activeChapter?.is_orientation,
     staleTime: 2 * 60 * 1000,
   })
 
@@ -186,7 +190,9 @@ export function StoryMapPage() {
 
           <h1 className="story-map-title">{activeStory?.title ?? 'Story'}</h1>
 
-          {overviewQuery.isError ? (
+          {activeChapter.is_orientation ? (
+            <OrientationLessonWorkspace chapter={activeChapter} />
+          ) : overviewQuery.isError ? (
             <ErrorState title="Could not load chapter levels" description={overviewQuery.error.message} />
           ) : (
             <StoryAdventurePath

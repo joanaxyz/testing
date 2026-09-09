@@ -32,6 +32,7 @@ const PREVIEW_CHAPTERS: LearningChapter[] = [
     title: 'Foundations',
     description: 'Practice the first Git commands in the Arcane Spire.',
     sort_order: 1,
+    is_orientation: false,
     is_playable: true,
     story: { id: 1, slug: 'arcane-spire', title: 'Arcane Spire', world_slug: 'arcane-spire' },
     locked: false,
@@ -49,6 +50,7 @@ const PREVIEW_CHAPTERS: LearningChapter[] = [
     title: 'Branching',
     description: '',
     sort_order: 2,
+    is_orientation: false,
     is_playable: true,
     story: { id: 1, slug: 'arcane-spire', title: 'Arcane Spire', world_slug: 'arcane-spire' },
     locked: true,
@@ -66,6 +68,7 @@ const PREVIEW_CHAPTERS: LearningChapter[] = [
     title: 'Merging',
     description: '',
     sort_order: 3,
+    is_orientation: false,
     is_playable: true,
     story: { id: 1, slug: 'arcane-spire', title: 'Arcane Spire', world_slug: 'arcane-spire' },
     locked: true,
@@ -84,6 +87,7 @@ const PREVIEW_LEVELS: AdventureLevelSummary[] = Array.from({ length: 6 }, (_, in
   id: index + 1,
   slug: `preview-level-${index + 1}`,
   title: `Preview Level ${index + 1}`,
+  description: '',
   command: index < 2 ? 'git init' : 'git add',
   locked: false,
   lock_reason: '',
@@ -97,6 +101,7 @@ const PREVIEW_LEVELS: AdventureLevelSummary[] = Array.from({ length: 6 }, (_, in
   // Keep the preview focused on the unlocked Challenge Gate while preserving
   // the mixed star state used to assess the map's visual hierarchy.
   is_passed: true,
+  tiers: [],
 }))
 
 const PREVIEW_CHALLENGES: ChallengeSummary[] = [

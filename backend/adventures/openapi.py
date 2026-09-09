@@ -82,3 +82,72 @@ class AdventureCommandResponseSerializer(serializers.Serializer):
     command_classification = serializers.CharField(allow_blank=True)
     step = RuntimeStepResponseSerializer()
     command_outcome = serializers.DictField()
+
+
+# ---------------------------------------------------------------------------
+# AdventureLevelTierRun response shapes - mirror challenges/openapi.py exactly,
+# since tier_payloads.py mirrors challenges/payloads.py's shape (not the
+# wave-based Adventure shapes above). New/parallel schema only.
+# ---------------------------------------------------------------------------
+
+
+class AdventureLevelTierRunStepResponseSerializer(RuntimeStepResponseSerializer):
+    command_classification = serializers.CharField(allow_blank=True)
+    contextual_feedback = serializers.CharField(allow_blank=True)
+    visualization_snapshot = serializers.DictField()
+    created_at = serializers.DateTimeField()
+
+
+class AdventureLevelTierCommandStepResponseSerializer(AdventureLevelTierRunStepResponseSerializer):
+    evaluation_result = serializers.CharField()
+
+
+class AdventureLevelTierCommandRunResponseSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    replay = serializers.BooleanField()
+    stars = serializers.IntegerField()
+    status = GameplayRunStatusField()
+    failure_reason = serializers.CharField(allow_null=True, allow_blank=True)
+    completed_at = serializers.DateTimeField(allow_null=True)
+    counts = serializers.DictField()
+    repository_state = serializers.DictField()
+    visualization = serializers.DictField()
+    progress = serializers.DictField(required=False)
+    completion = serializers.DictField(required=False, allow_null=True)
+    next_difficulty = serializers.DictField(required=False, allow_null=True)
+
+
+class AdventureLevelTierRunResponseSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    replay = serializers.BooleanField()
+    stars = serializers.IntegerField()
+    status = GameplayRunStatusField()
+    failure_reason = serializers.CharField(allow_null=True, allow_blank=True)
+    completed_at = serializers.DateTimeField(allow_null=True)
+    tier = serializers.DictField()
+    scenario_context = serializers.DictField()
+    chapter = serializers.DictField(allow_null=True)
+    story = serializers.DictField(allow_null=True)
+    difficulty = serializers.CharField(allow_null=True)
+    variant = serializers.DictField()
+    progress = serializers.DictField()
+    policy = serializers.DictField()
+    counts = serializers.DictField()
+    scaffolding = serializers.DictField()
+    repository_state = serializers.DictField()
+    visualization = serializers.DictField()
+    expected_state = serializers.DictField(allow_null=True)
+    steps = AdventureLevelTierRunStepResponseSerializer(many=True)
+    next_difficulty = serializers.DictField(allow_null=True)
+    completion = serializers.DictField(allow_null=True)
+
+
+class AdventureLevelTierCommandResponseSerializer(serializers.Serializer):
+    run = AdventureLevelTierCommandRunResponseSerializer()
+    command_outcome = serializers.DictField()
+    stdout = serializers.CharField(allow_blank=True)
+    stderr = serializers.CharField(allow_blank=True)
+    exit_code = serializers.IntegerField()
+    command_family = serializers.CharField(allow_blank=True)
+    diagnostic_metadata = serializers.ListField(child=serializers.CharField())
+    step = AdventureLevelTierCommandStepResponseSerializer()

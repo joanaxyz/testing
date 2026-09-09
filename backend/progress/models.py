@@ -151,3 +151,37 @@ class ChallengeLevelCompletion(PlayerCompletion):
                 name="unique_challenge_level_completion",
             )
         ]
+
+
+class AdventureLevelTierCompletion(ScoredPlayerCompletion):
+    """Written once all of a tier's waves are cleared - mirrors
+    ChallengeTrialCompletion for the adventures/AdventureLevelTier chain."""
+
+    tier = models.ForeignKey(
+        "adventures.AdventureLevelTier",
+        on_delete=models.CASCADE,
+        related_name="completions",
+    )
+    tier_run = models.OneToOneField(
+        "adventures.AdventureLevelTierRun",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="completion",
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["player", "tier"],
+                name="unique_adv_level_tier_completion",
+            ),
+            models.CheckConstraint(
+                condition=models.Q(stars__lte=3),
+                name="adv_level_tier_completion_stars_lte_3",
+            ),
+        ]
+
+    @property
+    def level(self):
+        return self.tier

@@ -5,9 +5,15 @@ import { TaskSealIcon } from '@/shared/level/components/workspaceIcons'
 
 import { GitCoinIcon } from '@/shared/wallet/components/GitCoinIcon'
 import type { NormalizedLevelContext, ObjectiveCheck } from '@/shared/level/utils/levelContext'
+import { Badge, type BadgeProps } from '@/shared/components/Badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/Card'
 import { CopyButton } from '@/shared/components/CopyButton'
 import { cn } from '@/shared/utils/cn'
+
+export type LevelContextTag = {
+  label: string
+  variant?: BadgeProps['variant']
+}
 
 export type LevelFact = {
   label: string
@@ -78,6 +84,7 @@ export function LevelStoryCard({
   showHeader = true,
   showDetailLabels = false,
   tourTarget,
+  tags,
 }: {
   title: string
   titleIcon?: ComponentType<{ className?: string }>
@@ -92,6 +99,9 @@ export function LevelStoryCard({
   showDetailLabels?: boolean
   /** Optional stable anchor for contextual onboarding without coupling to layout wrappers. */
   tourTarget?: string
+  /** Optional pill row above the story/task sections (e.g. "Module 1", "Medium",
+   * "Changed variant"). Opt-in - omitted entirely when not passed. */
+  tags?: LevelContextTag[]
 }) {
   const sectionLabels = { ...defaultLabels, ...labels }
 
@@ -111,6 +121,16 @@ export function LevelStoryCard({
         </CardHeader>
       ) : null}
       <CardContent className="lvlctx-body app-scrollbar">
+        {tags?.length ? (
+          <div className="lvlctx-tags" aria-label="Scenario tags">
+            {tags.map((tag) => (
+              <Badge key={tag.label} variant={tag.variant}>
+                {tag.label}
+              </Badge>
+            ))}
+          </div>
+        ) : null}
+
         <Section icon={BookOpenText} title={sectionLabels.story} hidden={!context.story}>
           <p className="lvlctx-story">{context.story}</p>
         </Section>

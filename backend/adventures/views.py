@@ -4,10 +4,17 @@ from rest_framework.exceptions import NotFound, PermissionDenied, ValidationErro
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from adventures.models import AdventureLevel, AdventureRun
+from adventures.models import (
+    AdventureLevel,
+    AdventureLevelTier,
+    AdventureLevelTierRun,
+    AdventureRun,
+)
 from adventures.openapi import (
     AdventureCommandResponseSerializer,
     AdventureLevelLibraryResponseSerializer,
+    AdventureLevelTierCommandResponseSerializer,
+    AdventureLevelTierRunResponseSerializer,
     AdventureRunResponseSerializer,
 )
 from adventures.payloads import (
@@ -17,8 +24,16 @@ from adventures.payloads import (
 )
 from adventures.services import (
     AdventureCommandService,
+    AdventureLevelTierCommandProcessingService,
+    AdventureLevelTierRunService,
     AdventureRunService,
 )
+from adventures.tier_payloads import (
+    command_run_payload,
+    prefetch_run_payload_context,
+    tier_run_payload,
+)
+from adventures.tier_serializers import AdventureLevelTierRunStartSerializer
 from common.constants import SESSION_STATUS_STARTED
 from common.exceptions import Conflict, Locked
 from common.schemas.openapi import RequiredPatchBodyAutoSchema
@@ -33,6 +48,9 @@ from curriculum.selectors import adventure_locked, chapter_locked, level_locked
 from players.services import get_or_create_player
 
 ADVENTURE_WORKSPACE_FILES = RunWorkspaceFileService(ended_message="This attempt has already ended.")
+ADVENTURE_TIER_WORKSPACE_FILES = RunWorkspaceFileService(
+    ended_message="This adventure tier run has already ended."
+)
 
 
 def _get_run(run_id: int, player) -> AdventureRun:
@@ -296,3 +314,238 @@ class AdventureWorkspaceFileAPIView(APIView):
         )
         run.repository_state = updated.repository_state
         return Response(adventure_run_payload(run))
+
+
+# ---------------------------------------------------------------------------
+# AdventureLevelTierRun lifecycle - mirrors challenges/views.py exactly,
+# new/parallel code only. Nothing above this line was modified.
+# ---------------------------------------------------------------------------
+
+
+class AdventureLevelTierRunStartAPIView(APIView):
+    @extend_schema(
+        request=AdventureLevelTierRunStartSerializer,
+        responses={201: AdventureLevelTierRunResponseSerializer},
+    )
+    def post(self, request, tier_id: int):
+        serializer = AdventureLevelTierRunStartSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        tier = AdventureLevelTier.objects.select_related(
+            "adventure_level",
+            "adventure_level__chapter",
+            "adventure_level__chapter__story",
+        ).get(id=tier_id, is_published=True)
+        player = get_or_create_player(request.user)
+        chapter = tier.adventure_level.chapter
+        if chapter.story_id:
+            from curriculum.selectors import story_locked
+
+            locked, reason = story_locked(player=player, story=chapter.story)
+            if locked:
+                raise Locked(reason or "This story is locked.")
+            locked, reason = chapter_locked(player=player, chapter=chapter)
+            if locked:
+                raise Locked(reason or "This chapter is locked.")
+        prior_run = None
+        prior_run_id = serializer.validated_data.get("prior_run_id")
+        if prior_run_id:
+            prior_run = AdventureLevelTierRun.objects.get(id=prior_run_id, player=player)
+        is_replay = bool(serializer.validated_data.get("replay"))
+        run = AdventureLevelTierRunService().start_run(
+            player=player,
+            tier=tier,
+            source_entry_point=serializer.validated_data["source_entry_point"],
+            prior_run=prior_run,
+            is_replay=is_replay,
+        )
+        prefetch_run_payload_context(run)
+        return Response(tier_run_payload(run), status=201)
+
+
+class AdventureLevelTierRunDetailAPIView(APIView):
+    @extend_schema(responses={200: AdventureLevelTierRunResponseSerializer})
+    def get(self, request, run_id: int):
+        run = AdventureLevelTierRunService.hydrate_run(
+            run_id, player=get_or_create_player(request.user)
+        )
+        prefetch_run_payload_context(run)
+        return Response(tier_run_payload(run))
+
+    @extend_schema(request=None, responses={204: None})
+    def delete(self, request, run_id: int):
+        player = get_or_create_player(request.user)
+        run = AdventureLevelTierRun.objects.filter(id=run_id, player=player).first()
+        if run is not None:
+            AdventureLevelTierRunService().discard(run=run)
+        return Response(status=204)
+
+
+class AdventureLevelTierCommandSubmitAPIView(APIView):
+    throttle_scope = "command_submit"
+
+    @extend_schema(
+        request=CommandSubmitSerializer,
+        responses={200: AdventureLevelTierCommandResponseSerializer},
+    )
+    @transaction.atomic
+    def post(self, request, run_id: int):
+        serializer = CommandSubmitSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        player = get_or_create_player(request.user)
+        try:
+            run = (
+                AdventureLevelTierRun.objects.select_for_update(nowait=True, of=("self",))
+                .select_related(
+                    "tier__adventure_level__chapter__story",
+                    "tier__adventure_level__chapter",
+                    "current_wave",
+                    "selected_variant",
+                )
+                .get(id=run_id, player=player)
+            )
+        except OperationalError as exc:
+            raise Conflict(
+                "This command is still being processed - try again in a moment."
+            ) from exc
+        result = AdventureLevelTierCommandProcessingService().submit_command(
+            run=run,
+            command=serializer.validated_data["command"],
+            execution=serializer.validated_data["execution"],
+        )
+        if result["run"].status != SESSION_STATUS_STARTED:
+            prefetch_run_payload_context(result["run"])
+        payload = command_run_payload(
+            result["run"],
+            repository_state=result["repository_state"],
+            visualization=result["visualization"],
+        )
+        return Response(
+            {
+                "run": payload,
+                "command_outcome": result["command_outcome"],
+                "stdout": result["stdout"],
+                "stderr": result["stderr"],
+                "exit_code": result["exit_code"],
+                "command_family": result["command_family"],
+                "diagnostic_metadata": result["diagnostic_metadata"],
+                "step": {
+                    "id": result["step"].id,
+                    "command_text": result["step"].command_text,
+                    "terminal_output": result["terminal_output"],
+                    "result_category": result["step"].result_category,
+                    "evaluation_result": result["evaluation_result"],
+                    "command_classification": result["command_classification"],
+                    "contextual_feedback": result["contextual_feedback"],
+                    "visualization_snapshot": result["visualization"],
+                    "created_at": result["step"].created_at,
+                },
+            }
+        )
+
+
+class AdventureLevelTierWorkspaceFileAPIView(APIView):
+    throttle_scope = "command_submit"
+    schema = RequiredPatchBodyAutoSchema()
+
+    @extend_schema(
+        request=WorkspaceFileSerializer, responses={200: AdventureLevelTierRunResponseSerializer}
+    )
+    def post(self, request, run_id: int):
+        serializer = WorkspaceFileSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        run = _get_tier_workspace_run(run_id, get_or_create_player(request.user))
+        run = ADVENTURE_TIER_WORKSPACE_FILES.create_file(
+            run=run,
+            path=serializer.validated_data["path"],
+            content=serializer.validated_data.get("content", ""),
+        )
+        run = AdventureLevelTierRunService.hydrate_run(run)
+        prefetch_run_payload_context(run)
+        return Response(tier_run_payload(run))
+
+    @extend_schema(
+        request={"application/json": {"$ref": "#/components/schemas/WorkspaceFile"}},
+        responses={200: AdventureLevelTierRunResponseSerializer},
+    )
+    def patch(self, request, run_id: int):
+        serializer = WorkspaceFileSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        run = _get_tier_workspace_run(run_id, get_or_create_player(request.user))
+        run = ADVENTURE_TIER_WORKSPACE_FILES.write_file(
+            run=run,
+            path=serializer.validated_data["path"],
+            content=serializer.validated_data.get("content", ""),
+        )
+        run = AdventureLevelTierRunService.hydrate_run(run)
+        prefetch_run_payload_context(run)
+        return Response(tier_run_payload(run))
+
+    @extend_schema(
+        request=WorkspaceFileRenameSerializer,
+        responses={200: AdventureLevelTierRunResponseSerializer},
+    )
+    def put(self, request, run_id: int):
+        serializer = WorkspaceFileRenameSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        run = _get_tier_workspace_run(run_id, get_or_create_player(request.user))
+        run = ADVENTURE_TIER_WORKSPACE_FILES.rename_file(
+            run=run,
+            path=serializer.validated_data["path"],
+            new_path=serializer.validated_data["new_path"],
+        )
+        run = AdventureLevelTierRunService.hydrate_run(run)
+        prefetch_run_payload_context(run)
+        return Response(tier_run_payload(run))
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name="path",
+                type={"type": "string", "maxLength": 240},
+                location=OpenApiParameter.QUERY,
+                required=True,
+            )
+        ],
+        responses={200: AdventureLevelTierRunResponseSerializer},
+    )
+    def delete(self, request, run_id: int):
+        serializer = WorkspaceFilePathSerializer(data=request.data or request.query_params)
+        serializer.is_valid(raise_exception=True)
+        run = _get_tier_workspace_run(run_id, get_or_create_player(request.user))
+        run = ADVENTURE_TIER_WORKSPACE_FILES.delete_file(
+            run=run,
+            path=serializer.validated_data["path"],
+        )
+        run = AdventureLevelTierRunService.hydrate_run(run)
+        prefetch_run_payload_context(run)
+        return Response(tier_run_payload(run))
+
+
+class AdventureLevelTierRetryAPIView(APIView):
+    @extend_schema(request=None, responses={201: AdventureLevelTierRunResponseSerializer})
+    def post(self, request, run_id: int):
+        player = get_or_create_player(request.user)
+        prior = AdventureLevelTierRun.objects.select_related(
+            "tier__adventure_level__chapter__story",
+            "tier__adventure_level__chapter",
+            "selected_variant",
+        ).get(id=run_id, player=player)
+        if prior.is_replay:
+            raise Locked("Replay runs cannot be retried.")
+        run = AdventureLevelTierRunService().start_run(
+            player=player,
+            tier=prior.tier,
+            source_entry_point="retry",
+            prior_run=prior,
+        )
+        prefetch_run_payload_context(run)
+        return Response(tier_run_payload(run), status=201)
+
+
+def _get_tier_workspace_run(run_id: int, player) -> AdventureLevelTierRun:
+    return AdventureLevelTierRun.objects.select_related(
+        "tier__adventure_level__chapter__story",
+        "tier__adventure_level__chapter",
+        "current_wave",
+        "selected_variant",
+    ).get(id=run_id, player=player)
