@@ -77,9 +77,21 @@ class CommandStep(models.Model):
         constraints = [
             models.CheckConstraint(
                 condition=(
-                    Q(challenge_run__isnull=False, attempt__isnull=True, adventure_tier_run__isnull=True)
-                    | Q(challenge_run__isnull=True, attempt__isnull=False, adventure_tier_run__isnull=True)
-                    | Q(challenge_run__isnull=True, attempt__isnull=True, adventure_tier_run__isnull=False)
+                    Q(
+                        challenge_run__isnull=False,
+                        attempt__isnull=True,
+                        adventure_tier_run__isnull=True,
+                    )
+                    | Q(
+                        challenge_run__isnull=True,
+                        attempt__isnull=False,
+                        adventure_tier_run__isnull=True,
+                    )
+                    | Q(
+                        challenge_run__isnull=True,
+                        attempt__isnull=True,
+                        adventure_tier_run__isnull=False,
+                    )
                 ),
                 name="command_step_exactly_one_parent",
             ),

@@ -321,7 +321,9 @@ class AdventureLevelTierWave(models.Model):
     class Meta:
         ordering = ["tier_id", "sort_order", "id"]
         constraints = [
-            models.UniqueConstraint(fields=["tier", "slug"], name="unique_adv_level_tier_wave_slug"),
+            models.UniqueConstraint(
+                fields=["tier", "slug"], name="unique_adv_level_tier_wave_slug"
+            ),
             models.CheckConstraint(
                 condition=(
                     Q(min_counted_commands__gte=0)

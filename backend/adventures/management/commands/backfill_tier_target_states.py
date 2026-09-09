@@ -67,9 +67,7 @@ class Command(BaseCommand):
             raise CommandError(f"Generator returned no target for: {', '.join(missing[:10])}")
 
         if options["check"]:
-            self.stdout.write(
-                self.style.SUCCESS(f"{len(targets)} variants would be backfilled.")
-            )
+            self.stdout.write(self.style.SUCCESS(f"{len(targets)} variants would be backfilled."))
             return
 
         updated = 0

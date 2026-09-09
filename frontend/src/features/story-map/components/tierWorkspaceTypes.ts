@@ -7,7 +7,6 @@ import type { ApiSchemas } from '@/shared/api/generated/apiTypes'
 import type { CommandSubmissionOutcome } from '@/shared/level-runtime/commandOutcome'
 
 export type TierDifficulty = 'easy' | 'medium' | 'hard'
-export type TierRunStatus = 'started' | 'completed' | 'failed' | 'abandoned'
 
 type TierRef = {
   id: number

@@ -324,7 +324,8 @@ class AdventureWorkspaceFileAPIView(APIView):
 
 class AdventureLevelTierRunStartAPIView(APIView):
     @extend_schema(
-        request=AdventureLevelTierRunStartSerializer, responses={201: AdventureLevelTierRunResponseSerializer}
+        request=AdventureLevelTierRunStartSerializer,
+        responses={201: AdventureLevelTierRunResponseSerializer},
     )
     def post(self, request, tier_id: int):
         serializer = AdventureLevelTierRunStartSerializer(data=request.data)
@@ -364,7 +365,9 @@ class AdventureLevelTierRunStartAPIView(APIView):
 class AdventureLevelTierRunDetailAPIView(APIView):
     @extend_schema(responses={200: AdventureLevelTierRunResponseSerializer})
     def get(self, request, run_id: int):
-        run = AdventureLevelTierRunService.hydrate_run(run_id, player=get_or_create_player(request.user))
+        run = AdventureLevelTierRunService.hydrate_run(
+            run_id, player=get_or_create_player(request.user)
+        )
         prefetch_run_payload_context(run)
         return Response(tier_run_payload(run))
 
@@ -381,7 +384,8 @@ class AdventureLevelTierCommandSubmitAPIView(APIView):
     throttle_scope = "command_submit"
 
     @extend_schema(
-        request=CommandSubmitSerializer, responses={200: AdventureLevelTierCommandResponseSerializer}
+        request=CommandSubmitSerializer,
+        responses={200: AdventureLevelTierCommandResponseSerializer},
     )
     @transaction.atomic
     def post(self, request, run_id: int):
@@ -443,7 +447,9 @@ class AdventureLevelTierWorkspaceFileAPIView(APIView):
     throttle_scope = "command_submit"
     schema = RequiredPatchBodyAutoSchema()
 
-    @extend_schema(request=WorkspaceFileSerializer, responses={200: AdventureLevelTierRunResponseSerializer})
+    @extend_schema(
+        request=WorkspaceFileSerializer, responses={200: AdventureLevelTierRunResponseSerializer}
+    )
     def post(self, request, run_id: int):
         serializer = WorkspaceFileSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -475,7 +481,8 @@ class AdventureLevelTierWorkspaceFileAPIView(APIView):
         return Response(tier_run_payload(run))
 
     @extend_schema(
-        request=WorkspaceFileRenameSerializer, responses={200: AdventureLevelTierRunResponseSerializer}
+        request=WorkspaceFileRenameSerializer,
+        responses={200: AdventureLevelTierRunResponseSerializer},
     )
     def put(self, request, run_id: int):
         serializer = WorkspaceFileRenameSerializer(data=request.data)

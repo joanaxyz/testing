@@ -161,9 +161,9 @@ def _build_adventure_tier_access(
 
     tier_ids = [tier.id for tier in tiers]
     required_attempts: dict[int, int] = dict(
-        AdventureLevelTierWave.objects.filter(
-            tier_id__in=tier_ids, is_published=True
-        ).values_list("tier_id", "required_successful_attempts")
+        AdventureLevelTierWave.objects.filter(tier_id__in=tier_ids, is_published=True).values_list(
+            "tier_id", "required_successful_attempts"
+        )
     )
 
     completions: dict[int, object] = {}
@@ -200,7 +200,9 @@ def _adventure_tier_unlocked(
 ) -> bool:
     if tier.difficulty == DIFFICULTY_EASY:
         return True
-    previous_difficulty = DIFFICULTY_EASY if tier.difficulty == DIFFICULTY_MEDIUM else DIFFICULTY_MEDIUM
+    previous_difficulty = (
+        DIFFICULTY_EASY if tier.difficulty == DIFFICULTY_MEDIUM else DIFFICULTY_MEDIUM
+    )
     previous_tier = next(
         (
             candidate

@@ -79,9 +79,7 @@ class AdventureLevelTierRunService:
         # on every start_run call below regardless of prior_run.
         selection_reference = prior_run
         if selection_reference is None and not is_replay and not already_completed:
-            progress = AdventureLevelTierProgress.objects.filter(
-                player=player, tier=tier
-            ).first()
+            progress = AdventureLevelTierProgress.objects.filter(player=player, tier=tier).first()
             if progress and progress.last_shown_variant_id:
                 selection_reference = AdventureLevelTierRun(
                     selected_variant=progress.last_shown_variant
@@ -111,9 +109,7 @@ class AdventureLevelTierRunService:
             wave.variants.filter(is_published=True).order_by("semantic_key", "id")
         )
         tried_keys = (
-            selector._tried_variant_keys(player=player, tier=tier)
-            if selection_reference
-            else set()
+            selector._tried_variant_keys(player=player, tier=tier) if selection_reference else set()
         )
         variant = (
             self._replay_variant(player=player, tier=tier)

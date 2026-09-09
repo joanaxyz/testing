@@ -4,6 +4,7 @@ import type { ReactNode } from 'react'
 import { Toaster } from 'sonner'
 
 import { subscribeToChallengeRunSync } from '@/features/challenges/utils/challengeRunCache'
+import { subscribeToTierRunSync } from '@/features/story-map/utils/tierRunCache'
 import { ApiError } from '@/shared/api/apiError'
 import { bindBattleAudioVisibility, bindButtonSoundEffects } from '@/shared/audio/battleAudio'
 import { PreferencesSync } from '@/shared/preferences/PreferencesSync'
@@ -26,6 +27,7 @@ export function AppProviders({ children }: { children: ReactNode }) {
   )
 
   useEffect(() => subscribeToChallengeRunSync(queryClient), [queryClient])
+  useEffect(() => subscribeToTierRunSync(queryClient), [queryClient])
   useEffect(() => bindButtonSoundEffects(), [])
   useEffect(() => bindBattleAudioVisibility(), [])
 

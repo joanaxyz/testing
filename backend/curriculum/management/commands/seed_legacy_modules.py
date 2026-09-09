@@ -254,8 +254,16 @@ ORIENTATION_LESSON_SPECS: list[dict[str, Any]] = [
                 "title": "Centralized vs distributed",
                 "prompt": "Compare each model and note where authoritative history lives and what happens if the server goes down.",
                 "options": [
-                    {"id": "centralized", "label": "Centralized (SVN)", "detail": "One central server owns history. Clients depend on it for full context and many operations."},
-                    {"id": "distributed", "label": "Distributed (Git)", "detail": "Every clone has complete history. Remotes coordinate sharing, but work can continue locally."},
+                    {
+                        "id": "centralized",
+                        "label": "Centralized (SVN)",
+                        "detail": "One central server owns history. Clients depend on it for full context and many operations.",
+                    },
+                    {
+                        "id": "distributed",
+                        "label": "Distributed (Git)",
+                        "detail": "Every clone has complete history. Remotes coordinate sharing, but work can continue locally.",
+                    },
                 ],
             },
             {
@@ -493,7 +501,10 @@ ORIENTATION_LESSON_SPECS: list[dict[str, Any]] = [
                 "kind": "git_command",
                 "title": "Graph log",
                 "prompt": "Run git log --oneline --graph --all to print a compact branch-aware commit graph.",
-                "accept_prefixes": ["git log --oneline --graph --all", "git log --graph --oneline --all"],
+                "accept_prefixes": [
+                    "git log --oneline --graph --all",
+                    "git log --graph --oneline --all",
+                ],
                 "hint": "Use git log with --oneline --graph --all (order of flags can vary).",
                 "initial_state": DAG_DEMO_STATE,
             },
@@ -647,19 +658,46 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "label": "Initialize the current folder",
                         "context": "Your team just created a project folder but never initialized it as a Git repository. Initialize the current directory so the project can be version-controlled.",
                         "initial_state": {
-                            "repository_initialized": False, "commits": [], "branches": {},
-                            "head": {"type": "branch", "name": "main"}, "staging": {}, "working_tree": {}, "conflicts": [],
+                            "repository_initialized": False,
+                            "commits": [],
+                            "branches": {},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git init"],
                         "state_requirements": {
-                            "repository_initialized": True, "head_branch": "main", "staging_empty": True,
+                            "repository_initialized": True,
+                            "head_branch": "main",
+                            "staging_empty": True,
                             "rules": [
                                 {"type": "commit_count_equals", "count": 0},
-                                {"type": "operation_metadata_equals", "key": "last_init_directory", "value": None},
-                                {"type": "operation_metadata_equals", "key": "last_init_current_directory", "value": True},
-                                {"type": "operation_metadata_equals", "key": "last_init_initial_branch", "value": "main"},
-                                {"type": "operation_metadata_equals", "key": "last_init_quiet", "value": False},
-                                {"type": "operation_metadata_equals", "key": "last_init_reinitialized", "value": False},
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_directory",
+                                    "value": None,
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_current_directory",
+                                    "value": True,
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_initial_branch",
+                                    "value": "main",
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_quiet",
+                                    "value": False,
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_reinitialized",
+                                    "value": False,
+                                },
                             ],
                         },
                     },
@@ -668,19 +706,46 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "label": "Initialize with trunk as the first branch",
                         "context": "Your team uses 'trunk' as the main branch name by convention. Initialize the current directory as a Git repository with 'trunk' as the initial branch.",
                         "initial_state": {
-                            "repository_initialized": False, "commits": [], "branches": {},
-                            "head": {"type": "branch", "name": "main"}, "staging": {}, "working_tree": {}, "conflicts": [],
+                            "repository_initialized": False,
+                            "commits": [],
+                            "branches": {},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git init --initial-branch=trunk"],
                         "state_requirements": {
-                            "repository_initialized": True, "head_branch": "trunk", "staging_empty": True,
+                            "repository_initialized": True,
+                            "head_branch": "trunk",
+                            "staging_empty": True,
                             "rules": [
                                 {"type": "commit_count_equals", "count": 0},
-                                {"type": "operation_metadata_equals", "key": "last_init_directory", "value": None},
-                                {"type": "operation_metadata_equals", "key": "last_init_current_directory", "value": True},
-                                {"type": "operation_metadata_equals", "key": "last_init_initial_branch", "value": "trunk"},
-                                {"type": "operation_metadata_equals", "key": "last_init_quiet", "value": False},
-                                {"type": "operation_metadata_equals", "key": "last_init_reinitialized", "value": False},
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_directory",
+                                    "value": None,
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_current_directory",
+                                    "value": True,
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_initial_branch",
+                                    "value": "trunk",
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_quiet",
+                                    "value": False,
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_reinitialized",
+                                    "value": False,
+                                },
                             ],
                         },
                     },
@@ -689,19 +754,46 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "label": "Initialize invoice-tracker",
                         "context": "A client hired you to build a simple invoice tracker. You need to start the project from scratch with Git version control. Create and initialize a new Git repository named invoice-tracker.",
                         "initial_state": {
-                            "repository_initialized": False, "commits": [], "branches": {},
-                            "head": {"type": "branch", "name": "main"}, "staging": {}, "working_tree": {}, "conflicts": [],
+                            "repository_initialized": False,
+                            "commits": [],
+                            "branches": {},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git init invoice-tracker"],
                         "state_requirements": {
-                            "repository_initialized": True, "head_branch": "main", "staging_empty": True,
+                            "repository_initialized": True,
+                            "head_branch": "main",
+                            "staging_empty": True,
                             "rules": [
                                 {"type": "commit_count_equals", "count": 0},
-                                {"type": "operation_metadata_equals", "key": "last_init_directory", "value": "invoice-tracker"},
-                                {"type": "operation_metadata_equals", "key": "last_init_current_directory", "value": False},
-                                {"type": "operation_metadata_equals", "key": "last_init_initial_branch", "value": "main"},
-                                {"type": "operation_metadata_equals", "key": "last_init_quiet", "value": False},
-                                {"type": "operation_metadata_equals", "key": "last_init_reinitialized", "value": False},
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_directory",
+                                    "value": "invoice-tracker",
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_current_directory",
+                                    "value": False,
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_initial_branch",
+                                    "value": "main",
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_quiet",
+                                    "value": False,
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_reinitialized",
+                                    "value": False,
+                                },
                             ],
                         },
                     },
@@ -718,19 +810,46 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "label": "Initialize oss-contrib",
                         "context": "You want to start contributing to an open-source project. Your mentor told you to first create a local scaffold directory called oss-contrib where you'll mirror your fork setup. Create and initialize the repo.",
                         "initial_state": {
-                            "repository_initialized": False, "commits": [], "branches": {},
-                            "head": {"type": "branch", "name": "main"}, "staging": {}, "working_tree": {}, "conflicts": [],
+                            "repository_initialized": False,
+                            "commits": [],
+                            "branches": {},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git init oss-contrib"],
                         "state_requirements": {
-                            "repository_initialized": True, "head_branch": "main", "staging_empty": True,
+                            "repository_initialized": True,
+                            "head_branch": "main",
+                            "staging_empty": True,
                             "rules": [
                                 {"type": "commit_count_equals", "count": 0},
-                                {"type": "operation_metadata_equals", "key": "last_init_directory", "value": "oss-contrib"},
-                                {"type": "operation_metadata_equals", "key": "last_init_current_directory", "value": False},
-                                {"type": "operation_metadata_equals", "key": "last_init_initial_branch", "value": "main"},
-                                {"type": "operation_metadata_equals", "key": "last_init_quiet", "value": False},
-                                {"type": "operation_metadata_equals", "key": "last_init_reinitialized", "value": False},
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_directory",
+                                    "value": "oss-contrib",
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_current_directory",
+                                    "value": False,
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_initial_branch",
+                                    "value": "main",
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_quiet",
+                                    "value": False,
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_reinitialized",
+                                    "value": False,
+                                },
                             ],
                         },
                     },
@@ -739,19 +858,46 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "label": "Initialize docs-site",
                         "context": "Your team needs a dedicated Git repository for the project documentation site. Initialize a new repo named docs-site in your current workspace.",
                         "initial_state": {
-                            "repository_initialized": False, "commits": [], "branches": {},
-                            "head": {"type": "branch", "name": "main"}, "staging": {}, "working_tree": {}, "conflicts": [],
+                            "repository_initialized": False,
+                            "commits": [],
+                            "branches": {},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git init docs-site"],
                         "state_requirements": {
-                            "repository_initialized": True, "head_branch": "main", "staging_empty": True,
+                            "repository_initialized": True,
+                            "head_branch": "main",
+                            "staging_empty": True,
                             "rules": [
                                 {"type": "commit_count_equals", "count": 0},
-                                {"type": "operation_metadata_equals", "key": "last_init_directory", "value": "docs-site"},
-                                {"type": "operation_metadata_equals", "key": "last_init_current_directory", "value": False},
-                                {"type": "operation_metadata_equals", "key": "last_init_initial_branch", "value": "main"},
-                                {"type": "operation_metadata_equals", "key": "last_init_quiet", "value": False},
-                                {"type": "operation_metadata_equals", "key": "last_init_reinitialized", "value": False},
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_directory",
+                                    "value": "docs-site",
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_current_directory",
+                                    "value": False,
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_initial_branch",
+                                    "value": "main",
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_quiet",
+                                    "value": False,
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_reinitialized",
+                                    "value": False,
+                                },
                             ],
                         },
                     },
@@ -760,19 +906,46 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "label": "Initialize api-playground with trunk",
                         "context": "You're setting up a sandbox repo for API experiments. The team uses 'trunk' as the default branch. Initialize a new named directory api-playground with trunk as the initial branch.",
                         "initial_state": {
-                            "repository_initialized": False, "commits": [], "branches": {},
-                            "head": {"type": "branch", "name": "main"}, "staging": {}, "working_tree": {}, "conflicts": [],
+                            "repository_initialized": False,
+                            "commits": [],
+                            "branches": {},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git init -b trunk api-playground"],
                         "state_requirements": {
-                            "repository_initialized": True, "head_branch": "trunk", "staging_empty": True,
+                            "repository_initialized": True,
+                            "head_branch": "trunk",
+                            "staging_empty": True,
                             "rules": [
                                 {"type": "commit_count_equals", "count": 0},
-                                {"type": "operation_metadata_equals", "key": "last_init_directory", "value": "api-playground"},
-                                {"type": "operation_metadata_equals", "key": "last_init_current_directory", "value": False},
-                                {"type": "operation_metadata_equals", "key": "last_init_initial_branch", "value": "trunk"},
-                                {"type": "operation_metadata_equals", "key": "last_init_quiet", "value": False},
-                                {"type": "operation_metadata_equals", "key": "last_init_reinitialized", "value": False},
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_directory",
+                                    "value": "api-playground",
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_current_directory",
+                                    "value": False,
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_initial_branch",
+                                    "value": "trunk",
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_quiet",
+                                    "value": False,
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_reinitialized",
+                                    "value": False,
+                                },
                             ],
                         },
                     },
@@ -781,19 +954,48 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "label": "Initialize research-log quietly",
                         "context": "You're initializing a research notes repository called research-log. The CI script expects quiet output so nothing is printed to the console. Initialize it with quiet mode enabled.",
                         "initial_state": {
-                            "repository_initialized": False, "commits": [], "branches": {},
-                            "head": {"type": "branch", "name": "main"}, "staging": {}, "working_tree": {}, "conflicts": [],
+                            "repository_initialized": False,
+                            "commits": [],
+                            "branches": {},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git init --quiet --initial-branch=main research-log"],
+                        "solution_commands": [
+                            "git init --quiet --initial-branch=main research-log"
+                        ],
                         "state_requirements": {
-                            "repository_initialized": True, "head_branch": "main", "staging_empty": True,
+                            "repository_initialized": True,
+                            "head_branch": "main",
+                            "staging_empty": True,
                             "rules": [
                                 {"type": "commit_count_equals", "count": 0},
-                                {"type": "operation_metadata_equals", "key": "last_init_directory", "value": "research-log"},
-                                {"type": "operation_metadata_equals", "key": "last_init_current_directory", "value": False},
-                                {"type": "operation_metadata_equals", "key": "last_init_initial_branch", "value": "main"},
-                                {"type": "operation_metadata_equals", "key": "last_init_quiet", "value": True},
-                                {"type": "operation_metadata_equals", "key": "last_init_reinitialized", "value": False},
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_directory",
+                                    "value": "research-log",
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_current_directory",
+                                    "value": False,
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_initial_branch",
+                                    "value": "main",
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_quiet",
+                                    "value": True,
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_reinitialized",
+                                    "value": False,
+                                },
                             ],
                         },
                     },
@@ -810,20 +1012,46 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "label": "Initialize ci-configs",
                         "context": "You've been asked to create a versioned pipeline configuration store. The ops team refers to it as ci-configs. No step-by-step instructions were given — figure out what needs to be done and do it.",
                         "initial_state": {
-                            "repository_initialized": False, "commits": [], "branches": {},
+                            "repository_initialized": False,
+                            "commits": [],
+                            "branches": {},
                             "head": {"type": "branch", "name": "main"},
-                            "working_tree": {"pipelines/build.yml": "untracked"}, "staging": {}, "conflicts": [],
+                            "working_tree": {"pipelines/build.yml": "untracked"},
+                            "staging": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git init ci-configs"],
                         "state_requirements": {
-                            "repository_initialized": True, "head_branch": "main", "staging_empty": True,
+                            "repository_initialized": True,
+                            "head_branch": "main",
+                            "staging_empty": True,
                             "rules": [
                                 {"type": "commit_count_equals", "count": 0},
-                                {"type": "operation_metadata_equals", "key": "last_init_directory", "value": "ci-configs"},
-                                {"type": "operation_metadata_equals", "key": "last_init_current_directory", "value": False},
-                                {"type": "operation_metadata_equals", "key": "last_init_initial_branch", "value": "main"},
-                                {"type": "operation_metadata_equals", "key": "last_init_quiet", "value": False},
-                                {"type": "operation_metadata_equals", "key": "last_init_reinitialized", "value": False},
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_directory",
+                                    "value": "ci-configs",
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_current_directory",
+                                    "value": False,
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_initial_branch",
+                                    "value": "main",
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_quiet",
+                                    "value": False,
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_reinitialized",
+                                    "value": False,
+                                },
                             ],
                         },
                     },
@@ -832,25 +1060,50 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "label": "Initialize research-log subfolder only",
                         "context": "You're working in a parent workspace with multiple subdirectories. Only the research-log subfolder should become a Git repository — the parent and sibling folders must not be affected. Initialize only that subdirectory, quietly.",
                         "initial_state": {
-                            "repository_initialized": False, "commits": [], "branches": {},
+                            "repository_initialized": False,
+                            "commits": [],
+                            "branches": {},
                             "head": {"type": "branch", "name": "main"},
                             "working_tree": {
                                 "research-log/README.md": "untracked",
                                 "notes/ideas.md": "untracked",
                                 "archive/old.md": "untracked",
                             },
-                            "staging": {}, "conflicts": [],
+                            "staging": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git init -q -b main research-log"],
                         "state_requirements": {
-                            "repository_initialized": True, "head_branch": "main", "staging_empty": True,
+                            "repository_initialized": True,
+                            "head_branch": "main",
+                            "staging_empty": True,
                             "rules": [
                                 {"type": "commit_count_equals", "count": 0},
-                                {"type": "operation_metadata_equals", "key": "last_init_directory", "value": "research-log"},
-                                {"type": "operation_metadata_equals", "key": "last_init_current_directory", "value": False},
-                                {"type": "operation_metadata_equals", "key": "last_init_initial_branch", "value": "main"},
-                                {"type": "operation_metadata_equals", "key": "last_init_quiet", "value": True},
-                                {"type": "operation_metadata_equals", "key": "last_init_reinitialized", "value": False},
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_directory",
+                                    "value": "research-log",
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_current_directory",
+                                    "value": False,
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_initial_branch",
+                                    "value": "main",
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_quiet",
+                                    "value": True,
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_reinitialized",
+                                    "value": False,
+                                },
                             ],
                         },
                     },
@@ -859,25 +1112,50 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "label": "Initialize ui-kit with trunk, quietly",
                         "context": "You're in a design parent workspace. Only the ui-kit subfolder should be version-controlled — sibling folders like brand-assets and experiments must be left alone. Initialize ui-kit quietly with 'trunk' as the branch name.",
                         "initial_state": {
-                            "repository_initialized": False, "commits": [], "branches": {},
+                            "repository_initialized": False,
+                            "commits": [],
+                            "branches": {},
                             "head": {"type": "branch", "name": "main"},
                             "working_tree": {
                                 "ui-kit/tokens.css": "untracked",
                                 "brand-assets/logo.svg": "untracked",
                                 "experiments/mockup.html": "untracked",
                             },
-                            "staging": {}, "conflicts": [],
+                            "staging": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git init --quiet --initial-branch=trunk ui-kit"],
                         "state_requirements": {
-                            "repository_initialized": True, "head_branch": "trunk", "staging_empty": True,
+                            "repository_initialized": True,
+                            "head_branch": "trunk",
+                            "staging_empty": True,
                             "rules": [
                                 {"type": "commit_count_equals", "count": 0},
-                                {"type": "operation_metadata_equals", "key": "last_init_directory", "value": "ui-kit"},
-                                {"type": "operation_metadata_equals", "key": "last_init_current_directory", "value": False},
-                                {"type": "operation_metadata_equals", "key": "last_init_initial_branch", "value": "trunk"},
-                                {"type": "operation_metadata_equals", "key": "last_init_quiet", "value": True},
-                                {"type": "operation_metadata_equals", "key": "last_init_reinitialized", "value": False},
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_directory",
+                                    "value": "ui-kit",
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_current_directory",
+                                    "value": False,
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_initial_branch",
+                                    "value": "trunk",
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_quiet",
+                                    "value": True,
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_reinitialized",
+                                    "value": False,
+                                },
                             ],
                         },
                     },
@@ -887,21 +1165,52 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "The release-notes directory is already a Git repository with one commit. A teammate ran a script that re-runs git init as a safety check. You need to safely reinitialize without losing the existing history. Run it quietly.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Keep existing notes", "parents": [], "tree": {"README.md": "readme-v1"}}],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Keep existing notes",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                }
+                            ],
                             "branches": {"main": "c1"},
                             "head": {"type": "branch", "name": "main"},
-                            "working_tree": {"notes/today.md": "untracked"}, "staging": {}, "conflicts": [],
+                            "working_tree": {"notes/today.md": "untracked"},
+                            "staging": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git init --quiet"],
                         "state_requirements": {
-                            "repository_initialized": True, "head_branch": "main", "staging_empty": True,
+                            "repository_initialized": True,
+                            "head_branch": "main",
+                            "staging_empty": True,
                             "rules": [
                                 {"type": "commit_count_equals", "count": 1},
-                                {"type": "operation_metadata_equals", "key": "last_init_directory", "value": None},
-                                {"type": "operation_metadata_equals", "key": "last_init_current_directory", "value": True},
-                                {"type": "operation_metadata_equals", "key": "last_init_initial_branch", "value": "main"},
-                                {"type": "operation_metadata_equals", "key": "last_init_quiet", "value": True},
-                                {"type": "operation_metadata_equals", "key": "last_init_reinitialized", "value": True},
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_directory",
+                                    "value": None,
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_current_directory",
+                                    "value": True,
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_initial_branch",
+                                    "value": "main",
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_quiet",
+                                    "value": True,
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_init_reinitialized",
+                                    "value": True,
+                                },
                             ],
                         },
                     },
@@ -926,21 +1235,36 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "label": "Clone docs-portal",
                         "context": "Your team's documentation portal is hosted remotely. Clone it so you can start contributing to the docs locally.",
                         "initial_state": {
-                            "repository_initialized": False, "commits": [], "branches": {},
-                            "head": {"type": "branch", "name": "main"}, "working_tree": {}, "staging": {}, "conflicts": [],
+                            "repository_initialized": False,
+                            "commits": [],
+                            "branches": {},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {},
+                            "staging": {},
+                            "conflicts": [],
                             "remote_fixtures": {
                                 "url": "https://example.test/training/docs-portal.git",
                                 "default_branch": "main",
                                 "head": "r10",
-                                "tree": {"README.md": "docs-readme-v1", "docs/intro.md": "docs-intro-v1"},
+                                "tree": {
+                                    "README.md": "docs-readme-v1",
+                                    "docs/intro.md": "docs-intro-v1",
+                                },
                             },
                         },
-                        "solution_commands": ["git clone https://example.test/training/docs-portal.git"],
+                        "solution_commands": [
+                            "git clone https://example.test/training/docs-portal.git"
+                        ],
                         "state_requirements": {
-                            "repository_initialized": True, "head_branch": "main",
-                            "remote_exists": ["origin"], "remote_branch_exists": ["origin/main"],
-                            "remote_branch_points_to": {"origin/main": "r10"}, "branch_points_to": {"main": "r10"},
-                            "upstream_tracking": {"main": "origin/main"}, "staging_empty": True, "working_tree_clean": True,
+                            "repository_initialized": True,
+                            "head_branch": "main",
+                            "remote_exists": ["origin"],
+                            "remote_branch_exists": ["origin/main"],
+                            "remote_branch_points_to": {"origin/main": "r10"},
+                            "branch_points_to": {"main": "r10"},
+                            "upstream_tracking": {"main": "origin/main"},
+                            "staging_empty": True,
+                            "working_tree_clean": True,
                         },
                     },
                     {
@@ -948,22 +1272,43 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "label": "Clone api-lab into api-workshop",
                         "context": "You're onboarding at a startup. The backend API is hosted remotely. Your team's convention is to store repos in a folder named api-workshop. Clone it into that folder.",
                         "initial_state": {
-                            "repository_initialized": False, "commits": [], "branches": {},
-                            "head": {"type": "branch", "name": "main"}, "working_tree": {}, "staging": {}, "conflicts": [],
+                            "repository_initialized": False,
+                            "commits": [],
+                            "branches": {},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {},
+                            "staging": {},
+                            "conflicts": [],
                             "remote_fixtures": {
                                 "url": "https://example.test/training/api-lab.git",
                                 "default_branch": "main",
                                 "head": "r11",
-                                "tree": {"README.md": "api-readme-v1", "api/routes.py": "api-routes-v1"},
+                                "tree": {
+                                    "README.md": "api-readme-v1",
+                                    "api/routes.py": "api-routes-v1",
+                                },
                             },
                         },
-                        "solution_commands": ["git clone https://example.test/training/api-lab.git api-workshop"],
+                        "solution_commands": [
+                            "git clone https://example.test/training/api-lab.git api-workshop"
+                        ],
                         "state_requirements": {
-                            "repository_initialized": True, "head_branch": "main",
-                            "remote_exists": ["origin"], "remote_branch_exists": ["origin/main"],
-                            "remote_branch_points_to": {"origin/main": "r11"}, "branch_points_to": {"main": "r11"},
-                            "upstream_tracking": {"main": "origin/main"}, "staging_empty": True, "working_tree_clean": True,
-                            "rules": [{"type": "operation_metadata_equals", "key": "last_clone_destination", "value": "api-workshop"}],
+                            "repository_initialized": True,
+                            "head_branch": "main",
+                            "remote_exists": ["origin"],
+                            "remote_branch_exists": ["origin/main"],
+                            "remote_branch_points_to": {"origin/main": "r11"},
+                            "branch_points_to": {"main": "r11"},
+                            "upstream_tracking": {"main": "origin/main"},
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "rules": [
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_clone_destination",
+                                    "value": "api-workshop",
+                                }
+                            ],
                         },
                     },
                     {
@@ -971,22 +1316,38 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "label": "Clone profile-site at the starter branch",
                         "context": "The profile site repo has a starter branch with template files ready to use. Clone it and check out the starter branch directly instead of main.",
                         "initial_state": {
-                            "repository_initialized": False, "commits": [], "branches": {},
-                            "head": {"type": "branch", "name": "main"}, "working_tree": {}, "staging": {}, "conflicts": [],
+                            "repository_initialized": False,
+                            "commits": [],
+                            "branches": {},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {},
+                            "staging": {},
+                            "conflicts": [],
                             "remote_fixtures": {
                                 "url": "https://example.test/training/profile-site.git",
                                 "default_branch": "main",
                                 "head": "r13",
                                 "branches": {"origin/main": "r12", "origin/starter": "r13"},
-                                "tree": {"index.html": "profile-index-v2", "styles/site.css": "profile-css-v1", "starter-notes.md": "starter-notes-v1"},
+                                "tree": {
+                                    "index.html": "profile-index-v2",
+                                    "styles/site.css": "profile-css-v1",
+                                    "starter-notes.md": "starter-notes-v1",
+                                },
                             },
                         },
-                        "solution_commands": ["git clone -b starter https://example.test/training/profile-site.git"],
+                        "solution_commands": [
+                            "git clone -b starter https://example.test/training/profile-site.git"
+                        ],
                         "state_requirements": {
-                            "repository_initialized": True, "head_branch": "starter",
-                            "remote_exists": ["origin"], "remote_branch_exists": ["origin/starter"],
-                            "remote_branch_points_to": {"origin/starter": "r13"}, "branch_points_to": {"starter": "r13"},
-                            "upstream_tracking": {"starter": "origin/starter"}, "staging_empty": True, "working_tree_clean": True,
+                            "repository_initialized": True,
+                            "head_branch": "starter",
+                            "remote_exists": ["origin"],
+                            "remote_branch_exists": ["origin/starter"],
+                            "remote_branch_points_to": {"origin/starter": "r13"},
+                            "branch_points_to": {"starter": "r13"},
+                            "upstream_tracking": {"starter": "origin/starter"},
+                            "staging_empty": True,
+                            "working_tree_clean": True,
                         },
                     },
                     {
@@ -994,21 +1355,34 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "label": "Clone oss-toolkit via SSH",
                         "context": "You've set up SSH keys and want to clone the OSS project you're contributing to. Clone it using the SSH URL.",
                         "initial_state": {
-                            "repository_initialized": False, "commits": [], "branches": {},
-                            "head": {"type": "branch", "name": "main"}, "working_tree": {}, "staging": {}, "conflicts": [],
+                            "repository_initialized": False,
+                            "commits": [],
+                            "branches": {},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {},
+                            "staging": {},
+                            "conflicts": [],
                             "remote_fixtures": {
                                 "url": "git@github.com:open-dev/oss-toolkit.git",
                                 "default_branch": "main",
                                 "head": "r40",
-                                "tree": {"README.md": "oss-readme-v1", "src/toolkit.py": "toolkit-v1"},
+                                "tree": {
+                                    "README.md": "oss-readme-v1",
+                                    "src/toolkit.py": "toolkit-v1",
+                                },
                             },
                         },
                         "solution_commands": ["git clone git@github.com:open-dev/oss-toolkit.git"],
                         "state_requirements": {
-                            "repository_initialized": True, "head_branch": "main",
-                            "remote_exists": ["origin"], "remote_branch_exists": ["origin/main"],
-                            "remote_branch_points_to": {"origin/main": "r40"}, "branch_points_to": {"main": "r40"},
-                            "upstream_tracking": {"main": "origin/main"}, "staging_empty": True, "working_tree_clean": True,
+                            "repository_initialized": True,
+                            "head_branch": "main",
+                            "remote_exists": ["origin"],
+                            "remote_branch_exists": ["origin/main"],
+                            "remote_branch_points_to": {"origin/main": "r40"},
+                            "branch_points_to": {"main": "r40"},
+                            "upstream_tracking": {"main": "origin/main"},
+                            "staging_empty": True,
+                            "working_tree_clean": True,
                         },
                     },
                     {
@@ -1016,8 +1390,13 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "label": "Clone audit-logs into audit-logs-local",
                         "context": "Your company hosts Git internally. Clone the internal audit logs repository into a local folder named audit-logs-local.",
                         "initial_state": {
-                            "repository_initialized": False, "commits": [], "branches": {},
-                            "head": {"type": "branch", "name": "main"}, "working_tree": {}, "staging": {}, "conflicts": [],
+                            "repository_initialized": False,
+                            "commits": [],
+                            "branches": {},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {},
+                            "staging": {},
+                            "conflicts": [],
                             "remote_fixtures": {
                                 "url": "https://git.corp.example/it/audit-logs.git",
                                 "default_branch": "main",
@@ -1025,13 +1404,26 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                                 "tree": {"README.md": "audit-readme-v1", "logs/q1.csv": "q1-v1"},
                             },
                         },
-                        "solution_commands": ["git clone https://git.corp.example/it/audit-logs.git audit-logs-local"],
+                        "solution_commands": [
+                            "git clone https://git.corp.example/it/audit-logs.git audit-logs-local"
+                        ],
                         "state_requirements": {
-                            "repository_initialized": True, "head_branch": "main",
-                            "remote_exists": ["origin"], "remote_branch_exists": ["origin/main"],
-                            "remote_branch_points_to": {"origin/main": "r41"}, "branch_points_to": {"main": "r41"},
-                            "upstream_tracking": {"main": "origin/main"}, "staging_empty": True, "working_tree_clean": True,
-                            "rules": [{"type": "operation_metadata_equals", "key": "last_clone_destination", "value": "audit-logs-local"}],
+                            "repository_initialized": True,
+                            "head_branch": "main",
+                            "remote_exists": ["origin"],
+                            "remote_branch_exists": ["origin/main"],
+                            "remote_branch_points_to": {"origin/main": "r41"},
+                            "branch_points_to": {"main": "r41"},
+                            "upstream_tracking": {"main": "origin/main"},
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "rules": [
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_clone_destination",
+                                    "value": "audit-logs-local",
+                                }
+                            ],
                         },
                     },
                 ],
@@ -1047,20 +1439,32 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "label": "Clone backend-api at feature/auth",
                         "context": "The backend team is mid-sprint on a feature/auth branch. You need to clone the repo and start from that branch directly rather than switching after cloning.",
                         "initial_state": {
-                            "repository_initialized": False, "commits": [], "branches": {},
-                            "head": {"type": "branch", "name": "main"}, "working_tree": {}, "staging": {}, "conflicts": [],
+                            "repository_initialized": False,
+                            "commits": [],
+                            "branches": {},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {},
+                            "staging": {},
+                            "conflicts": [],
                             "remote_fixtures": {
                                 "url": "https://github.com/acme-startup/backend-api.git",
-                                "default_branch": "main", "default_head": "r49", "head": "r50",
+                                "default_branch": "main",
+                                "default_head": "r49",
+                                "head": "r50",
                                 "branches": {"origin/main": "r49", "origin/feature/auth": "r50"},
                                 "tree": {"README.md": "api-readme-v1", "src/auth.py": "auth-v1"},
                             },
                         },
-                        "solution_commands": ["git clone -b feature/auth https://github.com/acme-startup/backend-api.git"],
+                        "solution_commands": [
+                            "git clone -b feature/auth https://github.com/acme-startup/backend-api.git"
+                        ],
                         "state_requirements": {
-                            "repository_initialized": True, "head_branch": "feature/auth",
-                            "remote_exists": ["origin"], "remote_branch_exists": ["origin/feature/auth"],
-                            "remote_branch_points_to": {"origin/feature/auth": "r50"}, "branch_points_to": {"feature/auth": "r50"},
+                            "repository_initialized": True,
+                            "head_branch": "feature/auth",
+                            "remote_exists": ["origin"],
+                            "remote_branch_exists": ["origin/feature/auth"],
+                            "remote_branch_points_to": {"origin/feature/auth": "r50"},
+                            "branch_points_to": {"feature/auth": "r50"},
                         },
                     },
                     {
@@ -1068,19 +1472,41 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "label": "Clone analytics-lab via SSH into analytics-worktree",
                         "context": "You've configured SSH access to the analytics lab repository. Clone it into a custom local folder named analytics-worktree using the SSH URL.",
                         "initial_state": {
-                            "repository_initialized": False, "commits": [], "branches": {},
-                            "head": {"type": "branch", "name": "main"}, "working_tree": {}, "staging": {}, "conflicts": [],
+                            "repository_initialized": False,
+                            "commits": [],
+                            "branches": {},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {},
+                            "staging": {},
+                            "conflicts": [],
                             "remote_fixtures": {
-                                "url": "git@example.test:training/analytics-lab.git", "default_branch": "main", "head": "r30",
-                                "tree": {"README.md": "analytics-readme-v3", "metrics/report.md": "metrics-report-v2", "src/summary.py": "summary-v1"},
+                                "url": "git@example.test:training/analytics-lab.git",
+                                "default_branch": "main",
+                                "head": "r30",
+                                "tree": {
+                                    "README.md": "analytics-readme-v3",
+                                    "metrics/report.md": "metrics-report-v2",
+                                    "src/summary.py": "summary-v1",
+                                },
                             },
                         },
-                        "solution_commands": ["git clone git@example.test:training/analytics-lab.git analytics-worktree"],
+                        "solution_commands": [
+                            "git clone git@example.test:training/analytics-lab.git analytics-worktree"
+                        ],
                         "state_requirements": {
-                            "repository_initialized": True, "head_branch": "main",
-                            "remote_exists": ["origin"], "remote_branch_exists": ["origin/main"],
-                            "remote_branch_points_to": {"origin/main": "r30"}, "branch_points_to": {"main": "r30"},
-                            "rules": [{"type": "operation_metadata_equals", "key": "last_clone_destination", "value": "analytics-worktree"}],
+                            "repository_initialized": True,
+                            "head_branch": "main",
+                            "remote_exists": ["origin"],
+                            "remote_branch_exists": ["origin/main"],
+                            "remote_branch_points_to": {"origin/main": "r30"},
+                            "branch_points_to": {"main": "r30"},
+                            "rules": [
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_clone_destination",
+                                    "value": "analytics-worktree",
+                                }
+                            ],
                         },
                     },
                     {
@@ -1088,20 +1514,43 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "label": "Clone cli-tool at starter into cli-starter-lab",
                         "context": "A CLI tool repo has a starter branch prepared for onboarding contributors. Clone it into a folder called cli-starter-lab, checking out the starter branch immediately.",
                         "initial_state": {
-                            "repository_initialized": False, "commits": [], "branches": {},
-                            "head": {"type": "branch", "name": "main"}, "working_tree": {}, "staging": {}, "conflicts": [],
+                            "repository_initialized": False,
+                            "commits": [],
+                            "branches": {},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {},
+                            "staging": {},
+                            "conflicts": [],
                             "remote_fixtures": {
-                                "url": "https://example.test/tools/cli-tool.git", "default_branch": "main", "default_head": "r19", "head": "r20",
+                                "url": "https://example.test/tools/cli-tool.git",
+                                "default_branch": "main",
+                                "default_head": "r19",
+                                "head": "r20",
                                 "branches": {"origin/main": "r19", "origin/starter": "r20"},
-                                "tree": {"README.md": "cli-readme-v2", "src/parser.py": "cli-parser-v2", "starter.md": "cli-starter-v1"},
+                                "tree": {
+                                    "README.md": "cli-readme-v2",
+                                    "src/parser.py": "cli-parser-v2",
+                                    "starter.md": "cli-starter-v1",
+                                },
                             },
                         },
-                        "solution_commands": ["git clone --branch starter https://example.test/tools/cli-tool.git cli-starter-lab"],
+                        "solution_commands": [
+                            "git clone --branch starter https://example.test/tools/cli-tool.git cli-starter-lab"
+                        ],
                         "state_requirements": {
-                            "repository_initialized": True, "head_branch": "starter",
-                            "remote_exists": ["origin"], "remote_branch_exists": ["origin/starter"],
-                            "remote_branch_points_to": {"origin/starter": "r20"}, "branch_points_to": {"starter": "r20"},
-                            "rules": [{"type": "operation_metadata_equals", "key": "last_clone_destination", "value": "cli-starter-lab"}],
+                            "repository_initialized": True,
+                            "head_branch": "starter",
+                            "remote_exists": ["origin"],
+                            "remote_branch_exists": ["origin/starter"],
+                            "remote_branch_points_to": {"origin/starter": "r20"},
+                            "branch_points_to": {"starter": "r20"},
+                            "rules": [
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_clone_destination",
+                                    "value": "cli-starter-lab",
+                                }
+                            ],
                         },
                     },
                     {
@@ -1109,19 +1558,40 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "label": "Shallow clone css-kit",
                         "context": "Your CI pipeline needs a lightweight clone of the CSS kit repository for a one-time build. Disk space is limited — use a shallow clone of depth 1 to keep it fast.",
                         "initial_state": {
-                            "repository_initialized": False, "commits": [], "branches": {},
-                            "head": {"type": "branch", "name": "main"}, "working_tree": {}, "staging": {}, "conflicts": [],
+                            "repository_initialized": False,
+                            "commits": [],
+                            "branches": {},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {},
+                            "staging": {},
+                            "conflicts": [],
                             "remote_fixtures": {
-                                "url": "https://example.test/frontend/css-kit.git", "default_branch": "main", "head": "r22",
-                                "tree": {"README.md": "css-readme-v2", "styles/tokens.css": "tokens-v2"},
+                                "url": "https://example.test/frontend/css-kit.git",
+                                "default_branch": "main",
+                                "head": "r22",
+                                "tree": {
+                                    "README.md": "css-readme-v2",
+                                    "styles/tokens.css": "tokens-v2",
+                                },
                             },
                         },
-                        "solution_commands": ["git clone --depth 1 https://example.test/frontend/css-kit.git"],
+                        "solution_commands": [
+                            "git clone --depth 1 https://example.test/frontend/css-kit.git"
+                        ],
                         "state_requirements": {
-                            "repository_initialized": True, "head_branch": "main",
-                            "remote_exists": ["origin"], "remote_branch_exists": ["origin/main"],
-                            "remote_branch_points_to": {"origin/main": "r22"}, "branch_points_to": {"main": "r22"},
-                            "rules": [{"type": "operation_metadata_equals", "key": "last_clone_depth", "value": 1}],
+                            "repository_initialized": True,
+                            "head_branch": "main",
+                            "remote_exists": ["origin"],
+                            "remote_branch_exists": ["origin/main"],
+                            "remote_branch_points_to": {"origin/main": "r22"},
+                            "branch_points_to": {"main": "r22"},
+                            "rules": [
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_clone_depth",
+                                    "value": 1,
+                                }
+                            ],
                         },
                     },
                 ],
@@ -1137,21 +1607,45 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "label": "Shallow SSH clone of oss-toolkit into oss-review",
                         "context": "You want a minimal clone of the OSS toolkit repository with only the latest commit using SSH, stored in a folder named oss-review. Combine shallow cloning with a custom destination.",
                         "initial_state": {
-                            "repository_initialized": False, "commits": [], "branches": {},
-                            "head": {"type": "branch", "name": "main"}, "working_tree": {}, "staging": {}, "conflicts": [],
+                            "repository_initialized": False,
+                            "commits": [],
+                            "branches": {},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {},
+                            "staging": {},
+                            "conflicts": [],
                             "remote_fixtures": {
-                                "url": "git@github.com:open-dev/oss-toolkit.git", "default_branch": "main", "default_head": "r59", "head": "r60",
-                                "tree": {"README.md": "oss-readme-v2", "src/toolkit.py": "toolkit-v2"},
+                                "url": "git@github.com:open-dev/oss-toolkit.git",
+                                "default_branch": "main",
+                                "default_head": "r59",
+                                "head": "r60",
+                                "tree": {
+                                    "README.md": "oss-readme-v2",
+                                    "src/toolkit.py": "toolkit-v2",
+                                },
                             },
                         },
-                        "solution_commands": ["git clone --depth 1 git@github.com:open-dev/oss-toolkit.git oss-review"],
+                        "solution_commands": [
+                            "git clone --depth 1 git@github.com:open-dev/oss-toolkit.git oss-review"
+                        ],
                         "state_requirements": {
-                            "repository_initialized": True, "head_branch": "main",
-                            "remote_exists": ["origin"], "remote_branch_exists": ["origin/main"],
-                            "remote_branch_points_to": {"origin/main": "r60"}, "branch_points_to": {"main": "r60"},
+                            "repository_initialized": True,
+                            "head_branch": "main",
+                            "remote_exists": ["origin"],
+                            "remote_branch_exists": ["origin/main"],
+                            "remote_branch_points_to": {"origin/main": "r60"},
+                            "branch_points_to": {"main": "r60"},
                             "rules": [
-                                {"type": "operation_metadata_equals", "key": "last_clone_depth", "value": 1},
-                                {"type": "operation_metadata_equals", "key": "last_clone_destination", "value": "oss-review"},
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_clone_depth",
+                                    "value": 1,
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_clone_destination",
+                                    "value": "oss-review",
+                                },
                             ],
                         },
                     },
@@ -1160,22 +1654,47 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "label": "Shallow clone mobile-ui at starter into mobile-ui-lab",
                         "context": "You need a lightweight copy of the mobile UI starter branch for a quick review. Clone only the tip of the starter branch into a folder named mobile-ui-lab — no full history needed.",
                         "initial_state": {
-                            "repository_initialized": False, "commits": [], "branches": {},
-                            "head": {"type": "branch", "name": "main"}, "working_tree": {}, "staging": {}, "conflicts": [],
+                            "repository_initialized": False,
+                            "commits": [],
+                            "branches": {},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {},
+                            "staging": {},
+                            "conflicts": [],
                             "remote_fixtures": {
-                                "url": "https://example.test/frontend/mobile-ui.git", "default_branch": "main", "default_head": "r23", "head": "r31",
+                                "url": "https://example.test/frontend/mobile-ui.git",
+                                "default_branch": "main",
+                                "default_head": "r23",
+                                "head": "r31",
                                 "branches": {"origin/main": "r23", "origin/starter": "r31"},
-                                "tree": {"README.md": "mobile-readme-v2", "screens/home.tsx": "home-v1", "styles/mobile.css": "mobile-css-v1"},
+                                "tree": {
+                                    "README.md": "mobile-readme-v2",
+                                    "screens/home.tsx": "home-v1",
+                                    "styles/mobile.css": "mobile-css-v1",
+                                },
                             },
                         },
-                        "solution_commands": ["git clone --depth 1 -b starter https://example.test/frontend/mobile-ui.git mobile-ui-lab"],
+                        "solution_commands": [
+                            "git clone --depth 1 -b starter https://example.test/frontend/mobile-ui.git mobile-ui-lab"
+                        ],
                         "state_requirements": {
-                            "repository_initialized": True, "head_branch": "starter",
-                            "remote_exists": ["origin"], "remote_branch_exists": ["origin/starter"],
-                            "remote_branch_points_to": {"origin/starter": "r31"}, "branch_points_to": {"starter": "r31"},
+                            "repository_initialized": True,
+                            "head_branch": "starter",
+                            "remote_exists": ["origin"],
+                            "remote_branch_exists": ["origin/starter"],
+                            "remote_branch_points_to": {"origin/starter": "r31"},
+                            "branch_points_to": {"starter": "r31"},
                             "rules": [
-                                {"type": "operation_metadata_equals", "key": "last_clone_depth", "value": 1},
-                                {"type": "operation_metadata_equals", "key": "last_clone_destination", "value": "mobile-ui-lab"},
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_clone_depth",
+                                    "value": 1,
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_clone_destination",
+                                    "value": "mobile-ui-lab",
+                                },
                             ],
                         },
                     },
@@ -1184,22 +1703,47 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "label": "Shallow clone lab-notebook at review into notebook-review",
                         "context": "You need to review specific lab notebook entries on the review branch, but don't need the full commit history. Clone only the tip of the review branch into a folder named notebook-review.",
                         "initial_state": {
-                            "repository_initialized": False, "commits": [], "branches": {},
-                            "head": {"type": "branch", "name": "main"}, "working_tree": {}, "staging": {}, "conflicts": [],
+                            "repository_initialized": False,
+                            "commits": [],
+                            "branches": {},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {},
+                            "staging": {},
+                            "conflicts": [],
                             "remote_fixtures": {
-                                "url": "https://example.test/docs/lab-notebook.git", "default_branch": "main", "default_head": "r24", "head": "r32",
+                                "url": "https://example.test/docs/lab-notebook.git",
+                                "default_branch": "main",
+                                "default_head": "r24",
+                                "head": "r32",
                                 "branches": {"origin/main": "r24", "origin/review": "r32"},
-                                "tree": {"README.md": "notebook-readme-v2", "entries/day-1.md": "day1-v1", "entries/day-2.md": "day2-v1"},
+                                "tree": {
+                                    "README.md": "notebook-readme-v2",
+                                    "entries/day-1.md": "day1-v1",
+                                    "entries/day-2.md": "day2-v1",
+                                },
                             },
                         },
-                        "solution_commands": ["git clone --depth 1 --branch review https://example.test/docs/lab-notebook.git notebook-review"],
+                        "solution_commands": [
+                            "git clone --depth 1 --branch review https://example.test/docs/lab-notebook.git notebook-review"
+                        ],
                         "state_requirements": {
-                            "repository_initialized": True, "head_branch": "review",
-                            "remote_exists": ["origin"], "remote_branch_exists": ["origin/review"],
-                            "remote_branch_points_to": {"origin/review": "r32"}, "branch_points_to": {"review": "r32"},
+                            "repository_initialized": True,
+                            "head_branch": "review",
+                            "remote_exists": ["origin"],
+                            "remote_branch_exists": ["origin/review"],
+                            "remote_branch_points_to": {"origin/review": "r32"},
+                            "branch_points_to": {"review": "r32"},
                             "rules": [
-                                {"type": "operation_metadata_equals", "key": "last_clone_depth", "value": 1},
-                                {"type": "operation_metadata_equals", "key": "last_clone_destination", "value": "notebook-review"},
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_clone_depth",
+                                    "value": 1,
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_clone_destination",
+                                    "value": "notebook-review",
+                                },
                             ],
                         },
                     },
@@ -1208,19 +1752,42 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "label": "Clone research-log via SSH into research-log-lab",
                         "context": "You've configured SSH access and need a full clone of the research log repository. Clone it via SSH into a local folder named research-log-lab for offline analysis.",
                         "initial_state": {
-                            "repository_initialized": False, "commits": [], "branches": {},
-                            "head": {"type": "branch", "name": "main"}, "working_tree": {}, "staging": {}, "conflicts": [],
+                            "repository_initialized": False,
+                            "commits": [],
+                            "branches": {},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {},
+                            "staging": {},
+                            "conflicts": [],
                             "remote_fixtures": {
-                                "url": "git@example.test:docs/research-log.git", "default_branch": "main", "default_head": "r33", "head": "r34",
-                                "tree": {"README.md": "research-readme-v2", "notes/week-1.md": "week1-v1", "notes/week-2.md": "week2-v1"},
+                                "url": "git@example.test:docs/research-log.git",
+                                "default_branch": "main",
+                                "default_head": "r33",
+                                "head": "r34",
+                                "tree": {
+                                    "README.md": "research-readme-v2",
+                                    "notes/week-1.md": "week1-v1",
+                                    "notes/week-2.md": "week2-v1",
+                                },
                             },
                         },
-                        "solution_commands": ["git clone git@example.test:docs/research-log.git research-log-lab"],
+                        "solution_commands": [
+                            "git clone git@example.test:docs/research-log.git research-log-lab"
+                        ],
                         "state_requirements": {
-                            "repository_initialized": True, "head_branch": "main",
-                            "remote_exists": ["origin"], "remote_branch_exists": ["origin/main"],
-                            "remote_branch_points_to": {"origin/main": "r34"}, "branch_points_to": {"main": "r34"},
-                            "rules": [{"type": "operation_metadata_equals", "key": "last_clone_destination", "value": "research-log-lab"}],
+                            "repository_initialized": True,
+                            "head_branch": "main",
+                            "remote_exists": ["origin"],
+                            "remote_branch_exists": ["origin/main"],
+                            "remote_branch_points_to": {"origin/main": "r34"},
+                            "branch_points_to": {"main": "r34"},
+                            "rules": [
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_clone_destination",
+                                    "value": "research-log-lab",
+                                }
+                            ],
                         },
                     },
                 ],
@@ -1245,15 +1812,37 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "You've just initialized the library-system repo. You have three files ready: README.md, main.py, and requirements.txt. Your group lead says 'do the initial commit.'",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1", "styles/site.css": "style-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {"README.md": "readme-init-v1", "main.py": "main-init-v1", "requirements.txt": "reqs-init-v1"},
-                            "staging": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/app.py": "app-v1",
+                                        "styles/site.css": "style-v1",
+                                    },
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {
+                                "README.md": "readme-init-v1",
+                                "main.py": "main-init-v1",
+                                "requirements.txt": "reqs-init-v1",
+                            },
+                            "staging": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git add .", 'git commit -m "Initial commit"'],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Initial commit"], "contains_paths": ["README.md", "main.py", "requirements.txt"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Initial commit"],
+                                "contains_paths": ["README.md", "main.py", "requirements.txt"],
+                            },
                         },
                     },
                     {
@@ -1262,15 +1851,39 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "You added a new src/auth/ directory containing login.py and logout.py. Both are new files. Stage the entire directory and commit it as one focused snapshot.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1", "styles/site.css": "style-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {"src/auth/login.py": "login-v1", "src/auth/logout.py": "logout-v1"},
-                            "staging": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/app.py": "app-v1",
+                                        "styles/site.css": "style-v1",
+                                    },
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {
+                                "src/auth/login.py": "login-v1",
+                                "src/auth/logout.py": "logout-v1",
+                            },
+                            "staging": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git add src/auth/", 'git commit -m "Add auth module"'],
+                        "solution_commands": [
+                            "git add src/auth/",
+                            'git commit -m "Add auth module"',
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Add auth module"], "contains_paths": ["src/auth/login.py", "src/auth/logout.py"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Add auth module"],
+                                "contains_paths": ["src/auth/login.py", "src/auth/logout.py"],
+                            },
                         },
                     },
                     {
@@ -1279,14 +1892,36 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "You updated the form validation logic in src/form.js. It's the only file changed and it's ready to commit.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1", "styles/site.css": "style-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {"src/form.js": "form-validation-v2"}, "staging": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/app.py": "app-v1",
+                                        "styles/site.css": "style-v1",
+                                    },
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {"src/form.js": "form-validation-v2"},
+                            "staging": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git add src/form.js", 'git commit -m "Update form validation"'],
+                        "solution_commands": [
+                            "git add src/form.js",
+                            'git commit -m "Update form validation"',
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Update form validation"], "contains_paths": ["src/form.js"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Update form validation"],
+                                "contains_paths": ["src/form.js"],
+                            },
                         },
                     },
                     {
@@ -1295,14 +1930,36 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "You revised the README.md to make the setup instructions clearer. Stage it and commit with the required message.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1", "styles/site.css": "style-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {"README.md": "readme-setup-v2"}, "staging": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/app.py": "app-v1",
+                                        "styles/site.css": "style-v1",
+                                    },
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {"README.md": "readme-setup-v2"},
+                            "staging": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git add README.md", 'git commit --message "Clarify setup steps"'],
+                        "solution_commands": [
+                            "git add README.md",
+                            'git commit --message "Clarify setup steps"',
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Clarify setup steps"], "contains_paths": ["README.md"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Clarify setup steps"],
+                                "contains_paths": ["README.md"],
+                            },
                         },
                     },
                     {
@@ -1311,14 +1968,36 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "You tweaked the navbar spacing in styles/navbar.css to fix a visual alignment issue. Stage and commit just that one file.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1", "styles/site.css": "style-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {"styles/navbar.css": "navbar-spacing-v2"}, "staging": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/app.py": "app-v1",
+                                        "styles/site.css": "style-v1",
+                                    },
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {"styles/navbar.css": "navbar-spacing-v2"},
+                            "staging": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git add -A", 'git commit -m "Adjust navbar spacing"'],
+                        "solution_commands": [
+                            "git add -A",
+                            'git commit -m "Adjust navbar spacing"',
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Adjust navbar spacing"], "contains_paths": ["styles/navbar.css"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Adjust navbar spacing"],
+                                "contains_paths": ["styles/navbar.css"],
+                            },
                         },
                     },
                 ],
@@ -1335,14 +2014,39 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "You updated Dockerfile and .env.example as part of a container setup. Stage both files and commit them together as one focused snapshot.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1", "styles/site.css": "style-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {"Dockerfile": "dockerfile-v2", ".env.example": "env-example-v1"}, "staging": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/app.py": "app-v1",
+                                        "styles/site.css": "style-v1",
+                                    },
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {
+                                "Dockerfile": "dockerfile-v2",
+                                ".env.example": "env-example-v1",
+                            },
+                            "staging": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git add Dockerfile .env.example", 'git commit -m "Add Docker configuration"'],
+                        "solution_commands": [
+                            "git add Dockerfile .env.example",
+                            'git commit -m "Add Docker configuration"',
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Add Docker configuration"], "contains_paths": ["Dockerfile", ".env.example"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Add Docker configuration"],
+                                "contains_paths": ["Dockerfile", ".env.example"],
+                            },
                         },
                     },
                     {
@@ -1351,14 +2055,42 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "You redesigned the profile card component. Both the JavaScript logic and the CSS stylesheet are updated and ready to commit together.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1", "styles/site.css": "style-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {"src/profile-card.js": "profile-js-v2", "styles/profile-card.css": "profile-css-v2"}, "staging": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/app.py": "app-v1",
+                                        "styles/site.css": "style-v1",
+                                    },
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {
+                                "src/profile-card.js": "profile-js-v2",
+                                "styles/profile-card.css": "profile-css-v2",
+                            },
+                            "staging": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git add --all", 'git commit -m "Update profile card layout"'],
+                        "solution_commands": [
+                            "git add --all",
+                            'git commit -m "Update profile card layout"',
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Update profile card layout"], "contains_paths": ["src/profile-card.js", "styles/profile-card.css"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Update profile card layout"],
+                                "contains_paths": [
+                                    "src/profile-card.js",
+                                    "styles/profile-card.css",
+                                ],
+                            },
                         },
                     },
                     {
@@ -1367,14 +2099,39 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "You refined the search results view — the JavaScript handler and the HTML template both changed. Commit both files together with the required message.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1", "styles/site.css": "style-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {"src/search.js": "search-js-v2", "templates/search.html": "search-template-v2"}, "staging": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/app.py": "app-v1",
+                                        "styles/site.css": "style-v1",
+                                    },
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {
+                                "src/search.js": "search-js-v2",
+                                "templates/search.html": "search-template-v2",
+                            },
+                            "staging": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git add src/search.js templates/search.html", 'git commit --message "Refine search results view"'],
+                        "solution_commands": [
+                            "git add src/search.js templates/search.html",
+                            'git commit --message "Refine search results view"',
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Refine search results view"], "contains_paths": ["src/search.js", "templates/search.html"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Refine search results view"],
+                                "contains_paths": ["src/search.js", "templates/search.html"],
+                            },
                         },
                     },
                     {
@@ -1383,14 +2140,39 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "You updated the export module and rewrote the matching documentation to reflect the new behavior. Commit both the code and the docs as one snapshot.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1", "styles/site.css": "style-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {"src/export.py": "export-code-v2", "docs/export.md": "export-docs-v2"}, "staging": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/app.py": "app-v1",
+                                        "styles/site.css": "style-v1",
+                                    },
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {
+                                "src/export.py": "export-code-v2",
+                                "docs/export.md": "export-docs-v2",
+                            },
+                            "staging": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git add src/export.py docs/export.md", 'git commit -m "Document export flow update"'],
+                        "solution_commands": [
+                            "git add src/export.py docs/export.md",
+                            'git commit -m "Document export flow update"',
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Document export flow update"], "contains_paths": ["src/export.py", "docs/export.md"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Document export flow update"],
+                                "contains_paths": ["src/export.py", "docs/export.md"],
+                            },
                         },
                     },
                 ],
@@ -1407,14 +2189,35 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "You've been working on two things: a bug fix in api/handler.py and experimental work in api/experimental.py. Only the bug fix is ready. Stage handler.py and leave the experimental file out.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {"api/handler.py": "handler-bugfix-v2", "api/experimental.py": "experimental-wip-v1"}, "staging": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {
+                                "api/handler.py": "handler-bugfix-v2",
+                                "api/experimental.py": "experimental-wip-v1",
+                            },
+                            "staging": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git add api/handler.py", 'git commit -m "Fix request handler null check"'],
+                        "solution_commands": [
+                            "git add api/handler.py",
+                            'git commit -m "Fix request handler null check"',
+                        ],
                         "state_requirements": {
                             "head_branch": "main",
-                            "latest_commit": {"branch": "main", "message_contains": ["Fix request handler null check"], "contains_paths": ["api/handler.py"], "excludes_paths": ["api/experimental.py"]},
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Fix request handler null check"],
+                                "contains_paths": ["api/handler.py"],
+                                "excludes_paths": ["api/experimental.py"],
+                            },
                             "working_tree_contains": ["api/experimental.py"],
                         },
                     },
@@ -1424,20 +2227,36 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "You're preparing a PR for a new parser feature. The files ready to go are src/parser.py and tests/test_parser.py. A debug.log and scratch.py are also in the tree — keep them out of the commit.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
                             "working_tree": {
-                                "src/parser.py": "parser-v2", "tests/test_parser.py": "test-parser-v1",
-                                "debug.log": "debug-draft", "scratch.py": "scratch-draft",
+                                "src/parser.py": "parser-v2",
+                                "tests/test_parser.py": "test-parser-v1",
+                                "debug.log": "debug-draft",
+                                "scratch.py": "scratch-draft",
                             },
-                            "staging": {}, "conflicts": [],
+                            "staging": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git add src/parser.py tests/test_parser.py", 'git commit -m "Add parser module with unit tests"'],
+                        "solution_commands": [
+                            "git add src/parser.py tests/test_parser.py",
+                            'git commit -m "Add parser module with unit tests"',
+                        ],
                         "state_requirements": {
                             "head_branch": "main",
                             "latest_commit": {
-                                "branch": "main", "message_contains": ["Add parser module with unit tests"],
-                                "contains_paths": ["src/parser.py", "tests/test_parser.py"], "excludes_paths": ["debug.log", "scratch.py"],
+                                "branch": "main",
+                                "message_contains": ["Add parser module with unit tests"],
+                                "contains_paths": ["src/parser.py", "tests/test_parser.py"],
+                                "excludes_paths": ["debug.log", "scratch.py"],
                             },
                             "working_tree_contains": ["debug.log", "scratch.py"],
                         },
@@ -1448,14 +2267,35 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "You updated the profile card behavior in src/profile-card.js. You also have a notes/profile-ideas.md scratch file in the working tree — that's not ready and should stay out of the commit.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {"src/profile-card.js": "profile-js-v3", "notes/profile-ideas.md": "profile-notes-draft"}, "staging": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {
+                                "src/profile-card.js": "profile-js-v3",
+                                "notes/profile-ideas.md": "profile-notes-draft",
+                            },
+                            "staging": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git add src/profile-card.js", 'git commit -m "Update profile card behavior"'],
+                        "solution_commands": [
+                            "git add src/profile-card.js",
+                            'git commit -m "Update profile card behavior"',
+                        ],
                         "state_requirements": {
                             "head_branch": "main",
-                            "latest_commit": {"branch": "main", "message_contains": ["Update profile card behavior"], "contains_paths": ["src/profile-card.js"], "excludes_paths": ["notes/profile-ideas.md"]},
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Update profile card behavior"],
+                                "contains_paths": ["src/profile-card.js"],
+                                "excludes_paths": ["notes/profile-ideas.md"],
+                            },
                             "working_tree_contains": ["notes/profile-ideas.md"],
                         },
                     },
@@ -1465,14 +2305,35 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "You fixed the export validation logic in src/export.py. A scratch/export-test-output.txt file from your testing is also present — leave it uncommitted.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {"src/export.py": "export-code-v3", "scratch/export-test-output.txt": "export-output-draft"}, "staging": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {
+                                "src/export.py": "export-code-v3",
+                                "scratch/export-test-output.txt": "export-output-draft",
+                            },
+                            "staging": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git add src/export.py", 'git commit -m "Fix export validation"'],
+                        "solution_commands": [
+                            "git add src/export.py",
+                            'git commit -m "Fix export validation"',
+                        ],
                         "state_requirements": {
                             "head_branch": "main",
-                            "latest_commit": {"branch": "main", "message_contains": ["Fix export validation"], "contains_paths": ["src/export.py"], "excludes_paths": ["scratch/export-test-output.txt"]},
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Fix export validation"],
+                                "contains_paths": ["src/export.py"],
+                                "excludes_paths": ["scratch/export-test-output.txt"],
+                            },
                             "working_tree_contains": ["scratch/export-test-output.txt"],
                         },
                     },
@@ -1482,20 +2343,35 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "You refined the search ranking display — both src/search.js and templates/search.html are updated and ready. A notes/search-ranking.md scratch file is present but must stay out of this commit.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
                             "working_tree": {
-                                "src/search.js": "search-js-v3", "templates/search.html": "search-template-v3",
+                                "src/search.js": "search-js-v3",
+                                "templates/search.html": "search-template-v3",
                                 "notes/search-ranking.md": "search-notes-draft",
                             },
-                            "staging": {}, "conflicts": [],
+                            "staging": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git add src/search.js templates/search.html", 'git commit -m "Refine search ranking display"'],
+                        "solution_commands": [
+                            "git add src/search.js templates/search.html",
+                            'git commit -m "Refine search ranking display"',
+                        ],
                         "state_requirements": {
                             "head_branch": "main",
                             "latest_commit": {
-                                "branch": "main", "message_contains": ["Refine search ranking display"],
-                                "contains_paths": ["src/search.js", "templates/search.html"], "excludes_paths": ["notes/search-ranking.md"],
+                                "branch": "main",
+                                "message_contains": ["Refine search ranking display"],
+                                "contains_paths": ["src/search.js", "templates/search.html"],
+                                "excludes_paths": ["notes/search-ranking.md"],
                             },
                             "working_tree_contains": ["notes/search-ranking.md"],
                         },
@@ -1522,16 +2398,43 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "You modified billing.py. The file has two changed sections: a rounding fix at the top and some experimental print statements at the bottom. Your client is waiting on the fix only — stage just that hunk.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {"src/billing.py": {"status": "modified", "hunks": ["billing-fix-hunk", "billing-experimental-hunk"]}},
-                            "staging": {}, "conflicts": [],
-                            "partial_hunks": {"src/billing.py": {"target_hunks": ["billing-fix-hunk"], "leftover_hunks": ["billing-experimental-hunk"]}},
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {
+                                "src/billing.py": {
+                                    "status": "modified",
+                                    "hunks": ["billing-fix-hunk", "billing-experimental-hunk"],
+                                }
+                            },
+                            "staging": {},
+                            "conflicts": [],
+                            "partial_hunks": {
+                                "src/billing.py": {
+                                    "target_hunks": ["billing-fix-hunk"],
+                                    "leftover_hunks": ["billing-experimental-hunk"],
+                                }
+                            },
                         },
-                        "solution_commands": ["git add -p src/billing.py", 'git commit -m "Fix billing calculation rounding error"'],
+                        "solution_commands": [
+                            "git add -p src/billing.py",
+                            'git commit -m "Fix billing calculation rounding error"',
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Fix billing calculation rounding error"], "contains_paths": ["src/billing.py"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Fix billing calculation rounding error"],
+                                "contains_paths": ["src/billing.py"],
+                            },
                             "working_tree_contains": ["src/billing.py"],
                         },
                     },
@@ -1541,16 +2444,43 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "src/routes.py has two changed sections: updated route handlers (ready to commit) and a commented-out experimental auth middleware section (skip this for now). Use partial staging to commit only the handler update.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {"src/routes.py": {"status": "modified", "hunks": ["routes-handler-hunk", "routes-experimental-hunk"]}},
-                            "staging": {}, "conflicts": [],
-                            "partial_hunks": {"src/routes.py": {"target_hunks": ["routes-handler-hunk"], "leftover_hunks": ["routes-experimental-hunk"]}},
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {
+                                "src/routes.py": {
+                                    "status": "modified",
+                                    "hunks": ["routes-handler-hunk", "routes-experimental-hunk"],
+                                }
+                            },
+                            "staging": {},
+                            "conflicts": [],
+                            "partial_hunks": {
+                                "src/routes.py": {
+                                    "target_hunks": ["routes-handler-hunk"],
+                                    "leftover_hunks": ["routes-experimental-hunk"],
+                                }
+                            },
                         },
-                        "solution_commands": ["git add -p src/routes.py", 'git commit -m "Update API route handlers"'],
+                        "solution_commands": [
+                            "git add -p src/routes.py",
+                            'git commit -m "Update API route handlers"',
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Update API route handlers"], "contains_paths": ["src/routes.py"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Update API route handlers"],
+                                "contains_paths": ["src/routes.py"],
+                            },
                             "working_tree_contains": ["src/routes.py"],
                         },
                     },
@@ -1560,16 +2490,43 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "src/auth.py has two hunks: a validation fix that's ready and a larger refactor that's still in progress. Stage only the validation fix and leave the refactor in the working tree.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {"src/auth.py": {"status": "modified", "hunks": ["auth-validation-hunk", "auth-refactor-hunk"]}},
-                            "staging": {}, "conflicts": [],
-                            "partial_hunks": {"src/auth.py": {"target_hunks": ["auth-validation-hunk"], "leftover_hunks": ["auth-refactor-hunk"]}},
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {
+                                "src/auth.py": {
+                                    "status": "modified",
+                                    "hunks": ["auth-validation-hunk", "auth-refactor-hunk"],
+                                }
+                            },
+                            "staging": {},
+                            "conflicts": [],
+                            "partial_hunks": {
+                                "src/auth.py": {
+                                    "target_hunks": ["auth-validation-hunk"],
+                                    "leftover_hunks": ["auth-refactor-hunk"],
+                                }
+                            },
                         },
-                        "solution_commands": ["git add -p src/auth.py", 'git commit -m "Isolate auth validation"'],
+                        "solution_commands": [
+                            "git add -p src/auth.py",
+                            'git commit -m "Isolate auth validation"',
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Isolate auth validation"], "contains_paths": ["src/auth.py"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Isolate auth validation"],
+                                "contains_paths": ["src/auth.py"],
+                            },
                             "working_tree_contains": ["src/auth.py"],
                         },
                     },
@@ -1579,16 +2536,43 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "src/search.py has two hunks: a ranking algorithm fix (ready) and some cleanup refactoring (not ready). Commit only the ranking fix.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {"src/search.py": {"status": "modified", "hunks": ["search-ranking-hunk", "search-cleanup-hunk"]}},
-                            "staging": {}, "conflicts": [],
-                            "partial_hunks": {"src/search.py": {"target_hunks": ["search-ranking-hunk"], "leftover_hunks": ["search-cleanup-hunk"]}},
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {
+                                "src/search.py": {
+                                    "status": "modified",
+                                    "hunks": ["search-ranking-hunk", "search-cleanup-hunk"],
+                                }
+                            },
+                            "staging": {},
+                            "conflicts": [],
+                            "partial_hunks": {
+                                "src/search.py": {
+                                    "target_hunks": ["search-ranking-hunk"],
+                                    "leftover_hunks": ["search-cleanup-hunk"],
+                                }
+                            },
                         },
-                        "solution_commands": ["git add -p src/search.py", 'git commit -m "Isolate search ranking"'],
+                        "solution_commands": [
+                            "git add -p src/search.py",
+                            'git commit -m "Isolate search ranking"',
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Isolate search ranking"], "contains_paths": ["src/search.py"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Isolate search ranking"],
+                                "contains_paths": ["src/search.py"],
+                            },
                             "working_tree_contains": ["src/search.py"],
                         },
                     },
@@ -1598,16 +2582,43 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "src/export.py has two changed sections: a formatting fix (stage this) and some added logging statements (leave these out for now). Use git add -p to commit only the formatting change.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {"src/export.py": {"status": "modified", "hunks": ["export-format-hunk", "export-logging-hunk"]}},
-                            "staging": {}, "conflicts": [],
-                            "partial_hunks": {"src/export.py": {"target_hunks": ["export-format-hunk"], "leftover_hunks": ["export-logging-hunk"]}},
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {
+                                "src/export.py": {
+                                    "status": "modified",
+                                    "hunks": ["export-format-hunk", "export-logging-hunk"],
+                                }
+                            },
+                            "staging": {},
+                            "conflicts": [],
+                            "partial_hunks": {
+                                "src/export.py": {
+                                    "target_hunks": ["export-format-hunk"],
+                                    "leftover_hunks": ["export-logging-hunk"],
+                                }
+                            },
                         },
-                        "solution_commands": ["git add -p src/export.py", 'git commit -m "Isolate export formatting"'],
+                        "solution_commands": [
+                            "git add -p src/export.py",
+                            'git commit -m "Isolate export formatting"',
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Isolate export formatting"], "contains_paths": ["src/export.py"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Isolate export formatting"],
+                                "contains_paths": ["src/export.py"],
+                            },
                             "working_tree_contains": ["src/export.py"],
                         },
                     },
@@ -1625,16 +2636,50 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "src/parser.py has three hunks: a bug fix (stage), a refactor (skip — not ready), and an experimental section (skip). Use partial staging to commit only the bug fix.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {"src/parser.py": {"status": "modified", "hunks": ["parser-bugfix-hunk", "parser-refactor-hunk", "parser-experimental-hunk"]}},
-                            "staging": {}, "conflicts": [],
-                            "partial_hunks": {"src/parser.py": {"target_hunks": ["parser-bugfix-hunk"], "leftover_hunks": ["parser-refactor-hunk", "parser-experimental-hunk"]}},
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {
+                                "src/parser.py": {
+                                    "status": "modified",
+                                    "hunks": [
+                                        "parser-bugfix-hunk",
+                                        "parser-refactor-hunk",
+                                        "parser-experimental-hunk",
+                                    ],
+                                }
+                            },
+                            "staging": {},
+                            "conflicts": [],
+                            "partial_hunks": {
+                                "src/parser.py": {
+                                    "target_hunks": ["parser-bugfix-hunk"],
+                                    "leftover_hunks": [
+                                        "parser-refactor-hunk",
+                                        "parser-experimental-hunk",
+                                    ],
+                                }
+                            },
                         },
-                        "solution_commands": ["git add -p src/parser.py", 'git commit -m "Fix parser bug and refactor token handling"'],
+                        "solution_commands": [
+                            "git add -p src/parser.py",
+                            'git commit -m "Fix parser bug and refactor token handling"',
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Fix parser bug and refactor token handling"], "contains_paths": ["src/parser.py"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Fix parser bug and refactor token handling"],
+                                "contains_paths": ["src/parser.py"],
+                            },
                             "working_tree_contains": ["src/parser.py"],
                         },
                     },
@@ -1644,19 +2689,49 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "src/profile.py has three changed sections: a validation fix (stage), a copy update (skip), and a cleanup block (skip). A notes/profile-todo.md file is also present — leave it out. Stage only the validation fix.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
                             "working_tree": {
-                                "src/profile.py": {"status": "modified", "hunks": ["profile-validation-hunk", "profile-copy-hunk", "profile-cleanup-hunk"]},
+                                "src/profile.py": {
+                                    "status": "modified",
+                                    "hunks": [
+                                        "profile-validation-hunk",
+                                        "profile-copy-hunk",
+                                        "profile-cleanup-hunk",
+                                    ],
+                                },
                                 "notes/profile-todo.md": "profile-todo-draft",
                             },
-                            "staging": {}, "conflicts": [],
-                            "partial_hunks": {"src/profile.py": {"target_hunks": ["profile-validation-hunk"], "leftover_hunks": ["profile-copy-hunk", "profile-cleanup-hunk"]}},
+                            "staging": {},
+                            "conflicts": [],
+                            "partial_hunks": {
+                                "src/profile.py": {
+                                    "target_hunks": ["profile-validation-hunk"],
+                                    "leftover_hunks": ["profile-copy-hunk", "profile-cleanup-hunk"],
+                                }
+                            },
                         },
-                        "solution_commands": ["git add -p src/profile.py", 'git commit -m "Commit profile validation only"'],
+                        "solution_commands": [
+                            "git add -p src/profile.py",
+                            'git commit -m "Commit profile validation only"',
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Commit profile validation only"], "contains_paths": ["src/profile.py"], "excludes_paths": ["notes/profile-todo.md"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Commit profile validation only"],
+                                "contains_paths": ["src/profile.py"],
+                                "excludes_paths": ["notes/profile-todo.md"],
+                            },
                             "working_tree_contains": ["src/profile.py", "notes/profile-todo.md"],
                         },
                     },
@@ -1666,19 +2741,52 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "src/payment.py has three changed sections: a rounding fix (stage), added logging (skip), and a comment update (skip). A tmp/payment-scratch.txt file is also in the working tree. Commit only the rounding fix.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
                             "working_tree": {
-                                "src/payment.py": {"status": "modified", "hunks": ["payment-rounding-hunk", "payment-logging-hunk", "payment-comment-hunk"]},
+                                "src/payment.py": {
+                                    "status": "modified",
+                                    "hunks": [
+                                        "payment-rounding-hunk",
+                                        "payment-logging-hunk",
+                                        "payment-comment-hunk",
+                                    ],
+                                },
                                 "tmp/payment-scratch.txt": "payment-scratch-draft",
                             },
-                            "staging": {}, "conflicts": [],
-                            "partial_hunks": {"src/payment.py": {"target_hunks": ["payment-rounding-hunk"], "leftover_hunks": ["payment-logging-hunk", "payment-comment-hunk"]}},
+                            "staging": {},
+                            "conflicts": [],
+                            "partial_hunks": {
+                                "src/payment.py": {
+                                    "target_hunks": ["payment-rounding-hunk"],
+                                    "leftover_hunks": [
+                                        "payment-logging-hunk",
+                                        "payment-comment-hunk",
+                                    ],
+                                }
+                            },
                         },
-                        "solution_commands": ["git add -p src/payment.py", 'git commit -m "Commit payment rounding fix"'],
+                        "solution_commands": [
+                            "git add -p src/payment.py",
+                            'git commit -m "Commit payment rounding fix"',
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Commit payment rounding fix"], "contains_paths": ["src/payment.py"], "excludes_paths": ["tmp/payment-scratch.txt"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Commit payment rounding fix"],
+                                "contains_paths": ["src/payment.py"],
+                                "excludes_paths": ["tmp/payment-scratch.txt"],
+                            },
                             "working_tree_contains": ["src/payment.py", "tmp/payment-scratch.txt"],
                         },
                     },
@@ -1688,20 +2796,56 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "src/dashboard.js has three hunks: a filter logic fix (stage), a theme update (skip), and some console.log statements (skip). A notes/dashboard-ideas.md is also present. Stage only the filter change.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
                             "working_tree": {
-                                "src/dashboard.js": {"status": "modified", "hunks": ["dashboard-filter-hunk", "dashboard-theme-hunk", "dashboard-console-hunk"]},
+                                "src/dashboard.js": {
+                                    "status": "modified",
+                                    "hunks": [
+                                        "dashboard-filter-hunk",
+                                        "dashboard-theme-hunk",
+                                        "dashboard-console-hunk",
+                                    ],
+                                },
                                 "notes/dashboard-ideas.md": "dashboard-ideas-draft",
                             },
-                            "staging": {}, "conflicts": [],
-                            "partial_hunks": {"src/dashboard.js": {"target_hunks": ["dashboard-filter-hunk"], "leftover_hunks": ["dashboard-theme-hunk", "dashboard-console-hunk"]}},
+                            "staging": {},
+                            "conflicts": [],
+                            "partial_hunks": {
+                                "src/dashboard.js": {
+                                    "target_hunks": ["dashboard-filter-hunk"],
+                                    "leftover_hunks": [
+                                        "dashboard-theme-hunk",
+                                        "dashboard-console-hunk",
+                                    ],
+                                }
+                            },
                         },
-                        "solution_commands": ["git add -p src/dashboard.js", 'git commit -m "Commit dashboard filter change"'],
+                        "solution_commands": [
+                            "git add -p src/dashboard.js",
+                            'git commit -m "Commit dashboard filter change"',
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Commit dashboard filter change"], "contains_paths": ["src/dashboard.js"], "excludes_paths": ["notes/dashboard-ideas.md"]},
-                            "working_tree_contains": ["src/dashboard.js", "notes/dashboard-ideas.md"],
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Commit dashboard filter change"],
+                                "contains_paths": ["src/dashboard.js"],
+                                "excludes_paths": ["notes/dashboard-ideas.md"],
+                            },
+                            "working_tree_contains": [
+                                "src/dashboard.js",
+                                "notes/dashboard-ideas.md",
+                            ],
                         },
                     },
                 ],
@@ -1718,19 +2862,48 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "terraform/main.tf has two hunks: network configuration (stage) and experimental feature flags (skip). A terraform/debug.txt file is also in the workspace. Stage only the network hunk and leave everything else behind.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
                             "working_tree": {
-                                "terraform/main.tf": {"status": "modified", "hunks": ["terraform-network-hunk", "terraform-experimental-hunk"]},
+                                "terraform/main.tf": {
+                                    "status": "modified",
+                                    "hunks": [
+                                        "terraform-network-hunk",
+                                        "terraform-experimental-hunk",
+                                    ],
+                                },
                                 "terraform/debug.txt": "terraform-debug-draft",
                             },
-                            "staging": {}, "conflicts": [],
-                            "partial_hunks": {"terraform/main.tf": {"target_hunks": ["terraform-network-hunk"], "leftover_hunks": ["terraform-experimental-hunk"]}},
+                            "staging": {},
+                            "conflicts": [],
+                            "partial_hunks": {
+                                "terraform/main.tf": {
+                                    "target_hunks": ["terraform-network-hunk"],
+                                    "leftover_hunks": ["terraform-experimental-hunk"],
+                                }
+                            },
                         },
-                        "solution_commands": ["git add -p terraform/main.tf", 'git commit -m "Update network Terraform configuration"'],
+                        "solution_commands": [
+                            "git add -p terraform/main.tf",
+                            'git commit -m "Update network Terraform configuration"',
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Update network Terraform configuration"], "contains_paths": ["terraform/main.tf"], "excludes_paths": ["terraform/debug.txt"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Update network Terraform configuration"],
+                                "contains_paths": ["terraform/main.tf"],
+                                "excludes_paths": ["terraform/debug.txt"],
+                            },
                             "working_tree_contains": ["terraform/main.tf", "terraform/debug.txt"],
                         },
                     },
@@ -1740,27 +2913,62 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "Two files are modified: src/auth.py (validation fix hunk to stage, refactor hunk to skip) and tests/test_auth.py (validation test hunk to stage, test cleanup hunk to skip). A notes/auth-debug.md is also present. Stage only the validation path across both files.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
                             "working_tree": {
-                                "src/auth.py": {"status": "modified", "hunks": ["auth-validation-hunk", "auth-refactor-hunk"]},
-                                "tests/test_auth.py": {"status": "modified", "hunks": ["auth-validation-test-hunk", "auth-test-cleanup-hunk"]},
+                                "src/auth.py": {
+                                    "status": "modified",
+                                    "hunks": ["auth-validation-hunk", "auth-refactor-hunk"],
+                                },
+                                "tests/test_auth.py": {
+                                    "status": "modified",
+                                    "hunks": [
+                                        "auth-validation-test-hunk",
+                                        "auth-test-cleanup-hunk",
+                                    ],
+                                },
                                 "notes/auth-debug.md": "auth-debug-draft",
                             },
-                            "staging": {}, "conflicts": [],
+                            "staging": {},
+                            "conflicts": [],
                             "partial_hunks": {
-                                "src/auth.py": {"target_hunks": ["auth-validation-hunk"], "leftover_hunks": ["auth-refactor-hunk"]},
-                                "tests/test_auth.py": {"target_hunks": ["auth-validation-test-hunk"], "leftover_hunks": ["auth-test-cleanup-hunk"]},
+                                "src/auth.py": {
+                                    "target_hunks": ["auth-validation-hunk"],
+                                    "leftover_hunks": ["auth-refactor-hunk"],
+                                },
+                                "tests/test_auth.py": {
+                                    "target_hunks": ["auth-validation-test-hunk"],
+                                    "leftover_hunks": ["auth-test-cleanup-hunk"],
+                                },
                             },
                         },
-                        "solution_commands": ["git add -p src/auth.py", "git add -p tests/test_auth.py", 'git commit -m "Commit auth validation path"'],
+                        "solution_commands": [
+                            "git add -p src/auth.py",
+                            "git add -p tests/test_auth.py",
+                            'git commit -m "Commit auth validation path"',
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True,
+                            "head_branch": "main",
+                            "staging_empty": True,
                             "latest_commit": {
-                                "branch": "main", "message_contains": ["Commit auth validation path"],
-                                "contains_paths": ["src/auth.py", "tests/test_auth.py"], "excludes_paths": ["notes/auth-debug.md"],
+                                "branch": "main",
+                                "message_contains": ["Commit auth validation path"],
+                                "contains_paths": ["src/auth.py", "tests/test_auth.py"],
+                                "excludes_paths": ["notes/auth-debug.md"],
                             },
-                            "working_tree_contains": ["src/auth.py", "tests/test_auth.py", "notes/auth-debug.md"],
+                            "working_tree_contains": [
+                                "src/auth.py",
+                                "tests/test_auth.py",
+                                "notes/auth-debug.md",
+                            ],
                         },
                     },
                     {
@@ -1769,27 +2977,62 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "Two files are modified: src/search.py (ranking fix to stage, cleanup to skip) and tests/test_search.py (ranking test to stage, fixture cleanup to skip). A tmp/search-output.txt is also present. Stage only the ranking change across both files.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
                             "working_tree": {
-                                "src/search.py": {"status": "modified", "hunks": ["search-ranking-hunk", "search-cleanup-hunk"]},
-                                "tests/test_search.py": {"status": "modified", "hunks": ["search-ranking-test-hunk", "search-test-fixture-hunk"]},
+                                "src/search.py": {
+                                    "status": "modified",
+                                    "hunks": ["search-ranking-hunk", "search-cleanup-hunk"],
+                                },
+                                "tests/test_search.py": {
+                                    "status": "modified",
+                                    "hunks": [
+                                        "search-ranking-test-hunk",
+                                        "search-test-fixture-hunk",
+                                    ],
+                                },
                                 "tmp/search-output.txt": "search-output-draft",
                             },
-                            "staging": {}, "conflicts": [],
+                            "staging": {},
+                            "conflicts": [],
                             "partial_hunks": {
-                                "src/search.py": {"target_hunks": ["search-ranking-hunk"], "leftover_hunks": ["search-cleanup-hunk"]},
-                                "tests/test_search.py": {"target_hunks": ["search-ranking-test-hunk"], "leftover_hunks": ["search-test-fixture-hunk"]},
+                                "src/search.py": {
+                                    "target_hunks": ["search-ranking-hunk"],
+                                    "leftover_hunks": ["search-cleanup-hunk"],
+                                },
+                                "tests/test_search.py": {
+                                    "target_hunks": ["search-ranking-test-hunk"],
+                                    "leftover_hunks": ["search-test-fixture-hunk"],
+                                },
                             },
                         },
-                        "solution_commands": ["git add -p src/search.py", "git add -p tests/test_search.py", 'git commit -m "Commit search ranking path"'],
+                        "solution_commands": [
+                            "git add -p src/search.py",
+                            "git add -p tests/test_search.py",
+                            'git commit -m "Commit search ranking path"',
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True,
+                            "head_branch": "main",
+                            "staging_empty": True,
                             "latest_commit": {
-                                "branch": "main", "message_contains": ["Commit search ranking path"],
-                                "contains_paths": ["src/search.py", "tests/test_search.py"], "excludes_paths": ["tmp/search-output.txt"],
+                                "branch": "main",
+                                "message_contains": ["Commit search ranking path"],
+                                "contains_paths": ["src/search.py", "tests/test_search.py"],
+                                "excludes_paths": ["tmp/search-output.txt"],
                             },
-                            "working_tree_contains": ["src/search.py", "tests/test_search.py", "tmp/search-output.txt"],
+                            "working_tree_contains": [
+                                "src/search.py",
+                                "tests/test_search.py",
+                                "tmp/search-output.txt",
+                            ],
                         },
                     },
                     {
@@ -1798,27 +3041,62 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "Two files are modified: src/export.py (formatting fix to stage, logging additions to skip) and tests/test_export.py (formatting test to stage, test cleanup to skip). A notes/export-followup.md is also present. Stage only the formatting path.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
                             "working_tree": {
-                                "src/export.py": {"status": "modified", "hunks": ["export-format-hunk", "export-logging-hunk"]},
-                                "tests/test_export.py": {"status": "modified", "hunks": ["export-format-test-hunk", "export-test-cleanup-hunk"]},
+                                "src/export.py": {
+                                    "status": "modified",
+                                    "hunks": ["export-format-hunk", "export-logging-hunk"],
+                                },
+                                "tests/test_export.py": {
+                                    "status": "modified",
+                                    "hunks": [
+                                        "export-format-test-hunk",
+                                        "export-test-cleanup-hunk",
+                                    ],
+                                },
                                 "notes/export-followup.md": "export-followup-draft",
                             },
-                            "staging": {}, "conflicts": [],
+                            "staging": {},
+                            "conflicts": [],
                             "partial_hunks": {
-                                "src/export.py": {"target_hunks": ["export-format-hunk"], "leftover_hunks": ["export-logging-hunk"]},
-                                "tests/test_export.py": {"target_hunks": ["export-format-test-hunk"], "leftover_hunks": ["export-test-cleanup-hunk"]},
+                                "src/export.py": {
+                                    "target_hunks": ["export-format-hunk"],
+                                    "leftover_hunks": ["export-logging-hunk"],
+                                },
+                                "tests/test_export.py": {
+                                    "target_hunks": ["export-format-test-hunk"],
+                                    "leftover_hunks": ["export-test-cleanup-hunk"],
+                                },
                             },
                         },
-                        "solution_commands": ["git add -p src/export.py", "git add -p tests/test_export.py", 'git commit -m "Commit export formatting path"'],
+                        "solution_commands": [
+                            "git add -p src/export.py",
+                            "git add -p tests/test_export.py",
+                            'git commit -m "Commit export formatting path"',
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True,
+                            "head_branch": "main",
+                            "staging_empty": True,
                             "latest_commit": {
-                                "branch": "main", "message_contains": ["Commit export formatting path"],
-                                "contains_paths": ["src/export.py", "tests/test_export.py"], "excludes_paths": ["notes/export-followup.md"],
+                                "branch": "main",
+                                "message_contains": ["Commit export formatting path"],
+                                "contains_paths": ["src/export.py", "tests/test_export.py"],
+                                "excludes_paths": ["notes/export-followup.md"],
                             },
-                            "working_tree_contains": ["src/export.py", "tests/test_export.py", "notes/export-followup.md"],
+                            "working_tree_contains": [
+                                "src/export.py",
+                                "tests/test_export.py",
+                                "notes/export-followup.md",
+                            ],
                         },
                     },
                 ],
@@ -1844,18 +3122,44 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Initiall commit", "parents": ["c1"], "tree": {"README.md": "readme-v1", "main.py": "main.py-committed-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Initiall commit",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "main.py": "main.py-committed-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"main": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {}, "staging": {}, "conflicts": [],
+                            "branches": {"main": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {},
+                            "staging": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ['git commit --amend -m "Initial commit"'],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True, "working_tree_clean": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Initial commit"], "contains_paths": ["main.py"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Initial commit"],
+                                "contains_paths": ["main.py"],
+                            },
                             "rules": [
-                                {"type": "operation_metadata_equals", "key": "last_amend_replaced_commit", "value": "c2"},
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_amend_replaced_commit",
+                                    "value": "c2",
+                                },
                                 {"type": "branch_tip_replaces_commit", "old": "c2"},
                                 {"type": "commit_replaced_by_amend", "old": "c2"},
                             ],
@@ -1868,18 +3172,47 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Add auth module", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/login.py": "src/login.py-committed-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Add auth module",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/login.py": "src/login.py-committed-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"main": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {"src/logout.py": "logout-v1"}, "staging": {}, "conflicts": [],
+                            "branches": {"main": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {"src/logout.py": "logout-v1"},
+                            "staging": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git add src/logout.py", 'git commit --amend -m "Add auth module"'],
+                        "solution_commands": [
+                            "git add src/logout.py",
+                            'git commit --amend -m "Add auth module"',
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True, "working_tree_clean": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Add auth module"], "contains_paths": ["src/login.py", "src/logout.py"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Add auth module"],
+                                "contains_paths": ["src/login.py", "src/logout.py"],
+                            },
                             "rules": [
-                                {"type": "operation_metadata_equals", "key": "last_amend_replaced_commit", "value": "c2"},
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_amend_replaced_commit",
+                                    "value": "c2",
+                                },
                                 {"type": "branch_tip_replaces_commit", "old": "c2"},
                                 {"type": "commit_replaced_by_amend", "old": "c2"},
                             ],
@@ -1892,18 +3225,44 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Update text", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/login.js": "src/login.js-committed-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Update text",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/login.js": "src/login.js-committed-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"main": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {}, "staging": {}, "conflicts": [],
+                            "branches": {"main": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {},
+                            "staging": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ['git commit --amend -m "Clarify login copy"'],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True, "working_tree_clean": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Clarify login copy"], "contains_paths": ["src/login.js"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Clarify login copy"],
+                                "contains_paths": ["src/login.js"],
+                            },
                             "rules": [
-                                {"type": "operation_metadata_equals", "key": "last_amend_replaced_commit", "value": "c2"},
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_amend_replaced_commit",
+                                    "value": "c2",
+                                },
                                 {"type": "branch_tip_replaces_commit", "old": "c2"},
                                 {"type": "commit_replaced_by_amend", "old": "c2"},
                             ],
@@ -1916,18 +3275,41 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Update README", "parents": ["c1"], "tree": {"README.md": "README.md-committed-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Update README",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "README.md-committed-v1"},
+                                },
                             ],
-                            "branches": {"main": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {}, "staging": {}, "conflicts": [],
+                            "branches": {"main": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {},
+                            "staging": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ['git commit --amend -m "Clarify setup requirements"'],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True, "working_tree_clean": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Clarify setup requirements"], "contains_paths": ["README.md"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Clarify setup requirements"],
+                                "contains_paths": ["README.md"],
+                            },
                             "rules": [
-                                {"type": "operation_metadata_equals", "key": "last_amend_replaced_commit", "value": "c2"},
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_amend_replaced_commit",
+                                    "value": "c2",
+                                },
                                 {"type": "branch_tip_replaces_commit", "old": "c2"},
                                 {"type": "commit_replaced_by_amend", "old": "c2"},
                             ],
@@ -1940,18 +3322,44 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "CSS updates", "parents": ["c1"], "tree": {"README.md": "readme-v1", "styles/navbar.css": "styles/navbar.css-committed-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "CSS updates",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "styles/navbar.css": "styles/navbar.css-committed-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"main": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {}, "staging": {}, "conflicts": [],
+                            "branches": {"main": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {},
+                            "staging": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ['git commit --amend -m "Adjust navbar spacing"'],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True, "working_tree_clean": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Adjust navbar spacing"], "contains_paths": ["styles/navbar.css"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Adjust navbar spacing"],
+                                "contains_paths": ["styles/navbar.css"],
+                            },
                             "rules": [
-                                {"type": "operation_metadata_equals", "key": "last_amend_replaced_commit", "value": "c2"},
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_amend_replaced_commit",
+                                    "value": "c2",
+                                },
                                 {"type": "branch_tip_replaces_commit", "old": "c2"},
                                 {"type": "commit_replaced_by_amend", "old": "c2"},
                             ],
@@ -1972,18 +3380,47 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "update stuff", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/parser.py": "src/parser.py-committed-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "update stuff",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/parser.py": "src/parser.py-committed-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"main": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {"docs/CHANGELOG.md": "changelog-v2"}, "staging": {}, "conflicts": [],
+                            "branches": {"main": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {"docs/CHANGELOG.md": "changelog-v2"},
+                            "staging": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git add docs/CHANGELOG.md", 'git commit --amend -m "Add parser feature and update changelog"'],
+                        "solution_commands": [
+                            "git add docs/CHANGELOG.md",
+                            'git commit --amend -m "Add parser feature and update changelog"',
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True, "working_tree_clean": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Add parser feature and update changelog"], "contains_paths": ["src/parser.py", "docs/CHANGELOG.md"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Add parser feature and update changelog"],
+                                "contains_paths": ["src/parser.py", "docs/CHANGELOG.md"],
+                            },
                             "rules": [
-                                {"type": "operation_metadata_equals", "key": "last_amend_replaced_commit", "value": "c2"},
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_amend_replaced_commit",
+                                    "value": "c2",
+                                },
                                 {"type": "branch_tip_replaces_commit", "old": "c2"},
                                 {"type": "commit_replaced_by_amend", "old": "c2"},
                             ],
@@ -1996,18 +3433,50 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Update profile card layout", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/profile-card.js": "src/profile-card.js-committed-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Update profile card layout",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/profile-card.js": "src/profile-card.js-committed-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"main": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {"styles/profile-card.css": "profile-css-v2"}, "staging": {}, "conflicts": [],
+                            "branches": {"main": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {"styles/profile-card.css": "profile-css-v2"},
+                            "staging": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git add styles/profile-card.css", 'git commit --amend -m "Update profile card layout"'],
+                        "solution_commands": [
+                            "git add styles/profile-card.css",
+                            'git commit --amend -m "Update profile card layout"',
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True, "working_tree_clean": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Update profile card layout"], "contains_paths": ["src/profile-card.js", "styles/profile-card.css"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Update profile card layout"],
+                                "contains_paths": [
+                                    "src/profile-card.js",
+                                    "styles/profile-card.css",
+                                ],
+                            },
                             "rules": [
-                                {"type": "operation_metadata_equals", "key": "last_amend_replaced_commit", "value": "c2"},
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_amend_replaced_commit",
+                                    "value": "c2",
+                                },
                                 {"type": "branch_tip_replaces_commit", "old": "c2"},
                                 {"type": "commit_replaced_by_amend", "old": "c2"},
                             ],
@@ -2020,18 +3489,47 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Document export flow update", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/export.py": "src/export.py-committed-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Document export flow update",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/export.py": "src/export.py-committed-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"main": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {"docs/export.md": "export-docs-v2"}, "staging": {}, "conflicts": [],
+                            "branches": {"main": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {"docs/export.md": "export-docs-v2"},
+                            "staging": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git add docs/export.md", 'git commit --amend -m "Document export flow update"'],
+                        "solution_commands": [
+                            "git add docs/export.md",
+                            'git commit --amend -m "Document export flow update"',
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True, "working_tree_clean": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Document export flow update"], "contains_paths": ["src/export.py", "docs/export.md"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Document export flow update"],
+                                "contains_paths": ["src/export.py", "docs/export.md"],
+                            },
                             "rules": [
-                                {"type": "operation_metadata_equals", "key": "last_amend_replaced_commit", "value": "c2"},
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_amend_replaced_commit",
+                                    "value": "c2",
+                                },
                                 {"type": "branch_tip_replaces_commit", "old": "c2"},
                                 {"type": "commit_replaced_by_amend", "old": "c2"},
                             ],
@@ -2044,18 +3542,47 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Refine search results view", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/search.js": "src/search.js-committed-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Refine search results view",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/search.js": "src/search.js-committed-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"main": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {"templates/search.html": "search-template-v2"}, "staging": {}, "conflicts": [],
+                            "branches": {"main": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {"templates/search.html": "search-template-v2"},
+                            "staging": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git add templates/search.html", 'git commit --amend -m "Refine search results view"'],
+                        "solution_commands": [
+                            "git add templates/search.html",
+                            'git commit --amend -m "Refine search results view"',
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True, "working_tree_clean": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Refine search results view"], "contains_paths": ["src/search.js", "templates/search.html"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Refine search results view"],
+                                "contains_paths": ["src/search.js", "templates/search.html"],
+                            },
                             "rules": [
-                                {"type": "operation_metadata_equals", "key": "last_amend_replaced_commit", "value": "c2"},
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_amend_replaced_commit",
+                                    "value": "c2",
+                                },
                                 {"type": "branch_tip_replaces_commit", "old": "c2"},
                                 {"type": "commit_replaced_by_amend", "old": "c2"},
                             ],
@@ -2076,18 +3603,48 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "terraform configs have been updated for staging env", "parents": ["c1"], "tree": {"README.md": "readme-v1", "terraform/staging.tf": "terraform/staging.tf-committed-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "terraform configs have been updated for staging env",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "terraform/staging.tf": "terraform/staging.tf-committed-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"main": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {}, "staging": {}, "conflicts": [],
+                            "branches": {"main": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {},
+                            "staging": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ['git commit --amend -m "Update Terraform staging environment configuration"'],
+                        "solution_commands": [
+                            'git commit --amend -m "Update Terraform staging environment configuration"'
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True, "working_tree_clean": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Update Terraform staging environment configuration"], "contains_paths": ["terraform/staging.tf"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": [
+                                    "Update Terraform staging environment configuration"
+                                ],
+                                "contains_paths": ["terraform/staging.tf"],
+                            },
                             "rules": [
-                                {"type": "operation_metadata_equals", "key": "last_amend_replaced_commit", "value": "c2"},
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_amend_replaced_commit",
+                                    "value": "c2",
+                                },
                                 {"type": "branch_tip_replaces_commit", "old": "c2"},
                                 {"type": "commit_replaced_by_amend", "old": "c2"},
                             ],
@@ -2100,18 +3657,50 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Update profile stuff", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/profile-card.js": "src/profile-card.js-committed-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Update profile stuff",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/profile-card.js": "src/profile-card.js-committed-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"main": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {"styles/profile-layout.css": "profile-layout-css-v3"}, "staging": {}, "conflicts": [],
+                            "branches": {"main": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {"styles/profile-layout.css": "profile-layout-css-v3"},
+                            "staging": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git add styles/profile-layout.css", 'git commit --amend -m "Polish profile card layout"'],
+                        "solution_commands": [
+                            "git add styles/profile-layout.css",
+                            'git commit --amend -m "Polish profile card layout"',
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True, "working_tree_clean": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Polish profile card layout"], "contains_paths": ["src/profile-card.js", "styles/profile-layout.css"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Polish profile card layout"],
+                                "contains_paths": [
+                                    "src/profile-card.js",
+                                    "styles/profile-layout.css",
+                                ],
+                            },
                             "rules": [
-                                {"type": "operation_metadata_equals", "key": "last_amend_replaced_commit", "value": "c2"},
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_amend_replaced_commit",
+                                    "value": "c2",
+                                },
                                 {"type": "branch_tip_replaces_commit", "old": "c2"},
                                 {"type": "commit_replaced_by_amend", "old": "c2"},
                             ],
@@ -2124,18 +3713,47 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Auth changes", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/auth.py": "src/auth.py-committed-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Auth changes",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/auth.py": "src/auth.py-committed-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"main": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {"tests/test_auth.py": "auth-test-v2"}, "staging": {}, "conflicts": [],
+                            "branches": {"main": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {"tests/test_auth.py": "auth-test-v2"},
+                            "staging": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git add tests/test_auth.py", 'git commit --amend -m "Add auth validation coverage"'],
+                        "solution_commands": [
+                            "git add tests/test_auth.py",
+                            'git commit --amend -m "Add auth validation coverage"',
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True, "working_tree_clean": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Add auth validation coverage"], "contains_paths": ["src/auth.py", "tests/test_auth.py"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Add auth validation coverage"],
+                                "contains_paths": ["src/auth.py", "tests/test_auth.py"],
+                            },
                             "rules": [
-                                {"type": "operation_metadata_equals", "key": "last_amend_replaced_commit", "value": "c2"},
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_amend_replaced_commit",
+                                    "value": "c2",
+                                },
                                 {"type": "branch_tip_replaces_commit", "old": "c2"},
                                 {"type": "commit_replaced_by_amend", "old": "c2"},
                             ],
@@ -2148,18 +3766,47 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Export update", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/export.py": "src/export.py-committed-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Export update",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/export.py": "src/export.py-committed-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"main": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "working_tree": {"docs/export.md": "export-docs-v3"}, "staging": {}, "conflicts": [],
+                            "branches": {"main": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "working_tree": {"docs/export.md": "export-docs-v3"},
+                            "staging": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git add docs/export.md", 'git commit --amend -m "Document export validation behavior"'],
+                        "solution_commands": [
+                            "git add docs/export.md",
+                            'git commit --amend -m "Document export validation behavior"',
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "staging_empty": True, "working_tree_clean": True,
-                            "latest_commit": {"branch": "main", "message_contains": ["Document export validation behavior"], "contains_paths": ["src/export.py", "docs/export.md"]},
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "latest_commit": {
+                                "branch": "main",
+                                "message_contains": ["Document export validation behavior"],
+                                "contains_paths": ["src/export.py", "docs/export.md"],
+                            },
                             "rules": [
-                                {"type": "operation_metadata_equals", "key": "last_amend_replaced_commit", "value": "c2"},
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_amend_replaced_commit",
+                                    "value": "c2",
+                                },
                                 {"type": "branch_tip_replaces_commit", "old": "c2"},
                                 {"type": "commit_replaced_by_amend", "old": "c2"},
                             ],
@@ -2187,14 +3834,31 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "You ran git add . and accidentally staged notes.txt along with your intended files. The commit isn't ready yet. Unstage notes.txt while keeping your working-tree changes.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1", "styles/site.css": "style-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {"notes.txt": "notes-draft"}, "working_tree": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/app.py": "app-v1",
+                                        "styles/site.css": "style-v1",
+                                    },
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {"notes.txt": "notes-draft"},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git restore --staged notes.txt"],
                         "state_requirements": {
-                            "head_branch": "main", "branch_points_to": {"main": "c1"}, "staging_empty": True,
-                            "working_tree_contains": ["notes.txt"], "rules": [{"type": "commit_count_equals", "count": 1}],
+                            "head_branch": "main",
+                            "branch_points_to": {"main": "c1"},
+                            "staging_empty": True,
+                            "working_tree_contains": ["notes.txt"],
+                            "rules": [{"type": "commit_count_equals", "count": 1}],
                         },
                     },
                     {
@@ -2203,14 +3867,31 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "You made some experimental edits to config.py trying out a new approach that didn't work. Discard all working-tree changes to config.py and get back to the last committed state.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1", "styles/site.css": "style-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {}, "working_tree": {"config.py": "config-wrong-v2"}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/app.py": "app-v1",
+                                        "styles/site.css": "style-v1",
+                                    },
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {"config.py": "config-wrong-v2"},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git restore config.py"],
                         "state_requirements": {
-                            "head_branch": "main", "branch_points_to": {"main": "c1"}, "staging_empty": True,
-                            "working_tree_absent": ["config.py"], "rules": [{"type": "commit_count_equals", "count": 1}],
+                            "head_branch": "main",
+                            "branch_points_to": {"main": "c1"},
+                            "staging_empty": True,
+                            "working_tree_absent": ["config.py"],
+                            "rules": [{"type": "commit_count_equals", "count": 1}],
                         },
                     },
                     {
@@ -2219,14 +3900,31 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "You staged src/app.py but realize you're not ready to commit it yet. Unstage it so it stays as a working-tree change without being discarded.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1", "styles/site.css": "style-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {"src/app.py": "app-change-v2"}, "working_tree": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/app.py": "app-v1",
+                                        "styles/site.css": "style-v1",
+                                    },
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {"src/app.py": "app-change-v2"},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git restore --staged src/app.py"],
                         "state_requirements": {
-                            "head_branch": "main", "branch_points_to": {"main": "c1"}, "staging_empty": True,
-                            "working_tree_contains": ["src/app.py"], "rules": [{"type": "commit_count_equals", "count": 1}],
+                            "head_branch": "main",
+                            "branch_points_to": {"main": "c1"},
+                            "staging_empty": True,
+                            "working_tree_contains": ["src/app.py"],
+                            "rules": [{"type": "commit_count_equals", "count": 1}],
                         },
                     },
                     {
@@ -2235,14 +3933,31 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "You staged docs/guide.md, but you want to revise it more before committing. Unstage it — your edits should remain in the working tree, not be discarded.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1", "styles/site.css": "style-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {"docs/guide.md": "guide-change-v2"}, "working_tree": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/app.py": "app-v1",
+                                        "styles/site.css": "style-v1",
+                                    },
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {"docs/guide.md": "guide-change-v2"},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git restore --staged docs/guide.md"],
                         "state_requirements": {
-                            "head_branch": "main", "branch_points_to": {"main": "c1"}, "staging_empty": True,
-                            "working_tree_contains": ["docs/guide.md"], "rules": [{"type": "commit_count_equals", "count": 1}],
+                            "head_branch": "main",
+                            "branch_points_to": {"main": "c1"},
+                            "staging_empty": True,
+                            "working_tree_contains": ["docs/guide.md"],
+                            "rules": [{"type": "commit_count_equals", "count": 1}],
                         },
                     },
                     {
@@ -2251,14 +3966,31 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "You staged styles/site.css but then realized another CSS change needs to be grouped with it. Unstage it for now so you can re-stage everything together later.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1", "styles/site.css": "style-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {"styles/site.css": "css-change-v2"}, "working_tree": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/app.py": "app-v1",
+                                        "styles/site.css": "style-v1",
+                                    },
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {"styles/site.css": "css-change-v2"},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git restore --staged styles/site.css"],
                         "state_requirements": {
-                            "head_branch": "main", "branch_points_to": {"main": "c1"}, "staging_empty": True,
-                            "working_tree_contains": ["styles/site.css"], "rules": [{"type": "commit_count_equals", "count": 1}],
+                            "head_branch": "main",
+                            "branch_points_to": {"main": "c1"},
+                            "staging_empty": True,
+                            "working_tree_contains": ["styles/site.css"],
+                            "rules": [{"type": "commit_count_equals", "count": 1}],
                         },
                     },
                 ],
@@ -2275,14 +4007,34 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "You staged experimental.py (keep it as a working-tree change, not in the next commit) and also have working-tree edits to README.md that you want to throw away entirely. First unstage experimental.py, then discard the README changes.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1", "styles/site.css": "style-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {"experimental.py": "experimental-v1"}, "working_tree": {"README.md": "readme-wrong-v2"}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/app.py": "app-v1",
+                                        "styles/site.css": "style-v1",
+                                    },
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {"experimental.py": "experimental-v1"},
+                            "working_tree": {"README.md": "readme-wrong-v2"},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git restore --staged experimental.py", "git restore README.md"],
+                        "solution_commands": [
+                            "git restore --staged experimental.py",
+                            "git restore README.md",
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "branch_points_to": {"main": "c1"}, "staging_empty": True,
-                            "working_tree_contains": ["experimental.py"], "working_tree_absent": ["README.md"],
+                            "head_branch": "main",
+                            "branch_points_to": {"main": "c1"},
+                            "staging_empty": True,
+                            "working_tree_contains": ["experimental.py"],
+                            "working_tree_absent": ["README.md"],
                             "rules": [{"type": "commit_count_equals", "count": 1}],
                         },
                     },
@@ -2292,14 +4044,34 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "You staged src/app.py but aren't ready to commit it yet, and you also have a debug.log in the working tree that you want to get rid of. Unstage app.py to preserve your work, then discard debug.log.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1", "styles/site.css": "style-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {"src/app.py": "app-change-v2"}, "working_tree": {"debug.log": "debug-draft"}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/app.py": "app-v1",
+                                        "styles/site.css": "style-v1",
+                                    },
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {"src/app.py": "app-change-v2"},
+                            "working_tree": {"debug.log": "debug-draft"},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git restore --staged src/app.py", "git restore debug.log"],
+                        "solution_commands": [
+                            "git restore --staged src/app.py",
+                            "git restore debug.log",
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "branch_points_to": {"main": "c1"}, "staging_empty": True,
-                            "working_tree_contains": ["src/app.py"], "working_tree_absent": ["debug.log"],
+                            "head_branch": "main",
+                            "branch_points_to": {"main": "c1"},
+                            "staging_empty": True,
+                            "working_tree_contains": ["src/app.py"],
+                            "working_tree_absent": ["debug.log"],
                             "rules": [{"type": "commit_count_equals", "count": 1}],
                         },
                     },
@@ -2309,14 +4081,34 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "You staged docs/guide.md for a later commit and also have a tmp/scratch.txt that was just temporary notes. Unstage the guide to continue editing it, and discard the scratch file entirely.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1", "styles/site.css": "style-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {"docs/guide.md": "guide-change-v2"}, "working_tree": {"tmp/scratch.txt": "scratch-draft"}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/app.py": "app-v1",
+                                        "styles/site.css": "style-v1",
+                                    },
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {"docs/guide.md": "guide-change-v2"},
+                            "working_tree": {"tmp/scratch.txt": "scratch-draft"},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git restore --staged docs/guide.md", "git restore tmp/scratch.txt"],
+                        "solution_commands": [
+                            "git restore --staged docs/guide.md",
+                            "git restore tmp/scratch.txt",
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "branch_points_to": {"main": "c1"}, "staging_empty": True,
-                            "working_tree_contains": ["docs/guide.md"], "working_tree_absent": ["tmp/scratch.txt"],
+                            "head_branch": "main",
+                            "branch_points_to": {"main": "c1"},
+                            "staging_empty": True,
+                            "working_tree_contains": ["docs/guide.md"],
+                            "working_tree_absent": ["tmp/scratch.txt"],
                             "rules": [{"type": "commit_count_equals", "count": 1}],
                         },
                     },
@@ -2326,14 +4118,34 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "You staged styles/site.css for revision and also have a generated dist/site.css in your working tree from an old build. Unstage the source CSS to keep working on it, and discard the generated dist file.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1", "styles/site.css": "style-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {"styles/site.css": "css-change-v2"}, "working_tree": {"dist/site.css": "dist-generated"}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/app.py": "app-v1",
+                                        "styles/site.css": "style-v1",
+                                    },
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {"styles/site.css": "css-change-v2"},
+                            "working_tree": {"dist/site.css": "dist-generated"},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git restore --staged styles/site.css", "git restore dist/site.css"],
+                        "solution_commands": [
+                            "git restore --staged styles/site.css",
+                            "git restore dist/site.css",
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "branch_points_to": {"main": "c1"}, "staging_empty": True,
-                            "working_tree_contains": ["styles/site.css"], "working_tree_absent": ["dist/site.css"],
+                            "head_branch": "main",
+                            "branch_points_to": {"main": "c1"},
+                            "staging_empty": True,
+                            "working_tree_contains": ["styles/site.css"],
+                            "working_tree_absent": ["dist/site.css"],
                             "rules": [{"type": "commit_count_equals", "count": 1}],
                         },
                     },
@@ -2351,15 +4163,37 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "You have a noisy mixed state: debug.log and scratch/notes.txt are staged (unstage them — don't discard, just move back to working tree), and api/experimental.py has working-tree changes you want to throw away. Clean up without making a commit.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1", "styles/site.css": "style-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {"debug.log": "debug-draft", "scratch/notes.txt": "notes-draft"},
-                            "working_tree": {"api/experimental.py": "experimental-wrong-v1"}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/app.py": "app-v1",
+                                        "styles/site.css": "style-v1",
+                                    },
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {
+                                "debug.log": "debug-draft",
+                                "scratch/notes.txt": "notes-draft",
+                            },
+                            "working_tree": {"api/experimental.py": "experimental-wrong-v1"},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git restore --staged debug.log scratch/notes.txt", "git restore api/experimental.py"],
+                        "solution_commands": [
+                            "git restore --staged debug.log scratch/notes.txt",
+                            "git restore api/experimental.py",
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "branch_points_to": {"main": "c1"}, "staging_empty": True,
-                            "working_tree_contains": ["debug.log", "scratch/notes.txt"], "working_tree_absent": ["api/experimental.py"],
+                            "head_branch": "main",
+                            "branch_points_to": {"main": "c1"},
+                            "staging_empty": True,
+                            "working_tree_contains": ["debug.log", "scratch/notes.txt"],
+                            "working_tree_absent": ["api/experimental.py"],
                             "rules": [{"type": "commit_count_equals", "count": 1}],
                         },
                     },
@@ -2369,15 +4203,40 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "Two files are staged: src/profile-card.js (keep your edits as a working-tree change) and notes/profile-ideas.md (also keep, just unstage). A debug/profile.log in the working tree should be discarded entirely. Clean up without committing.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1", "styles/site.css": "style-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {"src/profile-card.js": "profile-js-v2", "notes/profile-ideas.md": "notes-draft"},
-                            "working_tree": {"debug/profile.log": "debug-draft"}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/app.py": "app-v1",
+                                        "styles/site.css": "style-v1",
+                                    },
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {
+                                "src/profile-card.js": "profile-js-v2",
+                                "notes/profile-ideas.md": "notes-draft",
+                            },
+                            "working_tree": {"debug/profile.log": "debug-draft"},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git restore --staged src/profile-card.js notes/profile-ideas.md", "git restore debug/profile.log"],
+                        "solution_commands": [
+                            "git restore --staged src/profile-card.js notes/profile-ideas.md",
+                            "git restore debug/profile.log",
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "branch_points_to": {"main": "c1"}, "staging_empty": True,
-                            "working_tree_contains": ["src/profile-card.js", "notes/profile-ideas.md"], "working_tree_absent": ["debug/profile.log"],
+                            "head_branch": "main",
+                            "branch_points_to": {"main": "c1"},
+                            "staging_empty": True,
+                            "working_tree_contains": [
+                                "src/profile-card.js",
+                                "notes/profile-ideas.md",
+                            ],
+                            "working_tree_absent": ["debug/profile.log"],
                             "rules": [{"type": "commit_count_equals", "count": 1}],
                         },
                     },
@@ -2387,15 +4246,37 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "Two files are staged: src/export.py (keep the edits as a working-tree change) and notes/export-plan.md (also keep, just unstage). A tmp/export-output.txt generated file is in the working tree and should be discarded. No commit needed.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1", "styles/site.css": "style-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {"src/export.py": "export-code-v2", "notes/export-plan.md": "notes-draft"},
-                            "working_tree": {"tmp/export-output.txt": "generated-output"}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/app.py": "app-v1",
+                                        "styles/site.css": "style-v1",
+                                    },
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {
+                                "src/export.py": "export-code-v2",
+                                "notes/export-plan.md": "notes-draft",
+                            },
+                            "working_tree": {"tmp/export-output.txt": "generated-output"},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git restore --staged src/export.py notes/export-plan.md", "git restore tmp/export-output.txt"],
+                        "solution_commands": [
+                            "git restore --staged src/export.py notes/export-plan.md",
+                            "git restore tmp/export-output.txt",
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "branch_points_to": {"main": "c1"}, "staging_empty": True,
-                            "working_tree_contains": ["src/export.py", "notes/export-plan.md"], "working_tree_absent": ["tmp/export-output.txt"],
+                            "head_branch": "main",
+                            "branch_points_to": {"main": "c1"},
+                            "staging_empty": True,
+                            "working_tree_contains": ["src/export.py", "notes/export-plan.md"],
+                            "working_tree_absent": ["tmp/export-output.txt"],
                             "rules": [{"type": "commit_count_equals", "count": 1}],
                         },
                     },
@@ -2405,15 +4286,37 @@ MODULE_1_LEVELS: list[dict[str, Any]] = [
                         "context": "Two files are staged: src/search.js (preserve your edits, just unstage) and notes/search.md (also keep, just unstage). A debug/search.log in the working tree should be discarded entirely. Clean up without making a commit.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1", "styles/site.css": "style-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {"src/search.js": "search-js-v2", "notes/search.md": "notes-draft"},
-                            "working_tree": {"debug/search.log": "search-debug"}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/app.py": "app-v1",
+                                        "styles/site.css": "style-v1",
+                                    },
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {
+                                "src/search.js": "search-js-v2",
+                                "notes/search.md": "notes-draft",
+                            },
+                            "working_tree": {"debug/search.log": "search-debug"},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git restore --staged src/search.js notes/search.md", "git restore debug/search.log"],
+                        "solution_commands": [
+                            "git restore --staged src/search.js notes/search.md",
+                            "git restore debug/search.log",
+                        ],
                         "state_requirements": {
-                            "head_branch": "main", "branch_points_to": {"main": "c1"}, "staging_empty": True,
-                            "working_tree_contains": ["src/search.js", "notes/search.md"], "working_tree_absent": ["debug/search.log"],
+                            "head_branch": "main",
+                            "branch_points_to": {"main": "c1"},
+                            "staging_empty": True,
+                            "working_tree_contains": ["src/search.js", "notes/search.md"],
+                            "working_tree_absent": ["debug/search.log"],
                             "rules": [{"type": "commit_count_equals", "count": 1}],
                         },
                     },
@@ -2453,12 +4356,26 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "context": "Your ticketing-app team lead just assigned you a new feature. Before writing any code, create an isolated branch so your work doesn't touch main until it's reviewed.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git switch -c feature/auth"],
-                        "state_requirements": {"head_branch": "feature/auth", "branch_exists": ["feature/auth"], "branch_points_to": {"feature/auth": "c1"}},
+                        "state_requirements": {
+                            "head_branch": "feature/auth",
+                            "branch_exists": ["feature/auth"],
+                            "branch_points_to": {"feature/auth": "c1"},
+                        },
                     },
                     {
                         "case_id": "v21e-login",
@@ -2466,12 +4383,26 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "context": "A bug was reported in the login flow of auth-service. You need a dedicated branch to contain the fix without disturbing the stable main line.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git switch -c bugfix/login"],
-                        "state_requirements": {"head_branch": "bugfix/login", "branch_exists": ["bugfix/login"], "branch_points_to": {"bugfix/login": "c1"}},
+                        "state_requirements": {
+                            "head_branch": "bugfix/login",
+                            "branch_exists": ["bugfix/login"],
+                            "branch_points_to": {"bugfix/login": "c1"},
+                        },
                     },
                     {
                         "case_id": "v21e-ui",
@@ -2479,38 +4410,80 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "context": "You want to try a bold UI experiment on dashboard-frontend. Create a throwaway branch so you can iterate freely without risking the main codebase.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git switch -c experiment/ui"],
-                        "state_requirements": {"head_branch": "experiment/ui", "branch_exists": ["experiment/ui"], "branch_points_to": {"experiment/ui": "c1"}},
+                        "state_requirements": {
+                            "head_branch": "experiment/ui",
+                            "branch_exists": ["experiment/ui"],
+                            "branch_points_to": {"experiment/ui": "c1"},
+                        },
                     },
                     {
                         "case_id": "bc-easy-capstone-db",
                         "label": "Create feature/database-models and switch to it",
-                        "context": "Your group just initialized the capstone repo. The main branch has one commit. Your group lead says: \"Before we start coding, everyone creates their own feature branch from main.\" Create feature/database-models and start working there.",
+                        "context": 'Your group just initialized the capstone repo. The main branch has one commit. Your group lead says: "Before we start coding, everyone creates their own feature branch from main." Create feature/database-models and start working there.',
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git switch -c feature/database-models"],
-                        "state_requirements": {"head_branch": "feature/database-models", "branch_exists": ["feature/database-models"], "branch_points_to": {"feature/database-models": "c1"}},
+                        "state_requirements": {
+                            "head_branch": "feature/database-models",
+                            "branch_exists": ["feature/database-models"],
+                            "branch_points_to": {"feature/database-models": "c1"},
+                        },
                     },
                     {
                         "case_id": "bc-easy-corp-hotfix",
                         "label": "Create hotfix/session-timeout and switch to it",
-                        "context": "A production incident was just reported. Your team lead pings you: \"Branch off main right now and start the hotfix.\" You are already on main at the latest commit. Create hotfix/session-timeout and move to it immediately.",
+                        "context": 'A production incident was just reported. Your team lead pings you: "Branch off main right now and start the hotfix." You are already on main at the latest commit. Create hotfix/session-timeout and move to it immediately.',
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git switch -c hotfix/session-timeout"],
-                        "state_requirements": {"head_branch": "hotfix/session-timeout", "branch_exists": ["hotfix/session-timeout"], "branch_points_to": {"hotfix/session-timeout": "c1"}},
+                        "state_requirements": {
+                            "head_branch": "hotfix/session-timeout",
+                            "branch_exists": ["hotfix/session-timeout"],
+                            "branch_points_to": {"hotfix/session-timeout": "c1"},
+                        },
                     },
                 ],
             },
@@ -2527,14 +4500,34 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Bootstrap e-commerce app", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Add product catalog", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/catalog.py": "catalog-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap e-commerce app",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Add product catalog",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/catalog.py": "catalog-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"main": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git switch -c feature/payments"],
-                        "state_requirements": {"head_branch": "feature/payments", "branch_exists": ["feature/payments"], "branch_points_to": {"feature/payments": "c2"}},
+                        "state_requirements": {
+                            "head_branch": "feature/payments",
+                            "branch_exists": ["feature/payments"],
+                            "branch_points_to": {"feature/payments": "c2"},
+                        },
                     },
                     {
                         "case_id": "v21m-notifications",
@@ -2543,15 +4536,41 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Bootstrap messaging app", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Add message queue", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/queue.py": "queue-v1"}},
-                                {"id": "c3", "message": "Add delivery tracking", "parents": ["c2"], "tree": {"README.md": "readme-v1", "src/queue.py": "queue-v1", "src/tracking.py": "tracking-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap messaging app",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Add message queue",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/queue.py": "queue-v1"},
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Add delivery tracking",
+                                    "parents": ["c2"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/queue.py": "queue-v1",
+                                        "src/tracking.py": "tracking-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"main": "c3"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c3"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git switch -c feature/notifications"],
-                        "state_requirements": {"head_branch": "feature/notifications", "branch_exists": ["feature/notifications"], "branch_points_to": {"feature/notifications": "c3"}},
+                        "state_requirements": {
+                            "head_branch": "feature/notifications",
+                            "branch_exists": ["feature/notifications"],
+                            "branch_points_to": {"feature/notifications": "c3"},
+                        },
                     },
                     {
                         "case_id": "v21m-export",
@@ -2560,16 +4579,55 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Bootstrap report generator", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Add data ingest", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/ingest.py": "ingest-v1"}},
-                                {"id": "c3", "message": "Add aggregation", "parents": ["c2"], "tree": {"README.md": "readme-v1", "src/ingest.py": "ingest-v1", "src/aggregate.py": "aggregate-v1"}},
-                                {"id": "c4", "message": "Add renderer", "parents": ["c3"], "tree": {"README.md": "readme-v1", "src/ingest.py": "ingest-v1", "src/aggregate.py": "aggregate-v1", "src/render.py": "render-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap report generator",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Add data ingest",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/ingest.py": "ingest-v1",
+                                    },
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Add aggregation",
+                                    "parents": ["c2"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/ingest.py": "ingest-v1",
+                                        "src/aggregate.py": "aggregate-v1",
+                                    },
+                                },
+                                {
+                                    "id": "c4",
+                                    "message": "Add renderer",
+                                    "parents": ["c3"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/ingest.py": "ingest-v1",
+                                        "src/aggregate.py": "aggregate-v1",
+                                        "src/render.py": "render-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"main": "c4"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c4"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git switch -c feature/export"],
-                        "state_requirements": {"head_branch": "feature/export", "branch_exists": ["feature/export"], "branch_points_to": {"feature/export": "c4"}},
+                        "state_requirements": {
+                            "head_branch": "feature/export",
+                            "branch_exists": ["feature/export"],
+                            "branch_points_to": {"feature/export": "c4"},
+                        },
                     },
                     {
                         "case_id": "bc-med-oss-develop",
@@ -2578,14 +4636,31 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Bootstrap OSS project", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Refactor core", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/core.py": "core-v2"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap OSS project",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Refactor core",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/core.py": "core-v2"},
+                                },
                             ],
-                            "branches": {"develop": "c2", "main": "c1"}, "head": {"type": "branch", "name": "develop"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"develop": "c2", "main": "c1"},
+                            "head": {"type": "branch", "name": "develop"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git switch -c feature/docs-update"],
-                        "state_requirements": {"head_branch": "feature/docs-update", "branch_exists": ["feature/docs-update"], "branch_points_to": {"feature/docs-update": "c2"}},
+                        "state_requirements": {
+                            "head_branch": "feature/docs-update",
+                            "branch_exists": ["feature/docs-update"],
+                            "branch_points_to": {"feature/docs-update": "c2"},
+                        },
                     },
                 ],
             },
@@ -2602,14 +4677,43 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Release v1.0 snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/orders.py": "orders-v1"}},
-                                {"id": "c2", "message": "Add bulk order support", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/orders.py": "orders-v2", "src/bulk.py": "bulk-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Release v1.0 snapshot",
+                                    "parents": [],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/orders.py": "orders-v1",
+                                    },
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Add bulk order support",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/orders.py": "orders-v2",
+                                        "src/bulk.py": "bulk-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"main": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git switch -c hotfix/critical c1"],
-                        "state_requirements": {"rules": [{"type": "head_branch_equals", "branch": "hotfix/critical"}, {"type": "branch_points_to", "branch": "hotfix/critical", "commit": "c1"}]},
+                        "state_requirements": {
+                            "rules": [
+                                {"type": "head_branch_equals", "branch": "hotfix/critical"},
+                                {
+                                    "type": "branch_points_to",
+                                    "branch": "hotfix/critical",
+                                    "commit": "c1",
+                                },
+                            ]
+                        },
                     },
                     {
                         "case_id": "v21h-detach-save",
@@ -2618,15 +4722,45 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Initial experiment setup", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Experimental changes at detached HEAD", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/experiment.py": "exp-v1"}},
-                                {"id": "c3", "message": "Latest main progress", "parents": ["c1"], "tree": {"README.md": "readme-v2", "src/main.py": "main-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Initial experiment setup",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Experimental changes at detached HEAD",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/experiment.py": "exp-v1",
+                                    },
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Latest main progress",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v2", "src/main.py": "main-v1"},
+                                },
                             ],
-                            "branches": {"main": "c3"}, "head": {"type": "detached", "target": "c2"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c3"},
+                            "head": {"type": "detached", "target": "c2"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git switch -c saved-work"],
-                        "state_requirements": {"rules": [{"type": "head_branch_equals", "branch": "saved-work"}, {"type": "branch_points_to", "branch": "saved-work", "commit": "c2"}]},
+                        "state_requirements": {
+                            "rules": [
+                                {"type": "head_branch_equals", "branch": "saved-work"},
+                                {
+                                    "type": "branch_points_to",
+                                    "branch": "saved-work",
+                                    "commit": "c2",
+                                },
+                            ]
+                        },
                     },
                     {
                         "case_id": "v21h-from-develop",
@@ -2635,15 +4769,46 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Bootstrap ide platform", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Stable main snapshot", "parents": ["c1"], "tree": {"README.md": "readme-v1", "editor.py": "editor-v1"}},
-                                {"id": "c3", "message": "Develop: add plugin system", "parents": ["c2"], "tree": {"README.md": "readme-v1", "editor.py": "editor-v1", "src/plugins.py": "plugins-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap ide platform",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Stable main snapshot",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "editor.py": "editor-v1"},
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Develop: add plugin system",
+                                    "parents": ["c2"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "editor.py": "editor-v1",
+                                        "src/plugins.py": "plugins-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"main": "c2", "develop": "c3"}, "head": {"type": "branch", "name": "develop"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c2", "develop": "c3"},
+                            "head": {"type": "branch", "name": "develop"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git switch -c feature/workspace"],
-                        "state_requirements": {"rules": [{"type": "head_branch_equals", "branch": "feature/workspace"}, {"type": "branch_points_to", "branch": "feature/workspace", "commit": "c3"}]},
+                        "state_requirements": {
+                            "rules": [
+                                {"type": "head_branch_equals", "branch": "feature/workspace"},
+                                {
+                                    "type": "branch_points_to",
+                                    "branch": "feature/workspace",
+                                    "commit": "c3",
+                                },
+                            ]
+                        },
                     },
                     {
                         "case_id": "bc-hard-review-snap",
@@ -2652,14 +4817,33 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Initial release snapshot", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Latest main work", "parents": ["c1"], "tree": {"README.md": "readme-v2", "src/app.py": "app-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Initial release snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Latest main work",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v2", "src/app.py": "app-v1"},
+                                },
                             ],
-                            "branches": {"main": "c2"}, "head": {"type": "detached", "target": "c1"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c2"},
+                            "head": {"type": "detached", "target": "c1"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git switch -c review/v1-snapshot", "git switch main"],
-                        "state_requirements": {"head_branch": "main", "branch_exists": ["review/v1-snapshot"]},
+                        "solution_commands": [
+                            "git switch -c review/v1-snapshot",
+                            "git switch main",
+                        ],
+                        "state_requirements": {
+                            "head_branch": "main",
+                            "branch_exists": ["review/v1-snapshot"],
+                        },
                     },
                 ],
             },
@@ -2680,41 +4864,83 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                     {
                         "case_id": "bn-easy-corp-jira",
                         "label": "Create PROJ-418/password-reset",
-                        "context": "It's your first week at a software company. Your team lead sends you a message: \"We name all branches PROJ-{ticket-number}/{kebab-case-description}. No exceptions -- the CI pipeline uses this pattern to link branches to tickets. Your first task is PROJ-418: implement the password reset flow. Branch name: PROJ-418/password-reset.\"",
+                        "context": 'It\'s your first week at a software company. Your team lead sends you a message: "We name all branches PROJ-{ticket-number}/{kebab-case-description}. No exceptions -- the CI pipeline uses this pattern to link branches to tickets. Your first task is PROJ-418: implement the password reset flow. Branch name: PROJ-418/password-reset."',
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git switch -c PROJ-418/password-reset"],
-                        "state_requirements": {"head_branch": "PROJ-418/password-reset", "branch_exists": ["PROJ-418/password-reset"], "branch_points_to": {"PROJ-418/password-reset": "c1"}},
+                        "state_requirements": {
+                            "head_branch": "PROJ-418/password-reset",
+                            "branch_exists": ["PROJ-418/password-reset"],
+                            "branch_points_to": {"PROJ-418/password-reset": "c1"},
+                        },
                     },
                     {
                         "case_id": "bn-easy-startup-feat",
                         "label": "Create feature/shopping-cart",
-                        "context": "Your tech lead explains during onboarding: \"We use type/description -- type is one of feature, bugfix, hotfix, or chore, separated by a slash, description in kebab-case. You're starting work on the shopping cart. Branch: feature/shopping-cart.\"",
+                        "context": 'Your tech lead explains during onboarding: "We use type/description -- type is one of feature, bugfix, hotfix, or chore, separated by a slash, description in kebab-case. You\'re starting work on the shopping cart. Branch: feature/shopping-cart."',
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git switch -c feature/shopping-cart"],
-                        "state_requirements": {"head_branch": "feature/shopping-cart", "branch_exists": ["feature/shopping-cart"], "branch_points_to": {"feature/shopping-cart": "c1"}},
+                        "state_requirements": {
+                            "head_branch": "feature/shopping-cart",
+                            "branch_exists": ["feature/shopping-cart"],
+                            "branch_points_to": {"feature/shopping-cart": "c1"},
+                        },
                     },
                     {
                         "case_id": "bn-easy-oss-user",
                         "label": "Create jdelacruz/fix-parser-edge-case",
-                        "context": "The project's CONTRIBUTING.md states: \"All branches from contributors must follow <github-username>/<kebab-case-description>. This lets maintainers identify whose work is whose at a glance.\" Your GitHub username is jdelacruz. You are fixing a parser edge case. Required branch: jdelacruz/fix-parser-edge-case.",
+                        "context": 'The project\'s CONTRIBUTING.md states: "All branches from contributors must follow <github-username>/<kebab-case-description>. This lets maintainers identify whose work is whose at a glance." Your GitHub username is jdelacruz. You are fixing a parser edge case. Required branch: jdelacruz/fix-parser-edge-case.',
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git switch -c jdelacruz/fix-parser-edge-case"],
-                        "state_requirements": {"head_branch": "jdelacruz/fix-parser-edge-case", "branch_exists": ["jdelacruz/fix-parser-edge-case"], "branch_points_to": {"jdelacruz/fix-parser-edge-case": "c1"}},
+                        "state_requirements": {
+                            "head_branch": "jdelacruz/fix-parser-edge-case",
+                            "branch_exists": ["jdelacruz/fix-parser-edge-case"],
+                            "branch_points_to": {"jdelacruz/fix-parser-edge-case": "c1"},
+                        },
                     },
                     {
                         "case_id": "bn-easy-cap-initials",
@@ -2722,25 +4948,53 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "context": "Your group agreed on a naming convention during your first sprint meeting: feature/<member-initials>/<short-description>. Your initials are jm. You are starting the database models module. Required branch: feature/jm/database-models.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git switch -c feature/jm/database-models"],
-                        "state_requirements": {"head_branch": "feature/jm/database-models", "branch_exists": ["feature/jm/database-models"], "branch_points_to": {"feature/jm/database-models": "c1"}},
+                        "state_requirements": {
+                            "head_branch": "feature/jm/database-models",
+                            "branch_exists": ["feature/jm/database-models"],
+                            "branch_points_to": {"feature/jm/database-models": "c1"},
+                        },
                     },
                     {
                         "case_id": "bn-easy-free-client",
                         "label": "Create client/55-contact-form-redesign",
-                        "context": "Your client's project manager sends you the repo access with a note: \"Please follow our branch naming: client/{ticket-id}-{description}. Your task is ticket #55: redesign the contact form. Branch: client/55-contact-form-redesign.\"",
+                        "context": 'Your client\'s project manager sends you the repo access with a note: "Please follow our branch naming: client/{ticket-id}-{description}. Your task is ticket #55: redesign the contact form. Branch: client/55-contact-form-redesign."',
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git switch -c client/55-contact-form-redesign"],
-                        "state_requirements": {"head_branch": "client/55-contact-form-redesign", "branch_exists": ["client/55-contact-form-redesign"], "branch_points_to": {"client/55-contact-form-redesign": "c1"}},
+                        "state_requirements": {
+                            "head_branch": "client/55-contact-form-redesign",
+                            "branch_exists": ["client/55-contact-form-redesign"],
+                            "branch_points_to": {"client/55-contact-form-redesign": "c1"},
+                        },
                     },
                 ],
             },
@@ -2753,15 +5007,29 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                     {
                         "case_id": "bn-med-corp-notif",
                         "label": "Construct and create PROJ-512/email-notification",
-                        "context": "Your team lead reminds you: \"Convention is PROJ-{ticket}/{kebab-case-description}.\" Your new task is PROJ-512: implement the email notification service. Create the branch -- the description component must be email-notification.",
+                        "context": 'Your team lead reminds you: "Convention is PROJ-{ticket}/{kebab-case-description}." Your new task is PROJ-512: implement the email notification service. Create the branch -- the description component must be email-notification.',
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git switch -c PROJ-512/email-notification"],
-                        "state_requirements": {"head_branch": "PROJ-512/email-notification", "branch_exists": ["PROJ-512/email-notification"], "branch_points_to": {"PROJ-512/email-notification": "c1"}},
+                        "state_requirements": {
+                            "head_branch": "PROJ-512/email-notification",
+                            "branch_exists": ["PROJ-512/email-notification"],
+                            "branch_points_to": {"PROJ-512/email-notification": "c1"},
+                        },
                     },
                     {
                         "case_id": "bn-med-startup-bugfix",
@@ -2769,12 +5037,26 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "context": "Convention: type/kebab-case-description where type is feature, bugfix, hotfix, or chore. You have been assigned to fix a broken login redirect. The description to use is login-redirect.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git switch -c bugfix/login-redirect"],
-                        "state_requirements": {"head_branch": "bugfix/login-redirect", "branch_exists": ["bugfix/login-redirect"], "branch_points_to": {"bugfix/login-redirect": "c1"}},
+                        "state_requirements": {
+                            "head_branch": "bugfix/login-redirect",
+                            "branch_exists": ["bugfix/login-redirect"],
+                            "branch_points_to": {"bugfix/login-redirect": "c1"},
+                        },
                     },
                     {
                         "case_id": "bn-med-devops-scope",
@@ -2782,12 +5064,26 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "context": "Convention: <type>/<scope>/<description> where type is feat, fix, chore, or infra, and scope is the service name. You are adding log rotation to the api-gateway service. Description: log-rotation.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git switch -c infra/api-gateway/log-rotation"],
-                        "state_requirements": {"head_branch": "infra/api-gateway/log-rotation", "branch_exists": ["infra/api-gateway/log-rotation"], "branch_points_to": {"infra/api-gateway/log-rotation": "c1"}},
+                        "state_requirements": {
+                            "head_branch": "infra/api-gateway/log-rotation",
+                            "branch_exists": ["infra/api-gateway/log-rotation"],
+                            "branch_points_to": {"infra/api-gateway/log-rotation": "c1"},
+                        },
                     },
                     {
                         "case_id": "bn-med-oss-infer",
@@ -2795,16 +5091,32 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "context": "No one told you the naming convention. You run git branch -a and see: origin/fix/lexer-null-check, origin/fix/parser-overflow, origin/feat/dark-mode, origin/feat/keyboard-shortcuts. You are fixing a crash in the tokenizer. The description to use is tokenizer-crash.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial project snapshot", "parents": [], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"}}],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial project snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                             "remote_branches": {
-                                "origin/fix/lexer-null-check": "c1", "origin/fix/parser-overflow": "c1",
-                                "origin/feat/dark-mode": "c1", "origin/feat/keyboard-shortcuts": "c1",
+                                "origin/fix/lexer-null-check": "c1",
+                                "origin/fix/parser-overflow": "c1",
+                                "origin/feat/dark-mode": "c1",
+                                "origin/feat/keyboard-shortcuts": "c1",
                             },
                         },
                         "solution_commands": ["git switch -c fix/tokenizer-crash"],
-                        "state_requirements": {"head_branch": "fix/tokenizer-crash", "branch_exists": ["fix/tokenizer-crash"], "branch_points_to": {"fix/tokenizer-crash": "c1"}},
+                        "state_requirements": {
+                            "head_branch": "fix/tokenizer-crash",
+                            "branch_exists": ["fix/tokenizer-crash"],
+                            "branch_points_to": {"fix/tokenizer-crash": "c1"},
+                        },
                     },
                 ],
             },
@@ -2817,15 +5129,35 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                     {
                         "case_id": "bn-hard-oss-rename",
                         "label": "Delete myFix, create fix/renderer-memory-leak",
-                        "context": "A contributor created myFix before reading the project's CONTRIBUTING.md, which states: \"Branch names must follow fix/<kebab-case-description> for bug fixes and feat/<kebab-case-description> for features. CamelCase and generic names are rejected by our CI check.\" The branch is for a memory leak in the renderer. The description is renderer-memory-leak. You are on main.",
+                        "context": 'A contributor created myFix before reading the project\'s CONTRIBUTING.md, which states: "Branch names must follow fix/<kebab-case-description> for bug fixes and feat/<kebab-case-description> for features. CamelCase and generic names are rejected by our CI check." The branch is for a memory leak in the renderer. The description is renderer-memory-leak. You are on main.',
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Bootstrap OSS project", "parents": [], "tree": {"README.md": "readme-v1", "src/renderer.py": "rend-v1"}}],
-                            "branches": {"main": "c1", "myFix": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap OSS project",
+                                    "parents": [],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/renderer.py": "rend-v1",
+                                    },
+                                }
+                            ],
+                            "branches": {"main": "c1", "myFix": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git branch -D myFix", "git switch -c fix/renderer-memory-leak"],
-                        "state_requirements": {"head_branch": "fix/renderer-memory-leak", "branch_exists": ["fix/renderer-memory-leak"], "branch_absent": ["myFix"]},
+                        "solution_commands": [
+                            "git branch -D myFix",
+                            "git switch -c fix/renderer-memory-leak",
+                        ],
+                        "state_requirements": {
+                            "head_branch": "fix/renderer-memory-leak",
+                            "branch_exists": ["fix/renderer-memory-leak"],
+                            "branch_absent": ["myFix"],
+                        },
                     },
                     {
                         "case_id": "bn-hard-corp-rename",
@@ -2833,12 +5165,29 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "context": "A new teammate created auth-update for ticket PROJ-301. Your team's CI pipeline requires PROJ-{ticket}/{description} -- branches that don't match are blocked from merging. Your team lead asks you to fix it before the PR review. The correct description is auth-module-update. The branch has no commits of its own yet. You are on main.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Bootstrap project", "parents": [], "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"}}],
-                            "branches": {"main": "c1", "auth-update": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap project",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1", "auth-update": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git branch -D auth-update", "git switch -c PROJ-301/auth-module-update"],
-                        "state_requirements": {"head_branch": "PROJ-301/auth-module-update", "branch_exists": ["PROJ-301/auth-module-update"], "branch_absent": ["auth-update"]},
+                        "solution_commands": [
+                            "git branch -D auth-update",
+                            "git switch -c PROJ-301/auth-module-update",
+                        ],
+                        "state_requirements": {
+                            "head_branch": "PROJ-301/auth-module-update",
+                            "branch_exists": ["PROJ-301/auth-module-update"],
+                            "branch_absent": ["auth-update"],
+                        },
                     },
                     {
                         "case_id": "bn-hard-startup-prefix",
@@ -2846,12 +5195,29 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "context": "Convention is feature/, bugfix/, hotfix/, or chore/ -- no other prefixes are valid. A branch called fix/cart-total exists (wrong prefix -- fix is not in the allowed list; should be bugfix). You are on main. The description stays cart-total.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Bootstrap e-commerce app", "parents": [], "tree": {"README.md": "readme-v1", "src/cart.py": "cart-v1"}}],
-                            "branches": {"main": "c1", "fix/cart-total": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap e-commerce app",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1", "src/cart.py": "cart-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1", "fix/cart-total": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git branch -D fix/cart-total", "git switch -c bugfix/cart-total"],
-                        "state_requirements": {"head_branch": "bugfix/cart-total", "branch_exists": ["bugfix/cart-total"], "branch_absent": ["fix/cart-total"]},
+                        "solution_commands": [
+                            "git branch -D fix/cart-total",
+                            "git switch -c bugfix/cart-total",
+                        ],
+                        "state_requirements": {
+                            "head_branch": "bugfix/cart-total",
+                            "branch_exists": ["bugfix/cart-total"],
+                            "branch_absent": ["fix/cart-total"],
+                        },
                     },
                     {
                         "case_id": "bn-hard-qa-camel",
@@ -2859,12 +5225,29 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "context": "Your QA team's convention (documented in the repo's README) is test/<kebab-case-description>. A branch test/LoginFlow was pushed by a junior tester -- the CamelCase violates the convention and breaks your test runner's branch name parser. You need to correct it. You are on main. The correct description is login-flow.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Bootstrap QA suite", "parents": [], "tree": {"README.md": "readme-v1", "tests/login.py": "test-v1"}}],
-                            "branches": {"main": "c1", "test/LoginFlow": "c1"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap QA suite",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1", "tests/login.py": "test-v1"},
+                                }
+                            ],
+                            "branches": {"main": "c1", "test/LoginFlow": "c1"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git branch -D test/LoginFlow", "git switch -c test/login-flow"],
-                        "state_requirements": {"head_branch": "test/login-flow", "branch_exists": ["test/login-flow"], "branch_absent": ["test/LoginFlow"]},
+                        "solution_commands": [
+                            "git branch -D test/LoginFlow",
+                            "git switch -c test/login-flow",
+                        ],
+                        "state_requirements": {
+                            "head_branch": "test/login-flow",
+                            "branch_exists": ["test/login-flow"],
+                            "branch_absent": ["test/LoginFlow"],
+                        },
                     },
                 ],
             },
@@ -2888,9 +5271,19 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "context": "You're mid-feature on the auth-service when an urgent bug report comes in on a different branch. Your current changes aren't ready to commit. Stash them and switch context.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial ticketing-app snapshot", "parents": [], "tree": {"README.md": "readme-v1"}}],
-                            "branches": {"feature/auth": "c1", "main": "c1"}, "head": {"type": "branch", "name": "feature/auth"},
-                            "working_tree": {"src/auth.py": "auth-wip"}, "staging": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial ticketing-app snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                }
+                            ],
+                            "branches": {"feature/auth": "c1", "main": "c1"},
+                            "head": {"type": "branch", "name": "feature/auth"},
+                            "working_tree": {"src/auth.py": "auth-wip"},
+                            "staging": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git stash", "git switch main"],
                         "state_requirements": {"working_tree_clean": True, "head_branch": "main"},
@@ -2901,12 +5294,25 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "context": "You've been editing notification templates when your team lead asks you to check something on another branch immediately. Stash your in-progress work first.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial messaging-service snapshot", "parents": [], "tree": {"README.md": "readme-v1"}}],
-                            "branches": {"feature/notify": "c1", "develop": "c1"}, "head": {"type": "branch", "name": "feature/notify"},
-                            "working_tree": {"src/notify.py": "notify-wip"}, "staging": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial messaging-service snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                }
+                            ],
+                            "branches": {"feature/notify": "c1", "develop": "c1"},
+                            "head": {"type": "branch", "name": "feature/notify"},
+                            "working_tree": {"src/notify.py": "notify-wip"},
+                            "staging": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git stash", "git switch develop"],
-                        "state_requirements": {"working_tree_clean": True, "head_branch": "develop"},
+                        "state_requirements": {
+                            "working_tree_clean": True,
+                            "head_branch": "develop",
+                        },
                     },
                     {
                         "case_id": "v23e-cache",
@@ -2914,25 +5320,52 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "context": "You're halfway through a cache refactor when a production alert fires. Stash what you have and switch to the hotfix branch.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial data-store snapshot", "parents": [], "tree": {"README.md": "readme-v1"}}],
-                            "branches": {"feature/cache": "c1", "release/v2": "c1"}, "head": {"type": "branch", "name": "feature/cache"},
-                            "working_tree": {"src/cache.py": "cache-wip"}, "staging": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial data-store snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                }
+                            ],
+                            "branches": {"feature/cache": "c1", "release/v2": "c1"},
+                            "head": {"type": "branch", "name": "feature/cache"},
+                            "working_tree": {"src/cache.py": "cache-wip"},
+                            "staging": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git stash", "git switch release/v2"],
-                        "state_requirements": {"working_tree_clean": True, "head_branch": "release/v2"},
+                        "state_requirements": {
+                            "working_tree_clean": True,
+                            "head_branch": "release/v2",
+                        },
                     },
                     {
                         "case_id": "stash-easy-cap-review",
                         "label": "Stash models work and switch to review/groupmate-branch",
-                        "context": "You are halfway through editing src/models.py on feature/models when your groupmate messages: \"Can you review my branch?\" Your changes are not ready to commit. Stash them and switch to review/groupmate-branch.",
+                        "context": 'You are halfway through editing src/models.py on feature/models when your groupmate messages: "Can you review my branch?" Your changes are not ready to commit. Stash them and switch to review/groupmate-branch.',
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial capstone-system snapshot", "parents": [], "tree": {"README.md": "readme-v1"}}],
-                            "branches": {"feature/models": "c1", "review/groupmate-branch": "c1"}, "head": {"type": "branch", "name": "feature/models"},
-                            "working_tree": {"src/models.py": "models-wip"}, "staging": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial capstone-system snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                }
+                            ],
+                            "branches": {"feature/models": "c1", "review/groupmate-branch": "c1"},
+                            "head": {"type": "branch", "name": "feature/models"},
+                            "working_tree": {"src/models.py": "models-wip"},
+                            "staging": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git stash", "git switch review/groupmate-branch"],
-                        "state_requirements": {"working_tree_clean": True, "head_branch": "review/groupmate-branch", "rules": [{"type": "stash_stack_length_equals", "count": 1}]},
+                        "state_requirements": {
+                            "working_tree_clean": True,
+                            "head_branch": "review/groupmate-branch",
+                            "rules": [{"type": "stash_stack_length_equals", "count": 1}],
+                        },
                     },
                     {
                         "case_id": "stash-easy-docs-switch",
@@ -2940,12 +5373,26 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "context": "You are editing docs/api-reference.md on feature/api-docs. An urgent correction is needed on the release/stable branch right now. Your changes are not committed. Stash and switch to release/stable.",
                         "initial_state": {
                             "repository_initialized": True,
-                            "commits": [{"id": "c1", "message": "Initial docs-portal snapshot", "parents": [], "tree": {"README.md": "readme-v1"}}],
-                            "branches": {"feature/api-docs": "c1", "release/stable": "c1"}, "head": {"type": "branch", "name": "feature/api-docs"},
-                            "working_tree": {"docs/api-reference.md": "api-ref-wip"}, "staging": {}, "conflicts": [],
+                            "commits": [
+                                {
+                                    "id": "c1",
+                                    "message": "Initial docs-portal snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                }
+                            ],
+                            "branches": {"feature/api-docs": "c1", "release/stable": "c1"},
+                            "head": {"type": "branch", "name": "feature/api-docs"},
+                            "working_tree": {"docs/api-reference.md": "api-ref-wip"},
+                            "staging": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git stash", "git switch release/stable"],
-                        "state_requirements": {"working_tree_clean": True, "head_branch": "release/stable", "rules": [{"type": "stash_stack_length_equals", "count": 1}]},
+                        "state_requirements": {
+                            "working_tree_clean": True,
+                            "head_branch": "release/stable",
+                            "rules": [{"type": "stash_stack_length_equals", "count": 1}],
+                        },
                     },
                 ],
             },
@@ -2962,14 +5409,36 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Payment feature in progress", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Main moves forward", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Payment feature in progress",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Main moves forward",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"},
+                                },
                             ],
-                            "branches": {"feature/payments": "c1", "main": "c2"}, "head": {"type": "branch", "name": "feature/payments"},
-                            "working_tree": {"src/payments.py": "pay-wip"}, "staging": {}, "conflicts": [],
+                            "branches": {"feature/payments": "c1", "main": "c2"},
+                            "head": {"type": "branch", "name": "feature/payments"},
+                            "working_tree": {"src/payments.py": "pay-wip"},
+                            "staging": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git stash", "git switch main", "git switch feature/payments", "git stash pop"],
-                        "state_requirements": {"rules": [{"type": "stash_stack_empty"}], "head_branch": "feature/payments", "working_tree_contains": ["src/payments.py"]},
+                        "solution_commands": [
+                            "git stash",
+                            "git switch main",
+                            "git switch feature/payments",
+                            "git stash pop",
+                        ],
+                        "state_requirements": {
+                            "rules": [{"type": "stash_stack_empty"}],
+                            "head_branch": "feature/payments",
+                            "working_tree_contains": ["src/payments.py"],
+                        },
                     },
                     {
                         "case_id": "v23m-to-hotfix",
@@ -2978,14 +5447,36 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Orders feature base", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Hotfix branch tip", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/tax.py": "tax-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Orders feature base",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Hotfix branch tip",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/tax.py": "tax-v1"},
+                                },
                             ],
-                            "branches": {"feature/orders": "c1", "hotfix/fix-tax": "c2"}, "head": {"type": "branch", "name": "feature/orders"},
-                            "working_tree": {"src/orders.py": "ord-wip"}, "staging": {}, "conflicts": [],
+                            "branches": {"feature/orders": "c1", "hotfix/fix-tax": "c2"},
+                            "head": {"type": "branch", "name": "feature/orders"},
+                            "working_tree": {"src/orders.py": "ord-wip"},
+                            "staging": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git stash", "git switch hotfix/fix-tax", "git switch feature/orders", "git stash pop"],
-                        "state_requirements": {"rules": [{"type": "stash_stack_empty"}], "head_branch": "feature/orders", "working_tree_contains": ["src/orders.py"]},
+                        "solution_commands": [
+                            "git stash",
+                            "git switch hotfix/fix-tax",
+                            "git switch feature/orders",
+                            "git stash pop",
+                        ],
+                        "state_requirements": {
+                            "rules": [{"type": "stash_stack_empty"}],
+                            "head_branch": "feature/orders",
+                            "working_tree_contains": ["src/orders.py"],
+                        },
                     },
                     {
                         "case_id": "v23m-to-release",
@@ -2994,14 +5485,39 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Analytics feature base", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Release v2 preparation", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/release.py": "release-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Analytics feature base",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Release v2 preparation",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/release.py": "release-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"feature/analytics": "c1", "release/v2": "c2"}, "head": {"type": "branch", "name": "feature/analytics"},
-                            "working_tree": {"src/analytics.py": "ana-wip"}, "staging": {}, "conflicts": [],
+                            "branches": {"feature/analytics": "c1", "release/v2": "c2"},
+                            "head": {"type": "branch", "name": "feature/analytics"},
+                            "working_tree": {"src/analytics.py": "ana-wip"},
+                            "staging": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git stash", "git switch release/v2", "git switch feature/analytics", "git stash pop"],
-                        "state_requirements": {"rules": [{"type": "stash_stack_empty"}], "head_branch": "feature/analytics", "working_tree_contains": ["src/analytics.py"]},
+                        "solution_commands": [
+                            "git stash",
+                            "git switch release/v2",
+                            "git switch feature/analytics",
+                            "git stash pop",
+                        ],
+                        "state_requirements": {
+                            "rules": [{"type": "stash_stack_empty"}],
+                            "head_branch": "feature/analytics",
+                            "working_tree_contains": ["src/analytics.py"],
+                        },
                     },
                     {
                         "case_id": "stash-med-corp-named",
@@ -3010,14 +5526,36 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Billing feature base", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Hotfix branch tip", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/tax.py": "tax-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Billing feature base",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Hotfix branch tip",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/tax.py": "tax-v1"},
+                                },
                             ],
-                            "branches": {"feature/billing": "c1", "hotfix/tax-fix": "c2"}, "head": {"type": "branch", "name": "feature/billing"},
-                            "working_tree": {"src/billing.py": "billing-wip"}, "staging": {}, "conflicts": [],
+                            "branches": {"feature/billing": "c1", "hotfix/tax-fix": "c2"},
+                            "head": {"type": "branch", "name": "feature/billing"},
+                            "working_tree": {"src/billing.py": "billing-wip"},
+                            "staging": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git stash", "git switch hotfix/tax-fix", "git switch feature/billing", "git stash pop"],
-                        "state_requirements": {"rules": [{"type": "stash_stack_empty"}], "head_branch": "feature/billing", "working_tree_contains": ["src/billing.py"]},
+                        "solution_commands": [
+                            "git stash",
+                            "git switch hotfix/tax-fix",
+                            "git switch feature/billing",
+                            "git stash pop",
+                        ],
+                        "state_requirements": {
+                            "rules": [{"type": "stash_stack_empty"}],
+                            "head_branch": "feature/billing",
+                            "working_tree_contains": ["src/billing.py"],
+                        },
                     },
                 ],
             },
@@ -3034,14 +5572,36 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Auth rework in progress", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Main moves forward", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Auth rework in progress",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Main moves forward",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"},
+                                },
                             ],
-                            "branches": {"feature/auth-rework": "c1", "main": "c2"}, "head": {"type": "branch", "name": "feature/auth-rework"},
-                            "working_tree": {"src/auth.py": "auth-wip"}, "staging": {}, "conflicts": [],
+                            "branches": {"feature/auth-rework": "c1", "main": "c2"},
+                            "head": {"type": "branch", "name": "feature/auth-rework"},
+                            "working_tree": {"src/auth.py": "auth-wip"},
+                            "staging": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git stash", "git switch main", "git switch feature/auth-rework", "git stash drop"],
-                        "state_requirements": {"rules": [{"type": "stash_stack_empty"}], "head_branch": "feature/auth-rework", "working_tree_clean": True},
+                        "solution_commands": [
+                            "git stash",
+                            "git switch main",
+                            "git switch feature/auth-rework",
+                            "git stash drop",
+                        ],
+                        "state_requirements": {
+                            "rules": [{"type": "stash_stack_empty"}],
+                            "head_branch": "feature/auth-rework",
+                            "working_tree_clean": True,
+                        },
                     },
                     {
                         "case_id": "v23h-dropped-api",
@@ -3050,14 +5610,36 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "API v2 prototype started", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Hotfix committed", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/fix.py": "fix-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "API v2 prototype started",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Hotfix committed",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/fix.py": "fix-v1"},
+                                },
                             ],
-                            "branches": {"feature/api-v2": "c1", "hotfix/urgent": "c2"}, "head": {"type": "branch", "name": "feature/api-v2"},
-                            "working_tree": {"src/api_v2.py": "api-wip"}, "staging": {}, "conflicts": [],
+                            "branches": {"feature/api-v2": "c1", "hotfix/urgent": "c2"},
+                            "head": {"type": "branch", "name": "feature/api-v2"},
+                            "working_tree": {"src/api_v2.py": "api-wip"},
+                            "staging": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git stash", "git switch hotfix/urgent", "git switch feature/api-v2", "git stash drop"],
-                        "state_requirements": {"rules": [{"type": "stash_stack_empty"}], "head_branch": "feature/api-v2", "working_tree_clean": True},
+                        "solution_commands": [
+                            "git stash",
+                            "git switch hotfix/urgent",
+                            "git switch feature/api-v2",
+                            "git stash drop",
+                        ],
+                        "state_requirements": {
+                            "rules": [{"type": "stash_stack_empty"}],
+                            "head_branch": "feature/api-v2",
+                            "working_tree_clean": True,
+                        },
                     },
                     {
                         "case_id": "v23h-dropped-refactor",
@@ -3066,14 +5648,36 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Refactor started", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Release v1 stable", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Refactor started",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Release v1 stable",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"},
+                                },
                             ],
-                            "branches": {"feature/refactor": "c1", "release/v1": "c2"}, "head": {"type": "branch", "name": "feature/refactor"},
-                            "working_tree": {"src/core.py": "core-wip"}, "staging": {}, "conflicts": [],
+                            "branches": {"feature/refactor": "c1", "release/v1": "c2"},
+                            "head": {"type": "branch", "name": "feature/refactor"},
+                            "working_tree": {"src/core.py": "core-wip"},
+                            "staging": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git stash", "git switch release/v1", "git switch feature/refactor", "git stash drop"],
-                        "state_requirements": {"rules": [{"type": "stash_stack_empty"}], "head_branch": "feature/refactor", "working_tree_clean": True},
+                        "solution_commands": [
+                            "git stash",
+                            "git switch release/v1",
+                            "git switch feature/refactor",
+                            "git stash drop",
+                        ],
+                        "state_requirements": {
+                            "rules": [{"type": "stash_stack_empty"}],
+                            "head_branch": "feature/refactor",
+                            "working_tree_clean": True,
+                        },
                     },
                     {
                         "case_id": "stash-hard-oss-multi",
@@ -3082,17 +5686,36 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Lexer feature base", "parents": [], "tree": {"README.md": "readme-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Lexer feature base",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
                             ],
-                            "branches": {"feature/lexer": "c1"}, "head": {"type": "branch", "name": "feature/lexer"},
-                            "working_tree": {}, "staging": {}, "conflicts": [],
+                            "branches": {"feature/lexer": "c1"},
+                            "head": {"type": "branch", "name": "feature/lexer"},
+                            "working_tree": {},
+                            "staging": {},
+                            "conflicts": [],
                             "stash_stack": [
-                                {"working_tree": {"src/experiment.py": "exp-wip"}, "staging": {}, "conflicts": []},
-                                {"working_tree": {"src/lexer.py": "lexer-wip"}, "staging": {}, "conflicts": []},
+                                {
+                                    "working_tree": {"src/experiment.py": "exp-wip"},
+                                    "staging": {},
+                                    "conflicts": [],
+                                },
+                                {
+                                    "working_tree": {"src/lexer.py": "lexer-wip"},
+                                    "staging": {},
+                                    "conflicts": [],
+                                },
                             ],
                         },
                         "solution_commands": ["git stash drop stash@{0}", "git stash pop"],
-                        "state_requirements": {"rules": [{"type": "stash_stack_empty"}], "head_branch": "feature/lexer"},
+                        "state_requirements": {
+                            "rules": [{"type": "stash_stack_empty"}],
+                            "head_branch": "feature/lexer",
+                        },
                     },
                 ],
             },
@@ -3117,14 +5740,33 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Bootstrap project", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Implement feature", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/auth.py": "feat-auth-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap project",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Implement feature",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/auth.py": "feat-auth-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"feature/auth": "c2", "main": "c1"}, "head": {"type": "branch", "name": "feature/auth"},
-                            "remotes": {"origin": "https://github.com/team/ticketing-app.git"}, "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"feature/auth": "c2", "main": "c1"},
+                            "head": {"type": "branch", "name": "feature/auth"},
+                            "remotes": {"origin": "https://github.com/team/ticketing-app.git"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git push origin feature/auth"],
-                        "state_requirements": {"remote_branch_matches_local": {"origin/feature/auth": "feature/auth"}},
+                        "state_requirements": {
+                            "remote_branch_matches_local": {"origin/feature/auth": "feature/auth"}
+                        },
                     },
                     {
                         "case_id": "v24e-orders",
@@ -3133,14 +5775,35 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Bootstrap project", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Implement feature", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/orders.py": "feat-orders-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap project",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Implement feature",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/orders.py": "feat-orders-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"feature/orders": "c2", "main": "c1"}, "head": {"type": "branch", "name": "feature/orders"},
-                            "remotes": {"origin": "https://github.com/team/e-commerce.git"}, "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"feature/orders": "c2", "main": "c1"},
+                            "head": {"type": "branch", "name": "feature/orders"},
+                            "remotes": {"origin": "https://github.com/team/e-commerce.git"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git push origin feature/orders"],
-                        "state_requirements": {"remote_branch_matches_local": {"origin/feature/orders": "feature/orders"}},
+                        "state_requirements": {
+                            "remote_branch_matches_local": {
+                                "origin/feature/orders": "feature/orders"
+                            }
+                        },
                     },
                     {
                         "case_id": "v24e-parser",
@@ -3149,14 +5812,35 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Bootstrap project", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Implement feature", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/parser.py": "feat-parser-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap project",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Implement feature",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/parser.py": "feat-parser-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"feature/parser": "c2", "main": "c1"}, "head": {"type": "branch", "name": "feature/parser"},
-                            "remotes": {"origin": "https://github.com/team/data-pipeline.git"}, "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"feature/parser": "c2", "main": "c1"},
+                            "head": {"type": "branch", "name": "feature/parser"},
+                            "remotes": {"origin": "https://github.com/team/data-pipeline.git"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git push origin feature/parser"],
-                        "state_requirements": {"remote_branch_matches_local": {"origin/feature/parser": "feature/parser"}},
+                        "state_requirements": {
+                            "remote_branch_matches_local": {
+                                "origin/feature/parser": "feature/parser"
+                            }
+                        },
                     },
                     {
                         "case_id": "push-easy-cap-auth",
@@ -3165,14 +5849,32 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Bootstrap project", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Implement user auth", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap project",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Implement user auth",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"},
+                                },
                             ],
-                            "branches": {"feature/user-auth": "c2", "main": "c1"}, "head": {"type": "branch", "name": "feature/user-auth"},
-                            "remotes": {"origin": "https://github.com/team/capstone-app.git"}, "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"feature/user-auth": "c2", "main": "c1"},
+                            "head": {"type": "branch", "name": "feature/user-auth"},
+                            "remotes": {"origin": "https://github.com/team/capstone-app.git"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git push origin feature/user-auth"],
-                        "state_requirements": {"remote_branch_matches_local": {"origin/feature/user-auth": "feature/user-auth"}},
+                        "state_requirements": {
+                            "remote_branch_matches_local": {
+                                "origin/feature/user-auth": "feature/user-auth"
+                            }
+                        },
                     },
                     {
                         "case_id": "push-easy-free-landing",
@@ -3181,14 +5883,35 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Bootstrap project", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Implement client landing page", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/landing.py": "landing-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap project",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Implement client landing page",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/landing.py": "landing-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"feature/client-landing": "c2", "main": "c1"}, "head": {"type": "branch", "name": "feature/client-landing"},
-                            "remotes": {"origin": "https://github.com/client/client-site.git"}, "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"feature/client-landing": "c2", "main": "c1"},
+                            "head": {"type": "branch", "name": "feature/client-landing"},
+                            "remotes": {"origin": "https://github.com/client/client-site.git"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git push origin feature/client-landing"],
-                        "state_requirements": {"remote_branch_matches_local": {"origin/feature/client-landing": "feature/client-landing"}},
+                        "state_requirements": {
+                            "remote_branch_matches_local": {
+                                "origin/feature/client-landing": "feature/client-landing"
+                            }
+                        },
                     },
                 ],
             },
@@ -3205,14 +5928,34 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Bootstrap project", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Implement feature", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/auth.py": "feat-auth-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap project",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Implement feature",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/auth.py": "feat-auth-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"feature/auth": "c2", "main": "c1"}, "head": {"type": "branch", "name": "feature/auth"},
-                            "remotes": {"origin": "https://github.com/team/ticketing-app.git"}, "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"feature/auth": "c2", "main": "c1"},
+                            "head": {"type": "branch", "name": "feature/auth"},
+                            "remotes": {"origin": "https://github.com/team/ticketing-app.git"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git push -u origin feature/auth"],
-                        "state_requirements": {"remote_branch_matches_local": {"origin/feature/auth": "feature/auth"}, "upstream_tracking_set": ["feature/auth"]},
+                        "state_requirements": {
+                            "remote_branch_matches_local": {"origin/feature/auth": "feature/auth"},
+                            "upstream_tracking_set": ["feature/auth"],
+                        },
                     },
                     {
                         "case_id": "v24m-orders",
@@ -3221,14 +5964,36 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Bootstrap project", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Implement feature", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/orders.py": "feat-orders-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap project",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Implement feature",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/orders.py": "feat-orders-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"feature/orders": "c2", "main": "c1"}, "head": {"type": "branch", "name": "feature/orders"},
-                            "remotes": {"origin": "https://github.com/team/e-commerce.git"}, "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"feature/orders": "c2", "main": "c1"},
+                            "head": {"type": "branch", "name": "feature/orders"},
+                            "remotes": {"origin": "https://github.com/team/e-commerce.git"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git push -u origin feature/orders"],
-                        "state_requirements": {"remote_branch_matches_local": {"origin/feature/orders": "feature/orders"}, "upstream_tracking_set": ["feature/orders"]},
+                        "state_requirements": {
+                            "remote_branch_matches_local": {
+                                "origin/feature/orders": "feature/orders"
+                            },
+                            "upstream_tracking_set": ["feature/orders"],
+                        },
                     },
                     {
                         "case_id": "v24m-parser",
@@ -3237,14 +6002,36 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Bootstrap project", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Implement feature", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/parser.py": "feat-parser-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap project",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Implement feature",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/parser.py": "feat-parser-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"feature/parser": "c2", "main": "c1"}, "head": {"type": "branch", "name": "feature/parser"},
-                            "remotes": {"origin": "https://github.com/team/data-pipeline.git"}, "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"feature/parser": "c2", "main": "c1"},
+                            "head": {"type": "branch", "name": "feature/parser"},
+                            "remotes": {"origin": "https://github.com/team/data-pipeline.git"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git push -u origin feature/parser"],
-                        "state_requirements": {"remote_branch_matches_local": {"origin/feature/parser": "feature/parser"}, "upstream_tracking_set": ["feature/parser"]},
+                        "state_requirements": {
+                            "remote_branch_matches_local": {
+                                "origin/feature/parser": "feature/parser"
+                            },
+                            "upstream_tracking_set": ["feature/parser"],
+                        },
                     },
                     {
                         "case_id": "push-med-docs-track",
@@ -3253,14 +6040,36 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Bootstrap project", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Add v2 migration guide", "parents": ["c1"], "tree": {"README.md": "readme-v1", "docs/migration.md": "migration-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap project",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Add v2 migration guide",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "docs/migration.md": "migration-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"feature/v2-migration-guide": "c2", "main": "c1"}, "head": {"type": "branch", "name": "feature/v2-migration-guide"},
-                            "remotes": {"origin": "https://github.com/team/docs-portal.git"}, "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"feature/v2-migration-guide": "c2", "main": "c1"},
+                            "head": {"type": "branch", "name": "feature/v2-migration-guide"},
+                            "remotes": {"origin": "https://github.com/team/docs-portal.git"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git push -u origin feature/v2-migration-guide"],
-                        "state_requirements": {"remote_branch_matches_local": {"origin/feature/v2-migration-guide": "feature/v2-migration-guide"}, "upstream_tracking_set": ["feature/v2-migration-guide"]},
+                        "state_requirements": {
+                            "remote_branch_matches_local": {
+                                "origin/feature/v2-migration-guide": "feature/v2-migration-guide"
+                            },
+                            "upstream_tracking_set": ["feature/v2-migration-guide"],
+                        },
                     },
                 ],
             },
@@ -3277,17 +6086,38 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Common ancestor", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Original feature commit (remote still here)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/auth.py": "old-v1"}},
-                                {"id": "c3", "message": "Rebased feature commit (local, diverged from remote)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/auth.py": "new-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Common ancestor",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Original feature commit (remote still here)",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/auth.py": "old-v1"},
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Rebased feature commit (local, diverged from remote)",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/auth.py": "new-v1"},
+                                },
                             ],
-                            "branches": {"feature/auth": "c3", "main": "c1"}, "head": {"type": "branch", "name": "feature/auth"},
+                            "branches": {"feature/auth": "c3", "main": "c1"},
+                            "head": {"type": "branch", "name": "feature/auth"},
                             "remotes": {"origin": "https://github.com/team/ticketing-app.git"},
-                            "remote_branches": {"origin/feature/auth": "c2"}, "upstream_tracking": {"feature/auth": "origin/feature/auth"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "remote_branches": {"origin/feature/auth": "c2"},
+                            "upstream_tracking": {"feature/auth": "origin/feature/auth"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git push --force-with-lease origin feature/auth"],
-                        "state_requirements": {"remote_branch_matches_local": {"origin/feature/auth": "feature/auth"}},
+                        "state_requirements": {
+                            "remote_branch_matches_local": {"origin/feature/auth": "feature/auth"}
+                        },
                     },
                     {
                         "case_id": "v24h-orders",
@@ -3296,17 +6126,40 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Common ancestor", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Original feature commit (remote still here)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/orders.py": "old-v1"}},
-                                {"id": "c3", "message": "Rebased feature commit (local, diverged from remote)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/orders.py": "new-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Common ancestor",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Original feature commit (remote still here)",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/orders.py": "old-v1"},
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Rebased feature commit (local, diverged from remote)",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/orders.py": "new-v1"},
+                                },
                             ],
-                            "branches": {"feature/orders": "c3", "main": "c1"}, "head": {"type": "branch", "name": "feature/orders"},
+                            "branches": {"feature/orders": "c3", "main": "c1"},
+                            "head": {"type": "branch", "name": "feature/orders"},
                             "remotes": {"origin": "https://github.com/team/e-commerce.git"},
-                            "remote_branches": {"origin/feature/orders": "c2"}, "upstream_tracking": {"feature/orders": "origin/feature/orders"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "remote_branches": {"origin/feature/orders": "c2"},
+                            "upstream_tracking": {"feature/orders": "origin/feature/orders"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git push --force-with-lease origin feature/orders"],
-                        "state_requirements": {"remote_branch_matches_local": {"origin/feature/orders": "feature/orders"}},
+                        "state_requirements": {
+                            "remote_branch_matches_local": {
+                                "origin/feature/orders": "feature/orders"
+                            }
+                        },
                     },
                     {
                         "case_id": "v24h-parser",
@@ -3315,17 +6168,40 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Common ancestor", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Original feature commit (remote still here)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/parser.py": "old-v1"}},
-                                {"id": "c3", "message": "Rebased feature commit (local, diverged from remote)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/parser.py": "new-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Common ancestor",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Original feature commit (remote still here)",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/parser.py": "old-v1"},
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Rebased feature commit (local, diverged from remote)",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/parser.py": "new-v1"},
+                                },
                             ],
-                            "branches": {"feature/parser": "c3", "main": "c1"}, "head": {"type": "branch", "name": "feature/parser"},
+                            "branches": {"feature/parser": "c3", "main": "c1"},
+                            "head": {"type": "branch", "name": "feature/parser"},
                             "remotes": {"origin": "https://github.com/team/data-pipeline.git"},
-                            "remote_branches": {"origin/feature/parser": "c2"}, "upstream_tracking": {"feature/parser": "origin/feature/parser"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "remote_branches": {"origin/feature/parser": "c2"},
+                            "upstream_tracking": {"feature/parser": "origin/feature/parser"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git push --force-with-lease origin feature/parser"],
-                        "state_requirements": {"remote_branch_matches_local": {"origin/feature/parser": "feature/parser"}},
+                        "state_requirements": {
+                            "remote_branch_matches_local": {
+                                "origin/feature/parser": "feature/parser"
+                            }
+                        },
                     },
                     {
                         "case_id": "push-hard-devops-fwl",
@@ -3334,17 +6210,44 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Common ancestor", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Original pipeline commit (remote still here)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/pipeline.py": "old-v1"}},
-                                {"id": "c3", "message": "Rebased pipeline commit (local, diverged from remote)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/pipeline.py": "new-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Common ancestor",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Original pipeline commit (remote still here)",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/pipeline.py": "old-v1"},
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Rebased pipeline commit (local, diverged from remote)",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/pipeline.py": "new-v1"},
+                                },
                             ],
-                            "branches": {"feature/pipeline-config": "c3", "main": "c1"}, "head": {"type": "branch", "name": "feature/pipeline-config"},
+                            "branches": {"feature/pipeline-config": "c3", "main": "c1"},
+                            "head": {"type": "branch", "name": "feature/pipeline-config"},
                             "remotes": {"origin": "https://github.com/team/devops-infra.git"},
-                            "remote_branches": {"origin/feature/pipeline-config": "c2"}, "upstream_tracking": {"feature/pipeline-config": "origin/feature/pipeline-config"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "remote_branches": {"origin/feature/pipeline-config": "c2"},
+                            "upstream_tracking": {
+                                "feature/pipeline-config": "origin/feature/pipeline-config"
+                            },
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git push --force-with-lease origin feature/pipeline-config"],
-                        "state_requirements": {"remote_branch_matches_local": {"origin/feature/pipeline-config": "feature/pipeline-config"}},
+                        "solution_commands": [
+                            "git push --force-with-lease origin feature/pipeline-config"
+                        ],
+                        "state_requirements": {
+                            "remote_branch_matches_local": {
+                                "origin/feature/pipeline-config": "feature/pipeline-config"
+                            }
+                        },
                     },
                 ],
             },
@@ -3369,16 +6272,36 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Baseline snapshot", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "New remote work not yet fetched", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/feature.py": "remote-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Baseline snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "New remote work not yet fetched",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/feature.py": "remote-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
                             "remotes": {"origin": "https://github.com/team/ticketing-app.git"},
-                            "remote_branches": {"origin/main": "c1"}, "remote_updates": {"origin/main": "c2"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "remote_branches": {"origin/main": "c1"},
+                            "remote_updates": {"origin/main": "c2"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git fetch origin"],
-                        "state_requirements": {"remote_tracking_updated": True, "remote_branch_points_to": {"origin/main": "c2"}},
+                        "state_requirements": {
+                            "remote_tracking_updated": True,
+                            "remote_branch_points_to": {"origin/main": "c2"},
+                        },
                     },
                     {
                         "case_id": "v25e-feature",
@@ -3387,16 +6310,33 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Baseline snapshot", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "New remote work not yet fetched", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/auth.py": "remote-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Baseline snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "New remote work not yet fetched",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/auth.py": "remote-v1"},
+                                },
                             ],
-                            "branches": {"feature/auth": "c1"}, "head": {"type": "branch", "name": "feature/auth"},
+                            "branches": {"feature/auth": "c1"},
+                            "head": {"type": "branch", "name": "feature/auth"},
                             "remotes": {"origin": "https://github.com/team/auth-service.git"},
-                            "remote_branches": {"origin/feature/auth": "c1"}, "remote_updates": {"origin/feature/auth": "c2"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "remote_branches": {"origin/feature/auth": "c1"},
+                            "remote_updates": {"origin/feature/auth": "c2"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git fetch origin"],
-                        "state_requirements": {"remote_tracking_updated": True, "remote_branch_points_to": {"origin/feature/auth": "c2"}},
+                        "state_requirements": {
+                            "remote_tracking_updated": True,
+                            "remote_branch_points_to": {"origin/feature/auth": "c2"},
+                        },
                     },
                     {
                         "case_id": "v25e-develop",
@@ -3405,34 +6345,71 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Baseline snapshot", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "New remote work not yet fetched", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/api.py": "remote-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Baseline snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "New remote work not yet fetched",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/api.py": "remote-v1"},
+                                },
                             ],
-                            "branches": {"develop": "c1"}, "head": {"type": "branch", "name": "develop"},
+                            "branches": {"develop": "c1"},
+                            "head": {"type": "branch", "name": "develop"},
                             "remotes": {"origin": "https://github.com/team/api-gateway.git"},
-                            "remote_branches": {"origin/develop": "c1"}, "remote_updates": {"origin/develop": "c2"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "remote_branches": {"origin/develop": "c1"},
+                            "remote_updates": {"origin/develop": "c2"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git fetch origin"],
-                        "state_requirements": {"remote_tracking_updated": True, "remote_branch_points_to": {"origin/develop": "c2"}},
+                        "state_requirements": {
+                            "remote_tracking_updated": True,
+                            "remote_branch_points_to": {"origin/develop": "c2"},
+                        },
                     },
                     {
                         "case_id": "fetch-easy-cap-check",
                         "label": "Fetch to update origin/feature/models tracking",
-                        "context": "Your groupmate says \"I pushed our model classes to the feature/models branch.\" You want to see what was pushed to origin/feature/models before deciding whether to pull. Run fetch to update your remote tracking refs without touching your local branches.",
+                        "context": 'Your groupmate says "I pushed our model classes to the feature/models branch." You want to see what was pushed to origin/feature/models before deciding whether to pull. Run fetch to update your remote tracking refs without touching your local branches.',
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Baseline snapshot", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Groupmate pushed model classes", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/models.py": "models-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Baseline snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Groupmate pushed model classes",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/models.py": "models-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"feature/models": "c1"}, "head": {"type": "branch", "name": "feature/models"},
+                            "branches": {"feature/models": "c1"},
+                            "head": {"type": "branch", "name": "feature/models"},
                             "remotes": {"origin": "https://github.com/team/capstone-app.git"},
-                            "remote_branches": {"origin/feature/models": "c1"}, "remote_updates": {"origin/feature/models": "c2"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "remote_branches": {"origin/feature/models": "c1"},
+                            "remote_updates": {"origin/feature/models": "c2"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git fetch origin"],
-                        "state_requirements": {"remote_tracking_updated": True, "remote_branch_points_to": {"origin/feature/models": "c2"}},
+                        "state_requirements": {
+                            "remote_tracking_updated": True,
+                            "remote_branch_points_to": {"origin/feature/models": "c2"},
+                        },
                     },
                     {
                         "case_id": "fetch-easy-corp-list",
@@ -3441,16 +6418,33 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Baseline snapshot", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Release v2 preparation", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/audit.py": "audit-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Baseline snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Release v2 preparation",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/audit.py": "audit-v1"},
+                                },
                             ],
-                            "branches": {"release/v2": "c1"}, "head": {"type": "branch", "name": "release/v2"},
+                            "branches": {"release/v2": "c1"},
+                            "head": {"type": "branch", "name": "release/v2"},
                             "remotes": {"origin": "https://github.com/team/corp-backend.git"},
-                            "remote_branches": {"origin/release/v2": "c1"}, "remote_updates": {"origin/release/v2": "c2"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "remote_branches": {"origin/release/v2": "c1"},
+                            "remote_updates": {"origin/release/v2": "c2"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git fetch origin"],
-                        "state_requirements": {"remote_tracking_updated": True, "remote_branch_points_to": {"origin/release/v2": "c2"}},
+                        "state_requirements": {
+                            "remote_tracking_updated": True,
+                            "remote_branch_points_to": {"origin/release/v2": "c2"},
+                        },
                     },
                 ],
             },
@@ -3467,16 +6461,36 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Baseline snapshot", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Teammate committed to remote", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/feature.py": "remote-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Baseline snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Teammate committed to remote",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/feature.py": "remote-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
                             "remotes": {"origin": "https://github.com/team/ticketing-app.git"},
-                            "remote_branches": {"origin/main": "c1"}, "upstream_tracking": {"main": "origin/main"},
-                            "remote_updates": {"origin/main": "c2"}, "staging": {}, "working_tree": {}, "conflicts": [],
+                            "remote_branches": {"origin/main": "c1"},
+                            "upstream_tracking": {"main": "origin/main"},
+                            "remote_updates": {"origin/main": "c2"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git pull origin main"],
-                        "state_requirements": {"remote_branch_matches_local": {"origin/main": "main"}},
+                        "state_requirements": {
+                            "remote_branch_matches_local": {"origin/main": "main"}
+                        },
                     },
                     {
                         "case_id": "v25m-feature",
@@ -3485,16 +6499,33 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Baseline snapshot", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Teammate committed to remote", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/auth.py": "remote-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Baseline snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Teammate committed to remote",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/auth.py": "remote-v1"},
+                                },
                             ],
-                            "branches": {"feature/auth": "c1"}, "head": {"type": "branch", "name": "feature/auth"},
+                            "branches": {"feature/auth": "c1"},
+                            "head": {"type": "branch", "name": "feature/auth"},
                             "remotes": {"origin": "https://github.com/team/auth-service.git"},
-                            "remote_branches": {"origin/feature/auth": "c1"}, "upstream_tracking": {"feature/auth": "origin/feature/auth"},
-                            "remote_updates": {"origin/feature/auth": "c2"}, "staging": {}, "working_tree": {}, "conflicts": [],
+                            "remote_branches": {"origin/feature/auth": "c1"},
+                            "upstream_tracking": {"feature/auth": "origin/feature/auth"},
+                            "remote_updates": {"origin/feature/auth": "c2"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git pull origin feature/auth"],
-                        "state_requirements": {"remote_branch_matches_local": {"origin/feature/auth": "feature/auth"}},
+                        "state_requirements": {
+                            "remote_branch_matches_local": {"origin/feature/auth": "feature/auth"}
+                        },
                     },
                     {
                         "case_id": "v25m-develop",
@@ -3503,16 +6534,33 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Baseline snapshot", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Teammate committed to remote", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/api.py": "remote-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Baseline snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Teammate committed to remote",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/api.py": "remote-v1"},
+                                },
                             ],
-                            "branches": {"develop": "c1"}, "head": {"type": "branch", "name": "develop"},
+                            "branches": {"develop": "c1"},
+                            "head": {"type": "branch", "name": "develop"},
                             "remotes": {"origin": "https://github.com/team/api-gateway.git"},
-                            "remote_branches": {"origin/develop": "c1"}, "upstream_tracking": {"develop": "origin/develop"},
-                            "remote_updates": {"origin/develop": "c2"}, "staging": {}, "working_tree": {}, "conflicts": [],
+                            "remote_branches": {"origin/develop": "c1"},
+                            "upstream_tracking": {"develop": "origin/develop"},
+                            "remote_updates": {"origin/develop": "c2"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git pull origin develop"],
-                        "state_requirements": {"remote_branch_matches_local": {"origin/develop": "develop"}},
+                        "state_requirements": {
+                            "remote_branch_matches_local": {"origin/develop": "develop"}
+                        },
                     },
                     {
                         "case_id": "pull-med-free-client",
@@ -3521,16 +6569,36 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Baseline snapshot", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Client pushed new content", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/content.py": "content-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Baseline snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Client pushed new content",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/content.py": "content-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"staging": "c1"}, "head": {"type": "branch", "name": "staging"},
+                            "branches": {"staging": "c1"},
+                            "head": {"type": "branch", "name": "staging"},
                             "remotes": {"origin": "https://github.com/client/client-site.git"},
-                            "remote_branches": {"origin/staging": "c1"}, "upstream_tracking": {"staging": "origin/staging"},
-                            "remote_updates": {"origin/staging": "c2"}, "staging": {}, "working_tree": {}, "conflicts": [],
+                            "remote_branches": {"origin/staging": "c1"},
+                            "upstream_tracking": {"staging": "origin/staging"},
+                            "remote_updates": {"origin/staging": "c2"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git pull origin staging"],
-                        "state_requirements": {"remote_branch_matches_local": {"origin/staging": "staging"}},
+                        "state_requirements": {
+                            "remote_branch_matches_local": {"origin/staging": "staging"}
+                        },
                     },
                 ],
             },
@@ -3547,16 +6615,35 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Baseline snapshot", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Teammate committed to remote", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/feature.py": "remote-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Baseline snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Teammate committed to remote",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/feature.py": "remote-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
                             "remotes": {"origin": "https://github.com/team/ticketing-app.git"},
-                            "remote_branches": {"origin/main": "c1"}, "remote_updates": {"origin/main": "c2"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "remote_branches": {"origin/main": "c1"},
+                            "remote_updates": {"origin/main": "c2"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git fetch origin", "git pull origin main"],
-                        "state_requirements": {"remote_branch_matches_local": {"origin/main": "main"}},
+                        "state_requirements": {
+                            "remote_branch_matches_local": {"origin/main": "main"}
+                        },
                     },
                     {
                         "case_id": "v25h-feature",
@@ -3565,16 +6652,32 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Baseline snapshot", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Teammate committed to remote", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/auth.py": "remote-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Baseline snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Teammate committed to remote",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/auth.py": "remote-v1"},
+                                },
                             ],
-                            "branches": {"feature/auth": "c1"}, "head": {"type": "branch", "name": "feature/auth"},
+                            "branches": {"feature/auth": "c1"},
+                            "head": {"type": "branch", "name": "feature/auth"},
                             "remotes": {"origin": "https://github.com/team/auth-service.git"},
-                            "remote_branches": {"origin/feature/auth": "c1"}, "remote_updates": {"origin/feature/auth": "c2"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "remote_branches": {"origin/feature/auth": "c1"},
+                            "remote_updates": {"origin/feature/auth": "c2"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git fetch origin", "git pull origin feature/auth"],
-                        "state_requirements": {"remote_branch_matches_local": {"origin/feature/auth": "feature/auth"}},
+                        "state_requirements": {
+                            "remote_branch_matches_local": {"origin/feature/auth": "feature/auth"}
+                        },
                     },
                     {
                         "case_id": "v25h-develop",
@@ -3583,16 +6686,32 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Baseline snapshot", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Teammate committed to remote", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/api.py": "remote-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Baseline snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Teammate committed to remote",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/api.py": "remote-v1"},
+                                },
                             ],
-                            "branches": {"develop": "c1"}, "head": {"type": "branch", "name": "develop"},
+                            "branches": {"develop": "c1"},
+                            "head": {"type": "branch", "name": "develop"},
                             "remotes": {"origin": "https://github.com/team/api-gateway.git"},
-                            "remote_branches": {"origin/develop": "c1"}, "remote_updates": {"origin/develop": "c2"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "remote_branches": {"origin/develop": "c1"},
+                            "remote_updates": {"origin/develop": "c2"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git fetch origin", "git pull origin develop"],
-                        "state_requirements": {"remote_branch_matches_local": {"origin/develop": "develop"}},
+                        "state_requirements": {
+                            "remote_branch_matches_local": {"origin/develop": "develop"}
+                        },
                     },
                     {
                         "case_id": "fetch-hard-oss-review",
@@ -3601,16 +6720,33 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Baseline snapshot", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Upstream merged large PR", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/core.py": "core-v2"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Baseline snapshot",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Upstream merged large PR",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/core.py": "core-v2"},
+                                },
                             ],
-                            "branches": {"release/next": "c1"}, "head": {"type": "branch", "name": "release/next"},
+                            "branches": {"release/next": "c1"},
+                            "head": {"type": "branch", "name": "release/next"},
                             "remotes": {"origin": "https://github.com/upstream/oss-contrib.git"},
-                            "remote_branches": {"origin/release/next": "c1"}, "upstream_tracking": {"release/next": "origin/release/next"},
-                            "remote_updates": {"origin/release/next": "c2"}, "staging": {}, "working_tree": {}, "conflicts": [],
+                            "remote_branches": {"origin/release/next": "c1"},
+                            "upstream_tracking": {"release/next": "origin/release/next"},
+                            "remote_updates": {"origin/release/next": "c2"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git fetch origin", "git pull origin release/next"],
-                        "state_requirements": {"remote_branch_matches_local": {"origin/release/next": "release/next"}},
+                        "state_requirements": {
+                            "remote_branch_matches_local": {"origin/release/next": "release/next"}
+                        },
                     },
                 ],
             },
@@ -3635,18 +6771,44 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Common base", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Local work (non-overlapping)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/auth.py": "local-v1"}},
-                                {"id": "c3", "message": "Teammate pushed to remote (non-overlapping)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/tests.py": "remote-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Common base",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Local work (non-overlapping)",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/auth.py": "local-v1"},
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Teammate pushed to remote (non-overlapping)",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/tests.py": "remote-v1"},
+                                },
                             ],
-                            "branches": {"feature/auth": "c2"}, "head": {"type": "branch", "name": "feature/auth"},
+                            "branches": {"feature/auth": "c2"},
+                            "head": {"type": "branch", "name": "feature/auth"},
                             "remotes": {"origin": "https://github.com/team/ticketing-app.git"},
-                            "remote_branches": {"origin/feature/auth": "c1"}, "upstream_tracking": {"feature/auth": "origin/feature/auth"},
+                            "remote_branches": {"origin/feature/auth": "c1"},
+                            "upstream_tracking": {"feature/auth": "origin/feature/auth"},
                             "remote_updates": {"origin/feature/auth": "c3"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git pull origin feature/auth", "git push origin feature/auth"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "feature/auth", "remote_branch_matches_local": {"origin/feature/auth": "feature/auth"}},
+                        "solution_commands": [
+                            "git pull origin feature/auth",
+                            "git push origin feature/auth",
+                        ],
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "feature/auth",
+                            "remote_branch_matches_local": {"origin/feature/auth": "feature/auth"},
+                        },
                     },
                     {
                         "case_id": "v26e-payments",
@@ -3655,18 +6817,52 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Common base", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Local work (non-overlapping)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/payments.py": "local-v1"}},
-                                {"id": "c3", "message": "Teammate pushed to remote (non-overlapping)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/invoice.py": "remote-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Common base",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Local work (non-overlapping)",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/payments.py": "local-v1",
+                                    },
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Teammate pushed to remote (non-overlapping)",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/invoice.py": "remote-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"feature/payments": "c2"}, "head": {"type": "branch", "name": "feature/payments"},
+                            "branches": {"feature/payments": "c2"},
+                            "head": {"type": "branch", "name": "feature/payments"},
                             "remotes": {"origin": "https://github.com/team/e-commerce.git"},
-                            "remote_branches": {"origin/feature/payments": "c1"}, "upstream_tracking": {"feature/payments": "origin/feature/payments"},
+                            "remote_branches": {"origin/feature/payments": "c1"},
+                            "upstream_tracking": {"feature/payments": "origin/feature/payments"},
                             "remote_updates": {"origin/feature/payments": "c3"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git pull origin feature/payments", "git push origin feature/payments"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "feature/payments", "remote_branch_matches_local": {"origin/feature/payments": "feature/payments"}},
+                        "solution_commands": [
+                            "git pull origin feature/payments",
+                            "git push origin feature/payments",
+                        ],
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "feature/payments",
+                            "remote_branch_matches_local": {
+                                "origin/feature/payments": "feature/payments"
+                            },
+                        },
                     },
                     {
                         "case_id": "v26e-hotfix",
@@ -3675,18 +6871,49 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Common base", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Local work (non-overlapping)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/fix.py": "local-v1"}},
-                                {"id": "c3", "message": "Teammate pushed to remote (non-overlapping)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/hotfix_tests.py": "remote-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Common base",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Local work (non-overlapping)",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/fix.py": "local-v1"},
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Teammate pushed to remote (non-overlapping)",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/hotfix_tests.py": "remote-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"hotfix/critical": "c2"}, "head": {"type": "branch", "name": "hotfix/critical"},
+                            "branches": {"hotfix/critical": "c2"},
+                            "head": {"type": "branch", "name": "hotfix/critical"},
                             "remotes": {"origin": "https://github.com/team/order-service.git"},
-                            "remote_branches": {"origin/hotfix/critical": "c1"}, "upstream_tracking": {"hotfix/critical": "origin/hotfix/critical"},
+                            "remote_branches": {"origin/hotfix/critical": "c1"},
+                            "upstream_tracking": {"hotfix/critical": "origin/hotfix/critical"},
                             "remote_updates": {"origin/hotfix/critical": "c3"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git pull origin hotfix/critical", "git push origin hotfix/critical"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "hotfix/critical", "remote_branch_matches_local": {"origin/hotfix/critical": "hotfix/critical"}},
+                        "solution_commands": [
+                            "git pull origin hotfix/critical",
+                            "git push origin hotfix/critical",
+                        ],
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "hotfix/critical",
+                            "remote_branch_matches_local": {
+                                "origin/hotfix/critical": "hotfix/critical"
+                            },
+                        },
                     },
                     {
                         "case_id": "rec-easy-cap-ui",
@@ -3695,18 +6922,49 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Common base", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Local UI work", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/ui.py": "ui-local-v1"}},
-                                {"id": "c3", "message": "Groupmate pushed component", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/component.py": "remote-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Common base",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Local UI work",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/ui.py": "ui-local-v1"},
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Groupmate pushed component",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/component.py": "remote-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"feature/ui-layout": "c2"}, "head": {"type": "branch", "name": "feature/ui-layout"},
+                            "branches": {"feature/ui-layout": "c2"},
+                            "head": {"type": "branch", "name": "feature/ui-layout"},
                             "remotes": {"origin": "https://github.com/team/capstone-app.git"},
-                            "remote_branches": {"origin/feature/ui-layout": "c1"}, "upstream_tracking": {"feature/ui-layout": "origin/feature/ui-layout"},
+                            "remote_branches": {"origin/feature/ui-layout": "c1"},
+                            "upstream_tracking": {"feature/ui-layout": "origin/feature/ui-layout"},
                             "remote_updates": {"origin/feature/ui-layout": "c3"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git pull origin feature/ui-layout", "git push origin feature/ui-layout"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "feature/ui-layout", "remote_branch_matches_local": {"origin/feature/ui-layout": "feature/ui-layout"}},
+                        "solution_commands": [
+                            "git pull origin feature/ui-layout",
+                            "git push origin feature/ui-layout",
+                        ],
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "feature/ui-layout",
+                            "remote_branch_matches_local": {
+                                "origin/feature/ui-layout": "feature/ui-layout"
+                            },
+                        },
                     },
                     {
                         "case_id": "rec-easy-docs-chapter",
@@ -3715,18 +6973,47 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Common base", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Your new chapter", "parents": ["c1"], "tree": {"README.md": "readme-v1", "docs/chapter-3.md": "ch3-v1"}},
-                                {"id": "c3", "message": "Colleague's chapter", "parents": ["c1"], "tree": {"README.md": "readme-v1", "docs/chapter-4.md": "remote-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Common base",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Your new chapter",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "docs/chapter-3.md": "ch3-v1",
+                                    },
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Colleague's chapter",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "docs/chapter-4.md": "remote-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"main": "c2"}, "head": {"type": "branch", "name": "main"},
+                            "branches": {"main": "c2"},
+                            "head": {"type": "branch", "name": "main"},
                             "remotes": {"origin": "https://github.com/team/docs-portal.git"},
-                            "remote_branches": {"origin/main": "c1"}, "upstream_tracking": {"main": "origin/main"},
+                            "remote_branches": {"origin/main": "c1"},
+                            "upstream_tracking": {"main": "origin/main"},
                             "remote_updates": {"origin/main": "c3"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git pull origin main", "git push origin main"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "main", "remote_branch_matches_local": {"origin/main": "main"}},
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "main",
+                            "remote_branch_matches_local": {"origin/main": "main"},
+                        },
                     },
                 ],
             },
@@ -3743,18 +7030,45 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Common base", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Local work (non-overlapping)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/auth.py": "local-v1"}},
-                                {"id": "c3", "message": "Teammate pushed to remote (non-overlapping)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/tests.py": "remote-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Common base",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Local work (non-overlapping)",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/auth.py": "local-v1"},
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Teammate pushed to remote (non-overlapping)",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/tests.py": "remote-v1"},
+                                },
                             ],
-                            "branches": {"feature/auth": "c2"}, "head": {"type": "branch", "name": "feature/auth"},
+                            "branches": {"feature/auth": "c2"},
+                            "head": {"type": "branch", "name": "feature/auth"},
                             "remotes": {"origin": "https://github.com/team/ticketing-app.git"},
-                            "remote_branches": {"origin/feature/auth": "c1"}, "upstream_tracking": {"feature/auth": "origin/feature/auth"},
+                            "remote_branches": {"origin/feature/auth": "c1"},
+                            "upstream_tracking": {"feature/auth": "origin/feature/auth"},
                             "remote_updates": {"origin/feature/auth": "c3"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git fetch origin", "git merge origin/feature/auth", "git push origin feature/auth"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "feature/auth", "remote_branch_matches_local": {"origin/feature/auth": "feature/auth"}},
+                        "solution_commands": [
+                            "git fetch origin",
+                            "git merge origin/feature/auth",
+                            "git push origin feature/auth",
+                        ],
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "feature/auth",
+                            "remote_branch_matches_local": {"origin/feature/auth": "feature/auth"},
+                        },
                     },
                     {
                         "case_id": "v26m-payments",
@@ -3763,18 +7077,53 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Common base", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Local work (non-overlapping)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/payments.py": "local-v1"}},
-                                {"id": "c3", "message": "Teammate pushed to remote (non-overlapping)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/invoice.py": "remote-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Common base",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Local work (non-overlapping)",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/payments.py": "local-v1",
+                                    },
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Teammate pushed to remote (non-overlapping)",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/invoice.py": "remote-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"feature/payments": "c2"}, "head": {"type": "branch", "name": "feature/payments"},
+                            "branches": {"feature/payments": "c2"},
+                            "head": {"type": "branch", "name": "feature/payments"},
                             "remotes": {"origin": "https://github.com/team/e-commerce.git"},
-                            "remote_branches": {"origin/feature/payments": "c1"}, "upstream_tracking": {"feature/payments": "origin/feature/payments"},
+                            "remote_branches": {"origin/feature/payments": "c1"},
+                            "upstream_tracking": {"feature/payments": "origin/feature/payments"},
                             "remote_updates": {"origin/feature/payments": "c3"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git fetch origin", "git merge origin/feature/payments", "git push origin feature/payments"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "feature/payments", "remote_branch_matches_local": {"origin/feature/payments": "feature/payments"}},
+                        "solution_commands": [
+                            "git fetch origin",
+                            "git merge origin/feature/payments",
+                            "git push origin feature/payments",
+                        ],
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "feature/payments",
+                            "remote_branch_matches_local": {
+                                "origin/feature/payments": "feature/payments"
+                            },
+                        },
                     },
                     {
                         "case_id": "v26m-hotfix",
@@ -3783,18 +7132,50 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Common base", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Local work (non-overlapping)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/fix.py": "local-v1"}},
-                                {"id": "c3", "message": "Teammate pushed to remote (non-overlapping)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/hotfix_tests.py": "remote-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Common base",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Local work (non-overlapping)",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/fix.py": "local-v1"},
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Teammate pushed to remote (non-overlapping)",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/hotfix_tests.py": "remote-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"hotfix/critical": "c2"}, "head": {"type": "branch", "name": "hotfix/critical"},
+                            "branches": {"hotfix/critical": "c2"},
+                            "head": {"type": "branch", "name": "hotfix/critical"},
                             "remotes": {"origin": "https://github.com/team/order-service.git"},
-                            "remote_branches": {"origin/hotfix/critical": "c1"}, "upstream_tracking": {"hotfix/critical": "origin/hotfix/critical"},
+                            "remote_branches": {"origin/hotfix/critical": "c1"},
+                            "upstream_tracking": {"hotfix/critical": "origin/hotfix/critical"},
                             "remote_updates": {"origin/hotfix/critical": "c3"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git fetch origin", "git merge origin/hotfix/critical", "git push origin hotfix/critical"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "hotfix/critical", "remote_branch_matches_local": {"origin/hotfix/critical": "hotfix/critical"}},
+                        "solution_commands": [
+                            "git fetch origin",
+                            "git merge origin/hotfix/critical",
+                            "git push origin hotfix/critical",
+                        ],
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "hotfix/critical",
+                            "remote_branch_matches_local": {
+                                "origin/hotfix/critical": "hotfix/critical"
+                            },
+                        },
                     },
                     {
                         "case_id": "rec-med-qa-testrunner",
@@ -3803,18 +7184,55 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Common base", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Local test runner work", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/runner.py": "runner-local-v1"}},
-                                {"id": "c3", "message": "Teammate pushed fixes", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/reporter.py": "remote-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Common base",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Local test runner work",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/runner.py": "runner-local-v1",
+                                    },
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Teammate pushed fixes",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/reporter.py": "remote-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"feature/test-runner-v2": "c2"}, "head": {"type": "branch", "name": "feature/test-runner-v2"},
+                            "branches": {"feature/test-runner-v2": "c2"},
+                            "head": {"type": "branch", "name": "feature/test-runner-v2"},
                             "remotes": {"origin": "https://github.com/team/qa-suite.git"},
-                            "remote_branches": {"origin/feature/test-runner-v2": "c1"}, "upstream_tracking": {"feature/test-runner-v2": "origin/feature/test-runner-v2"},
+                            "remote_branches": {"origin/feature/test-runner-v2": "c1"},
+                            "upstream_tracking": {
+                                "feature/test-runner-v2": "origin/feature/test-runner-v2"
+                            },
                             "remote_updates": {"origin/feature/test-runner-v2": "c3"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git fetch origin", "git merge origin/feature/test-runner-v2", "git push origin feature/test-runner-v2"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "feature/test-runner-v2", "remote_branch_matches_local": {"origin/feature/test-runner-v2": "feature/test-runner-v2"}},
+                        "solution_commands": [
+                            "git fetch origin",
+                            "git merge origin/feature/test-runner-v2",
+                            "git push origin feature/test-runner-v2",
+                        ],
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "feature/test-runner-v2",
+                            "remote_branch_matches_local": {
+                                "origin/feature/test-runner-v2": "feature/test-runner-v2"
+                            },
+                        },
                     },
                 ],
             },
@@ -3831,18 +7249,46 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Common base", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Local work on target branch (non-overlapping)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/auth.py": "local-v1"}},
-                                {"id": "c3", "message": "Teammate pushed to remote (non-overlapping)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/tests.py": "remote-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Common base",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Local work on target branch (non-overlapping)",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/auth.py": "local-v1"},
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Teammate pushed to remote (non-overlapping)",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/tests.py": "remote-v1"},
+                                },
                             ],
-                            "branches": {"feature/current": "c1", "feature/auth": "c2"}, "head": {"type": "branch", "name": "feature/current"},
+                            "branches": {"feature/current": "c1", "feature/auth": "c2"},
+                            "head": {"type": "branch", "name": "feature/current"},
                             "remotes": {"origin": "https://github.com/team/ticketing-app.git"},
-                            "remote_branches": {"origin/feature/auth": "c1"}, "upstream_tracking": {"feature/auth": "origin/feature/auth"},
+                            "remote_branches": {"origin/feature/auth": "c1"},
+                            "upstream_tracking": {"feature/auth": "origin/feature/auth"},
                             "remote_updates": {"origin/feature/auth": "c3"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git switch feature/auth", "git fetch origin", "git merge origin/feature/auth", "git push origin feature/auth"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "feature/auth", "remote_branch_matches_local": {"origin/feature/auth": "feature/auth"}},
+                        "solution_commands": [
+                            "git switch feature/auth",
+                            "git fetch origin",
+                            "git merge origin/feature/auth",
+                            "git push origin feature/auth",
+                        ],
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "feature/auth",
+                            "remote_branch_matches_local": {"origin/feature/auth": "feature/auth"},
+                        },
                     },
                     {
                         "case_id": "v26h-payments",
@@ -3851,18 +7297,54 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Common base", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Local work on target branch (non-overlapping)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/payments.py": "local-v1"}},
-                                {"id": "c3", "message": "Teammate pushed to remote (non-overlapping)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/invoice.py": "remote-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Common base",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Local work on target branch (non-overlapping)",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/payments.py": "local-v1",
+                                    },
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Teammate pushed to remote (non-overlapping)",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/invoice.py": "remote-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"feature/current": "c1", "feature/payments": "c2"}, "head": {"type": "branch", "name": "feature/current"},
+                            "branches": {"feature/current": "c1", "feature/payments": "c2"},
+                            "head": {"type": "branch", "name": "feature/current"},
                             "remotes": {"origin": "https://github.com/team/e-commerce.git"},
-                            "remote_branches": {"origin/feature/payments": "c1"}, "upstream_tracking": {"feature/payments": "origin/feature/payments"},
+                            "remote_branches": {"origin/feature/payments": "c1"},
+                            "upstream_tracking": {"feature/payments": "origin/feature/payments"},
                             "remote_updates": {"origin/feature/payments": "c3"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git switch feature/payments", "git fetch origin", "git merge origin/feature/payments", "git push origin feature/payments"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "feature/payments", "remote_branch_matches_local": {"origin/feature/payments": "feature/payments"}},
+                        "solution_commands": [
+                            "git switch feature/payments",
+                            "git fetch origin",
+                            "git merge origin/feature/payments",
+                            "git push origin feature/payments",
+                        ],
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "feature/payments",
+                            "remote_branch_matches_local": {
+                                "origin/feature/payments": "feature/payments"
+                            },
+                        },
                     },
                     {
                         "case_id": "v26h-hotfix",
@@ -3871,18 +7353,51 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Common base", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Local work on target branch (non-overlapping)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/fix.py": "local-v1"}},
-                                {"id": "c3", "message": "Teammate pushed to remote (non-overlapping)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/hotfix_tests.py": "remote-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Common base",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Local work on target branch (non-overlapping)",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/fix.py": "local-v1"},
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Teammate pushed to remote (non-overlapping)",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/hotfix_tests.py": "remote-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"feature/current": "c1", "hotfix/critical": "c2"}, "head": {"type": "branch", "name": "feature/current"},
+                            "branches": {"feature/current": "c1", "hotfix/critical": "c2"},
+                            "head": {"type": "branch", "name": "feature/current"},
                             "remotes": {"origin": "https://github.com/team/order-service.git"},
-                            "remote_branches": {"origin/hotfix/critical": "c1"}, "upstream_tracking": {"hotfix/critical": "origin/hotfix/critical"},
+                            "remote_branches": {"origin/hotfix/critical": "c1"},
+                            "upstream_tracking": {"hotfix/critical": "origin/hotfix/critical"},
                             "remote_updates": {"origin/hotfix/critical": "c3"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git switch hotfix/critical", "git fetch origin", "git merge origin/hotfix/critical", "git push origin hotfix/critical"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "hotfix/critical", "remote_branch_matches_local": {"origin/hotfix/critical": "hotfix/critical"}},
+                        "solution_commands": [
+                            "git switch hotfix/critical",
+                            "git fetch origin",
+                            "git merge origin/hotfix/critical",
+                            "git push origin hotfix/critical",
+                        ],
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "hotfix/critical",
+                            "remote_branch_matches_local": {
+                                "origin/hotfix/critical": "hotfix/critical"
+                            },
+                        },
                     },
                     {
                         "case_id": "rec-hard-corp-audit",
@@ -3891,18 +7406,56 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Common base", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Local audit work", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/audit.py": "audit-local-v1"}},
-                                {"id": "c3", "message": "Teammate pushed audit fix", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/compliance.py": "remote-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Common base",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Local audit work",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/audit.py": "audit-local-v1",
+                                    },
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Teammate pushed audit fix",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/compliance.py": "remote-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"develop": "c1", "feature/compliance-audit": "c2"}, "head": {"type": "branch", "name": "develop"},
+                            "branches": {"develop": "c1", "feature/compliance-audit": "c2"},
+                            "head": {"type": "branch", "name": "develop"},
                             "remotes": {"origin": "https://github.com/team/corp-backend.git"},
-                            "remote_branches": {"origin/feature/compliance-audit": "c1"}, "upstream_tracking": {"feature/compliance-audit": "origin/feature/compliance-audit"},
+                            "remote_branches": {"origin/feature/compliance-audit": "c1"},
+                            "upstream_tracking": {
+                                "feature/compliance-audit": "origin/feature/compliance-audit"
+                            },
                             "remote_updates": {"origin/feature/compliance-audit": "c3"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git switch feature/compliance-audit", "git fetch origin", "git merge origin/feature/compliance-audit", "git push origin feature/compliance-audit"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "feature/compliance-audit", "remote_branch_matches_local": {"origin/feature/compliance-audit": "feature/compliance-audit"}},
+                        "solution_commands": [
+                            "git switch feature/compliance-audit",
+                            "git fetch origin",
+                            "git merge origin/feature/compliance-audit",
+                            "git push origin feature/compliance-audit",
+                        ],
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "feature/compliance-audit",
+                            "remote_branch_matches_local": {
+                                "origin/feature/compliance-audit": "feature/compliance-audit"
+                            },
+                        },
                     },
                 ],
             },
@@ -3927,14 +7480,33 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Project base commit", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Feature branch complete", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Project base commit",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch complete",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/auth": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/auth": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git merge feature/auth"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "main", "rules": [{"type": "min_commits_on_branch", "branch": "main", "minimum": 2}]},
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "main",
+                            "rules": [
+                                {"type": "min_commits_on_branch", "branch": "main", "minimum": 2}
+                            ],
+                        },
                     },
                     {
                         "case_id": "v27e-payments",
@@ -3943,14 +7515,33 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Project base commit", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Feature branch complete", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/payments.py": "pay-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Project base commit",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch complete",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/payments.py": "pay-v1"},
+                                },
                             ],
-                            "branches": {"develop": "c1", "feature/payments": "c2"}, "head": {"type": "branch", "name": "develop"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"develop": "c1", "feature/payments": "c2"},
+                            "head": {"type": "branch", "name": "develop"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git merge feature/payments"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "develop", "rules": [{"type": "min_commits_on_branch", "branch": "develop", "minimum": 2}]},
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "develop",
+                            "rules": [
+                                {"type": "min_commits_on_branch", "branch": "develop", "minimum": 2}
+                            ],
+                        },
                     },
                     {
                         "case_id": "v27e-hotfix",
@@ -3959,30 +7550,72 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Project base commit", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Feature branch complete", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/fix.py": "fix-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Project base commit",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch complete",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/fix.py": "fix-v1"},
+                                },
                             ],
-                            "branches": {"release/v2": "c1", "hotfix/fix-critical": "c2"}, "head": {"type": "branch", "name": "release/v2"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"release/v2": "c1", "hotfix/fix-critical": "c2"},
+                            "head": {"type": "branch", "name": "release/v2"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git merge hotfix/fix-critical"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "release/v2", "rules": [{"type": "min_commits_on_branch", "branch": "release/v2", "minimum": 2}]},
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "release/v2",
+                            "rules": [
+                                {
+                                    "type": "min_commits_on_branch",
+                                    "branch": "release/v2",
+                                    "minimum": 2,
+                                }
+                            ],
+                        },
                     },
                     {
                         "case_id": "merge-easy-cap-docs",
                         "label": "Fast-forward merge docs/readme-update into staging",
-                        "context": "docs/readme-update is a direct linear descendant of staging -- no divergence. Your group lead says \"just merge it in.\" You are on staging. Fast-forward is fine.",
+                        "context": 'docs/readme-update is a direct linear descendant of staging -- no divergence. Your group lead says "just merge it in." You are on staging. Fast-forward is fine.',
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Project base commit", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "README update complete", "parents": ["c1"], "tree": {"README.md": "readme-v2"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Project base commit",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "README update complete",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v2"},
+                                },
                             ],
-                            "branches": {"staging": "c1", "docs/readme-update": "c2"}, "head": {"type": "branch", "name": "staging"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"staging": "c1", "docs/readme-update": "c2"},
+                            "head": {"type": "branch", "name": "staging"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git merge docs/readme-update"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "staging", "rules": [{"type": "min_commits_on_branch", "branch": "staging", "minimum": 2}]},
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "staging",
+                            "rules": [
+                                {"type": "min_commits_on_branch", "branch": "staging", "minimum": 2}
+                            ],
+                        },
                     },
                     {
                         "case_id": "merge-easy-free-contact",
@@ -3991,14 +7624,40 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Project base commit", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Contact form complete", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/contact.py": "contact-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Project base commit",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Contact form complete",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/contact.py": "contact-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"integration": "c1", "feature/contact-form": "c2"}, "head": {"type": "branch", "name": "integration"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"integration": "c1", "feature/contact-form": "c2"},
+                            "head": {"type": "branch", "name": "integration"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git merge feature/contact-form"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "integration", "rules": [{"type": "min_commits_on_branch", "branch": "integration", "minimum": 2}]},
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "integration",
+                            "rules": [
+                                {
+                                    "type": "min_commits_on_branch",
+                                    "branch": "integration",
+                                    "minimum": 2,
+                                }
+                            ],
+                        },
                     },
                 ],
             },
@@ -4015,14 +7674,33 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Project base commit", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Feature branch complete", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Project base commit",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch complete",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/auth": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/auth": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git merge --no-ff feature/auth"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "main", "rules": [{"type": "min_commits_on_branch", "branch": "main", "minimum": 3}]},
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "main",
+                            "rules": [
+                                {"type": "min_commits_on_branch", "branch": "main", "minimum": 3}
+                            ],
+                        },
                     },
                     {
                         "case_id": "v27m-payments",
@@ -4031,14 +7709,33 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Project base commit", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Feature branch complete", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/payments.py": "pay-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Project base commit",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch complete",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/payments.py": "pay-v1"},
+                                },
                             ],
-                            "branches": {"develop": "c1", "feature/payments": "c2"}, "head": {"type": "branch", "name": "develop"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"develop": "c1", "feature/payments": "c2"},
+                            "head": {"type": "branch", "name": "develop"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git merge --no-ff feature/payments"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "develop", "rules": [{"type": "min_commits_on_branch", "branch": "develop", "minimum": 3}]},
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "develop",
+                            "rules": [
+                                {"type": "min_commits_on_branch", "branch": "develop", "minimum": 3}
+                            ],
+                        },
                     },
                     {
                         "case_id": "v27m-hotfix",
@@ -4047,14 +7744,37 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Project base commit", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Feature branch complete", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/fix.py": "fix-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Project base commit",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch complete",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/fix.py": "fix-v1"},
+                                },
                             ],
-                            "branches": {"release/v2": "c1", "hotfix/fix-critical": "c2"}, "head": {"type": "branch", "name": "release/v2"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"release/v2": "c1", "hotfix/fix-critical": "c2"},
+                            "head": {"type": "branch", "name": "release/v2"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git merge --no-ff hotfix/fix-critical"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "release/v2", "rules": [{"type": "min_commits_on_branch", "branch": "release/v2", "minimum": 3}]},
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "release/v2",
+                            "rules": [
+                                {
+                                    "type": "min_commits_on_branch",
+                                    "branch": "release/v2",
+                                    "minimum": 3,
+                                }
+                            ],
+                        },
                     },
                     {
                         "case_id": "merge-med-corp-sso",
@@ -4063,14 +7783,37 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Project base commit", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "SSO integration complete", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/sso.py": "sso-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Project base commit",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "SSO integration complete",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/sso.py": "sso-v1"},
+                                },
                             ],
-                            "branches": {"release/v1": "c1", "feature/sso-integration": "c2"}, "head": {"type": "branch", "name": "release/v1"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"release/v1": "c1", "feature/sso-integration": "c2"},
+                            "head": {"type": "branch", "name": "release/v1"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git merge --no-ff feature/sso-integration"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "release/v1", "rules": [{"type": "min_commits_on_branch", "branch": "release/v1", "minimum": 3}]},
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "release/v1",
+                            "rules": [
+                                {
+                                    "type": "min_commits_on_branch",
+                                    "branch": "release/v1",
+                                    "minimum": 3,
+                                }
+                            ],
+                        },
                     },
                 ],
             },
@@ -4087,15 +7830,43 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Common base", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Auth feature diverged", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"}},
-                                {"id": "c3", "message": "Main diverged", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Common base",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Auth feature diverged",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"},
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Main diverged",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/app.py": "app-v1"},
+                                },
                             ],
-                            "branches": {"feature/current": "c1", "main": "c3", "feature/auth": "c2"}, "head": {"type": "branch", "name": "feature/current"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {
+                                "feature/current": "c1",
+                                "main": "c3",
+                                "feature/auth": "c2",
+                            },
+                            "head": {"type": "branch", "name": "feature/current"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git switch main", "git merge --no-ff feature/auth"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "main", "rules": [{"type": "min_commits_on_branch", "branch": "main", "minimum": 4}]},
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "main",
+                            "rules": [
+                                {"type": "min_commits_on_branch", "branch": "main", "minimum": 4}
+                            ],
+                        },
                     },
                     {
                         "case_id": "v27h-payments",
@@ -4104,15 +7875,46 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Common base", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Payments diverged", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/payments.py": "pay-v1"}},
-                                {"id": "c3", "message": "Develop diverged", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/core.py": "core-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Common base",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Payments diverged",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/payments.py": "pay-v1"},
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Develop diverged",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/core.py": "core-v1"},
+                                },
                             ],
-                            "branches": {"feature/current": "c1", "develop": "c3", "feature/payments": "c2"}, "head": {"type": "branch", "name": "feature/current"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {
+                                "feature/current": "c1",
+                                "develop": "c3",
+                                "feature/payments": "c2",
+                            },
+                            "head": {"type": "branch", "name": "feature/current"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git switch develop", "git merge --no-ff feature/payments"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "develop", "rules": [{"type": "min_commits_on_branch", "branch": "develop", "minimum": 4}]},
+                        "solution_commands": [
+                            "git switch develop",
+                            "git merge --no-ff feature/payments",
+                        ],
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "develop",
+                            "rules": [
+                                {"type": "min_commits_on_branch", "branch": "develop", "minimum": 4}
+                            ],
+                        },
                     },
                     {
                         "case_id": "v27h-hotfix",
@@ -4121,15 +7923,50 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Common base", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Hotfix diverged", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/fix.py": "fix-v1"}},
-                                {"id": "c3", "message": "Release diverged", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/release.py": "rel-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Common base",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Hotfix diverged",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/fix.py": "fix-v1"},
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Release diverged",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/release.py": "rel-v1"},
+                                },
                             ],
-                            "branches": {"feature/current": "c1", "release/v1": "c3", "hotfix/critical": "c2"}, "head": {"type": "branch", "name": "feature/current"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {
+                                "feature/current": "c1",
+                                "release/v1": "c3",
+                                "hotfix/critical": "c2",
+                            },
+                            "head": {"type": "branch", "name": "feature/current"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git switch release/v1", "git merge --no-ff hotfix/critical"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "release/v1", "rules": [{"type": "min_commits_on_branch", "branch": "release/v1", "minimum": 4}]},
+                        "solution_commands": [
+                            "git switch release/v1",
+                            "git merge --no-ff hotfix/critical",
+                        ],
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "release/v1",
+                            "rules": [
+                                {
+                                    "type": "min_commits_on_branch",
+                                    "branch": "release/v1",
+                                    "minimum": 4,
+                                }
+                            ],
+                        },
                     },
                     {
                         "case_id": "merge-hard-devops-cert",
@@ -4138,15 +7975,50 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Common base", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Cert renewal hotfix", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/certs.py": "cert-v1"}},
-                                {"id": "c3", "message": "Release stable diverged", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/release.py": "rel-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Common base",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Cert renewal hotfix",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/certs.py": "cert-v1"},
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Release stable diverged",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/release.py": "rel-v1"},
+                                },
                             ],
-                            "branches": {"feature/current-work": "c1", "release/stable": "c3", "hotfix/cert-renewal": "c2"}, "head": {"type": "branch", "name": "feature/current-work"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {
+                                "feature/current-work": "c1",
+                                "release/stable": "c3",
+                                "hotfix/cert-renewal": "c2",
+                            },
+                            "head": {"type": "branch", "name": "feature/current-work"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git switch release/stable", "git merge --no-ff hotfix/cert-renewal"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "release/stable", "rules": [{"type": "min_commits_on_branch", "branch": "release/stable", "minimum": 4}]},
+                        "solution_commands": [
+                            "git switch release/stable",
+                            "git merge --no-ff hotfix/cert-renewal",
+                        ],
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "release/stable",
+                            "rules": [
+                                {
+                                    "type": "min_commits_on_branch",
+                                    "branch": "release/stable",
+                                    "minimum": 4,
+                                }
+                            ],
+                        },
                     },
                 ],
             },
@@ -4171,15 +8043,43 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Bootstrap project", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Auth: add login", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"}},
-                                {"id": "c3", "message": "Auth: add logout", "parents": ["c2"], "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v2"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap project",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Auth: add login",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"},
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Auth: add logout",
+                                    "parents": ["c2"],
+                                    "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v2"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/auth": "c3"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/auth": "c3"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge --squash feature/auth", 'git commit -m "Squash auth feature into main"'],
-                        "state_requirements": {"conflict_free": True, "head_branch": "main", "working_tree_clean": True, "rules": [{"type": "min_commits_on_branch", "branch": "main", "minimum": 2}]},
+                        "solution_commands": [
+                            "git merge --squash feature/auth",
+                            'git commit -m "Squash auth feature into main"',
+                        ],
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "main",
+                            "working_tree_clean": True,
+                            "rules": [
+                                {"type": "min_commits_on_branch", "branch": "main", "minimum": 2}
+                            ],
+                        },
                     },
                     {
                         "case_id": "v28e-orders",
@@ -4188,15 +8088,43 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Bootstrap project", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Orders: add create", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/orders.py": "ord-v1"}},
-                                {"id": "c3", "message": "Orders: add cancel", "parents": ["c2"], "tree": {"README.md": "readme-v1", "src/orders.py": "ord-v2"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap project",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Orders: add create",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/orders.py": "ord-v1"},
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Orders: add cancel",
+                                    "parents": ["c2"],
+                                    "tree": {"README.md": "readme-v1", "src/orders.py": "ord-v2"},
+                                },
                             ],
-                            "branches": {"develop": "c1", "feature/orders": "c3"}, "head": {"type": "branch", "name": "develop"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"develop": "c1", "feature/orders": "c3"},
+                            "head": {"type": "branch", "name": "develop"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge --squash feature/orders", 'git commit -m "Squash orders feature into develop"'],
-                        "state_requirements": {"conflict_free": True, "head_branch": "develop", "working_tree_clean": True, "rules": [{"type": "min_commits_on_branch", "branch": "develop", "minimum": 2}]},
+                        "solution_commands": [
+                            "git merge --squash feature/orders",
+                            'git commit -m "Squash orders feature into develop"',
+                        ],
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "develop",
+                            "working_tree_clean": True,
+                            "rules": [
+                                {"type": "min_commits_on_branch", "branch": "develop", "minimum": 2}
+                            ],
+                        },
                     },
                     {
                         "case_id": "v28e-parser",
@@ -4205,51 +8133,153 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Bootstrap project", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Parser: initial impl", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/parser.py": "par-v1"}},
-                                {"id": "c3", "message": "Parser: add error handling", "parents": ["c2"], "tree": {"README.md": "readme-v1", "src/parser.py": "par-v2"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap project",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Parser: initial impl",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/parser.py": "par-v1"},
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Parser: add error handling",
+                                    "parents": ["c2"],
+                                    "tree": {"README.md": "readme-v1", "src/parser.py": "par-v2"},
+                                },
                             ],
-                            "branches": {"release/v2": "c1", "feature/parser": "c3"}, "head": {"type": "branch", "name": "release/v2"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"release/v2": "c1", "feature/parser": "c3"},
+                            "head": {"type": "branch", "name": "release/v2"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge --squash feature/parser", 'git commit -m "Squash parser feature into release/v2"'],
-                        "state_requirements": {"conflict_free": True, "head_branch": "release/v2", "working_tree_clean": True, "rules": [{"type": "min_commits_on_branch", "branch": "release/v2", "minimum": 2}]},
+                        "solution_commands": [
+                            "git merge --squash feature/parser",
+                            'git commit -m "Squash parser feature into release/v2"',
+                        ],
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "release/v2",
+                            "working_tree_clean": True,
+                            "rules": [
+                                {
+                                    "type": "min_commits_on_branch",
+                                    "branch": "release/v2",
+                                    "minimum": 2,
+                                }
+                            ],
+                        },
                     },
                     {
                         "case_id": "squash-easy-cap-report",
                         "label": "Squash-merge feature/report-generator into integration",
-                        "context": "feature/report-generator has 3 messy WIP commits your group accumulated while iterating. Before submitting, your group lead wants a single clean commit on integration. You are on integration. Squash-merge and commit with \"Add report generator module\".",
+                        "context": 'feature/report-generator has 3 messy WIP commits your group accumulated while iterating. Before submitting, your group lead wants a single clean commit on integration. You are on integration. Squash-merge and commit with "Add report generator module".',
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Bootstrap project", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Report: initial impl", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/report.py": "rep-v1"}},
-                                {"id": "c3", "message": "Report: add filters", "parents": ["c2"], "tree": {"README.md": "readme-v1", "src/report.py": "rep-v2"}},
-                                {"id": "c4", "message": "Report: fix edge case", "parents": ["c3"], "tree": {"README.md": "readme-v1", "src/report.py": "rep-v3"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap project",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Report: initial impl",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/report.py": "rep-v1"},
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Report: add filters",
+                                    "parents": ["c2"],
+                                    "tree": {"README.md": "readme-v1", "src/report.py": "rep-v2"},
+                                },
+                                {
+                                    "id": "c4",
+                                    "message": "Report: fix edge case",
+                                    "parents": ["c3"],
+                                    "tree": {"README.md": "readme-v1", "src/report.py": "rep-v3"},
+                                },
                             ],
-                            "branches": {"integration": "c1", "feature/report-generator": "c4"}, "head": {"type": "branch", "name": "integration"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"integration": "c1", "feature/report-generator": "c4"},
+                            "head": {"type": "branch", "name": "integration"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge --squash feature/report-generator", 'git commit -m "Add report generator module"'],
-                        "state_requirements": {"conflict_free": True, "head_branch": "integration", "working_tree_clean": True, "rules": [{"type": "min_commits_on_branch", "branch": "integration", "minimum": 2}]},
+                        "solution_commands": [
+                            "git merge --squash feature/report-generator",
+                            'git commit -m "Add report generator module"',
+                        ],
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "integration",
+                            "working_tree_clean": True,
+                            "rules": [
+                                {
+                                    "type": "min_commits_on_branch",
+                                    "branch": "integration",
+                                    "minimum": 2,
+                                }
+                            ],
+                        },
                     },
                     {
                         "case_id": "squash-easy-free-payment",
                         "label": "Squash-merge feature/payment-flow into staging",
-                        "context": "feature/payment-flow has 4 intermediate commits with messages like \"wip\", \"fix again\", \"ok this time\". Your client's repo policy is one commit per feature. You are on staging. Squash and commit with \"Add payment flow\".",
+                        "context": 'feature/payment-flow has 4 intermediate commits with messages like "wip", "fix again", "ok this time". Your client\'s repo policy is one commit per feature. You are on staging. Squash and commit with "Add payment flow".',
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Bootstrap project", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "wip", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/payment.py": "pay-v1"}},
-                                {"id": "c3", "message": "fix again", "parents": ["c2"], "tree": {"README.md": "readme-v1", "src/payment.py": "pay-v2"}},
-                                {"id": "c4", "message": "ok this time", "parents": ["c3"], "tree": {"README.md": "readme-v1", "src/payment.py": "pay-v3"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap project",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "wip",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/payment.py": "pay-v1"},
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "fix again",
+                                    "parents": ["c2"],
+                                    "tree": {"README.md": "readme-v1", "src/payment.py": "pay-v2"},
+                                },
+                                {
+                                    "id": "c4",
+                                    "message": "ok this time",
+                                    "parents": ["c3"],
+                                    "tree": {"README.md": "readme-v1", "src/payment.py": "pay-v3"},
+                                },
                             ],
-                            "branches": {"staging": "c1", "feature/payment-flow": "c4"}, "head": {"type": "branch", "name": "staging"},
-                            "staging_area": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"staging": "c1", "feature/payment-flow": "c4"},
+                            "head": {"type": "branch", "name": "staging"},
+                            "staging_area": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge --squash feature/payment-flow", 'git commit -m "Add payment flow"'],
-                        "state_requirements": {"conflict_free": True, "head_branch": "staging", "working_tree_clean": True, "rules": [{"type": "min_commits_on_branch", "branch": "staging", "minimum": 2}]},
+                        "solution_commands": [
+                            "git merge --squash feature/payment-flow",
+                            'git commit -m "Add payment flow"',
+                        ],
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "staging",
+                            "working_tree_clean": True,
+                            "rules": [
+                                {"type": "min_commits_on_branch", "branch": "staging", "minimum": 2}
+                            ],
+                        },
                     },
                 ],
             },
@@ -4266,15 +8296,35 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Bootstrap project", "parents": [], "tree": {"README.md": "readme-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap project",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
                             ],
-                            "branches": {"main": "c1"}, "head": {"type": "branch", "name": "main"},
+                            "branches": {"main": "c1"},
+                            "head": {"type": "branch", "name": "main"},
                             "remotes": {"origin": "https://github.com/team/ticketing-app.git"},
-                            "remote_branches": {"origin/feature/auth": "c1"}, "remote_updates": {"origin/feature/auth": "c2"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "remote_branches": {"origin/feature/auth": "c1"},
+                            "remote_updates": {"origin/feature/auth": "c2"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git fetch origin", "git merge --squash origin/feature/auth", 'git commit -m "Squash remote auth feature into main"'],
-                        "state_requirements": {"conflict_free": True, "head_branch": "main", "working_tree_clean": True, "rules": [{"type": "min_commits_on_branch", "branch": "main", "minimum": 2}]},
+                        "solution_commands": [
+                            "git fetch origin",
+                            "git merge --squash origin/feature/auth",
+                            'git commit -m "Squash remote auth feature into main"',
+                        ],
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "main",
+                            "working_tree_clean": True,
+                            "rules": [
+                                {"type": "min_commits_on_branch", "branch": "main", "minimum": 2}
+                            ],
+                        },
                     },
                     {
                         "case_id": "v28m-orders",
@@ -4283,15 +8333,35 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Bootstrap project", "parents": [], "tree": {"README.md": "readme-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap project",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
                             ],
-                            "branches": {"develop": "c1"}, "head": {"type": "branch", "name": "develop"},
+                            "branches": {"develop": "c1"},
+                            "head": {"type": "branch", "name": "develop"},
                             "remotes": {"origin": "https://github.com/team/e-commerce.git"},
-                            "remote_branches": {"origin/feature/orders": "c1"}, "remote_updates": {"origin/feature/orders": "c2"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "remote_branches": {"origin/feature/orders": "c1"},
+                            "remote_updates": {"origin/feature/orders": "c2"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git fetch origin", "git merge --squash origin/feature/orders", 'git commit -m "Squash remote orders feature into develop"'],
-                        "state_requirements": {"conflict_free": True, "head_branch": "develop", "working_tree_clean": True, "rules": [{"type": "min_commits_on_branch", "branch": "develop", "minimum": 2}]},
+                        "solution_commands": [
+                            "git fetch origin",
+                            "git merge --squash origin/feature/orders",
+                            'git commit -m "Squash remote orders feature into develop"',
+                        ],
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "develop",
+                            "working_tree_clean": True,
+                            "rules": [
+                                {"type": "min_commits_on_branch", "branch": "develop", "minimum": 2}
+                            ],
+                        },
                     },
                     {
                         "case_id": "v28m-parser",
@@ -4300,15 +8370,39 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Bootstrap project", "parents": [], "tree": {"README.md": "readme-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap project",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
                             ],
-                            "branches": {"release/v2": "c1"}, "head": {"type": "branch", "name": "release/v2"},
+                            "branches": {"release/v2": "c1"},
+                            "head": {"type": "branch", "name": "release/v2"},
                             "remotes": {"origin": "https://github.com/team/data-pipeline.git"},
-                            "remote_branches": {"origin/feature/parser": "c1"}, "remote_updates": {"origin/feature/parser": "c2"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "remote_branches": {"origin/feature/parser": "c1"},
+                            "remote_updates": {"origin/feature/parser": "c2"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git fetch origin", "git merge --squash origin/feature/parser", 'git commit -m "Squash remote parser feature into release/v2"'],
-                        "state_requirements": {"conflict_free": True, "head_branch": "release/v2", "working_tree_clean": True, "rules": [{"type": "min_commits_on_branch", "branch": "release/v2", "minimum": 2}]},
+                        "solution_commands": [
+                            "git fetch origin",
+                            "git merge --squash origin/feature/parser",
+                            'git commit -m "Squash remote parser feature into release/v2"',
+                        ],
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "release/v2",
+                            "working_tree_clean": True,
+                            "rules": [
+                                {
+                                    "type": "min_commits_on_branch",
+                                    "branch": "release/v2",
+                                    "minimum": 2,
+                                }
+                            ],
+                        },
                     },
                     {
                         "case_id": "squash-med-corp-gdpr",
@@ -4317,15 +8411,35 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Bootstrap project", "parents": [], "tree": {"README.md": "readme-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap project",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
                             ],
-                            "branches": {"staging": "c1"}, "head": {"type": "branch", "name": "staging"},
+                            "branches": {"staging": "c1"},
+                            "head": {"type": "branch", "name": "staging"},
                             "remotes": {"origin": "https://github.com/team/corp-backend.git"},
-                            "remote_branches": {"origin/feature/gdpr-export": "c1"}, "remote_updates": {"origin/feature/gdpr-export": "c2"},
-                            "staging_area": {}, "working_tree": {}, "conflicts": [],
+                            "remote_branches": {"origin/feature/gdpr-export": "c1"},
+                            "remote_updates": {"origin/feature/gdpr-export": "c2"},
+                            "staging_area": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git fetch origin", "git merge --squash origin/feature/gdpr-export", 'git commit -m "Add GDPR data export endpoint"'],
-                        "state_requirements": {"conflict_free": True, "head_branch": "staging", "working_tree_clean": True, "rules": [{"type": "min_commits_on_branch", "branch": "staging", "minimum": 2}]},
+                        "solution_commands": [
+                            "git fetch origin",
+                            "git merge --squash origin/feature/gdpr-export",
+                            'git commit -m "Add GDPR data export endpoint"',
+                        ],
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "staging",
+                            "working_tree_clean": True,
+                            "rules": [
+                                {"type": "min_commits_on_branch", "branch": "staging", "minimum": 2}
+                            ],
+                        },
                     },
                 ],
             },
@@ -4342,15 +8456,45 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Bootstrap project", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Auth: add login", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"}},
-                                {"id": "c3", "message": "Auth: add logout", "parents": ["c2"], "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v2"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap project",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Auth: add login",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"},
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Auth: add logout",
+                                    "parents": ["c2"],
+                                    "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v2"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/auth": "c3"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/auth": "c3"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge --squash feature/auth", 'git commit -m "Squash auth feature into main"', "git branch -D feature/auth"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "main", "working_tree_clean": True, "branch_absent": ["feature/auth"], "rules": [{"type": "min_commits_on_branch", "branch": "main", "minimum": 2}]},
+                        "solution_commands": [
+                            "git merge --squash feature/auth",
+                            'git commit -m "Squash auth feature into main"',
+                            "git branch -D feature/auth",
+                        ],
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "main",
+                            "working_tree_clean": True,
+                            "branch_absent": ["feature/auth"],
+                            "rules": [
+                                {"type": "min_commits_on_branch", "branch": "main", "minimum": 2}
+                            ],
+                        },
                     },
                     {
                         "case_id": "v28h-orders",
@@ -4359,15 +8503,45 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Bootstrap project", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Orders: add create", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/orders.py": "ord-v1"}},
-                                {"id": "c3", "message": "Orders: add cancel", "parents": ["c2"], "tree": {"README.md": "readme-v1", "src/orders.py": "ord-v2"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap project",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Orders: add create",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/orders.py": "ord-v1"},
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Orders: add cancel",
+                                    "parents": ["c2"],
+                                    "tree": {"README.md": "readme-v1", "src/orders.py": "ord-v2"},
+                                },
                             ],
-                            "branches": {"develop": "c1", "feature/orders": "c3"}, "head": {"type": "branch", "name": "develop"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"develop": "c1", "feature/orders": "c3"},
+                            "head": {"type": "branch", "name": "develop"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge --squash feature/orders", 'git commit -m "Squash orders feature into develop"', "git branch -D feature/orders"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "develop", "working_tree_clean": True, "branch_absent": ["feature/orders"], "rules": [{"type": "min_commits_on_branch", "branch": "develop", "minimum": 2}]},
+                        "solution_commands": [
+                            "git merge --squash feature/orders",
+                            'git commit -m "Squash orders feature into develop"',
+                            "git branch -D feature/orders",
+                        ],
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "develop",
+                            "working_tree_clean": True,
+                            "branch_absent": ["feature/orders"],
+                            "rules": [
+                                {"type": "min_commits_on_branch", "branch": "develop", "minimum": 2}
+                            ],
+                        },
                     },
                     {
                         "case_id": "v28h-parser",
@@ -4376,32 +8550,96 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Bootstrap project", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Parser: initial impl", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/parser.py": "par-v1"}},
-                                {"id": "c3", "message": "Parser: add error handling", "parents": ["c2"], "tree": {"README.md": "readme-v1", "src/parser.py": "par-v2"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap project",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Parser: initial impl",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/parser.py": "par-v1"},
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Parser: add error handling",
+                                    "parents": ["c2"],
+                                    "tree": {"README.md": "readme-v1", "src/parser.py": "par-v2"},
+                                },
                             ],
-                            "branches": {"release/v2": "c1", "feature/parser": "c3"}, "head": {"type": "branch", "name": "release/v2"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"release/v2": "c1", "feature/parser": "c3"},
+                            "head": {"type": "branch", "name": "release/v2"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge --squash feature/parser", 'git commit -m "Squash parser feature into release/v2"', "git branch -D feature/parser"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "release/v2", "working_tree_clean": True, "branch_absent": ["feature/parser"], "rules": [{"type": "min_commits_on_branch", "branch": "release/v2", "minimum": 2}]},
+                        "solution_commands": [
+                            "git merge --squash feature/parser",
+                            'git commit -m "Squash parser feature into release/v2"',
+                            "git branch -D feature/parser",
+                        ],
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "release/v2",
+                            "working_tree_clean": True,
+                            "branch_absent": ["feature/parser"],
+                            "rules": [
+                                {
+                                    "type": "min_commits_on_branch",
+                                    "branch": "release/v2",
+                                    "minimum": 2,
+                                }
+                            ],
+                        },
                     },
                     {
                         "case_id": "squash-hard-devops-log",
                         "label": "Squash-merge and delete feature/log-rotation",
-                        "context": "feature/log-rotation is complete with several intermediate commits. Land it on main as a single commit with message \"Add log rotation configuration\", then delete the source branch -- it is no longer needed. You are on main.",
+                        "context": 'feature/log-rotation is complete with several intermediate commits. Land it on main as a single commit with message "Add log rotation configuration", then delete the source branch -- it is no longer needed. You are on main.',
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Bootstrap project", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Log rotation: add cron", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/log.py": "log-v1"}},
-                                {"id": "c3", "message": "Log rotation: add retention", "parents": ["c2"], "tree": {"README.md": "readme-v1", "src/log.py": "log-v2"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Bootstrap project",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Log rotation: add cron",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/log.py": "log-v1"},
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Log rotation: add retention",
+                                    "parents": ["c2"],
+                                    "tree": {"README.md": "readme-v1", "src/log.py": "log-v2"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/log-rotation": "c3"}, "head": {"type": "branch", "name": "main"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/log-rotation": "c3"},
+                            "head": {"type": "branch", "name": "main"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge --squash feature/log-rotation", 'git commit -m "Add log rotation configuration"', "git branch -D feature/log-rotation"],
-                        "state_requirements": {"conflict_free": True, "head_branch": "main", "working_tree_clean": True, "branch_absent": ["feature/log-rotation"], "rules": [{"type": "min_commits_on_branch", "branch": "main", "minimum": 2}]},
+                        "solution_commands": [
+                            "git merge --squash feature/log-rotation",
+                            'git commit -m "Add log rotation configuration"',
+                            "git branch -D feature/log-rotation",
+                        ],
+                        "state_requirements": {
+                            "conflict_free": True,
+                            "head_branch": "main",
+                            "working_tree_clean": True,
+                            "branch_absent": ["feature/log-rotation"],
+                            "rules": [
+                                {"type": "min_commits_on_branch", "branch": "main", "minimum": 2}
+                            ],
+                        },
                     },
                 ],
             },
@@ -4426,12 +8664,25 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Merge commit on main", "parents": [], "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"}},
-                                {"id": "c2", "message": "Feature tip (still on remote)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Merge commit on main",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature tip (still on remote)",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/auth": "c2"}, "head": {"type": "branch", "name": "main"},
+                            "branches": {"main": "c1", "feature/auth": "c2"},
+                            "head": {"type": "branch", "name": "main"},
                             "remote_branches": {"origin/feature/auth": "c2"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git push origin --delete feature/auth"],
                         "state_requirements": {"remote_branch_absent": ["origin/feature/auth"]},
@@ -4443,12 +8694,25 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Merge commit on main", "parents": [], "tree": {"README.md": "readme-v1", "src/orders.py": "ord-v1"}},
-                                {"id": "c2", "message": "Feature tip (still on remote)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/orders.py": "ord-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Merge commit on main",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1", "src/orders.py": "ord-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature tip (still on remote)",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/orders.py": "ord-v1"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/orders": "c2"}, "head": {"type": "branch", "name": "main"},
+                            "branches": {"main": "c1", "feature/orders": "c2"},
+                            "head": {"type": "branch", "name": "main"},
                             "remote_branches": {"origin/feature/orders": "c2"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git push origin --delete feature/orders"],
                         "state_requirements": {"remote_branch_absent": ["origin/feature/orders"]},
@@ -4460,12 +8724,25 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Merge commit on main", "parents": [], "tree": {"README.md": "readme-v1", "src/parser.py": "par-v1"}},
-                                {"id": "c2", "message": "Feature tip (still on remote)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/parser.py": "par-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Merge commit on main",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1", "src/parser.py": "par-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature tip (still on remote)",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/parser.py": "par-v1"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/parser": "c2"}, "head": {"type": "branch", "name": "main"},
+                            "branches": {"main": "c1", "feature/parser": "c2"},
+                            "head": {"type": "branch", "name": "main"},
                             "remote_branches": {"origin/feature/parser": "c2"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git push origin --delete feature/parser"],
                         "state_requirements": {"remote_branch_absent": ["origin/feature/parser"]},
@@ -4477,15 +8754,30 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Merge commit on main", "parents": [], "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"}},
-                                {"id": "c2", "message": "Feature tip (still on remote)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Merge commit on main",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature tip (still on remote)",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/group-auth": "c2"}, "head": {"type": "branch", "name": "main"},
+                            "branches": {"main": "c1", "feature/group-auth": "c2"},
+                            "head": {"type": "branch", "name": "main"},
                             "remote_branches": {"origin/feature/group-auth": "c2"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git push origin --delete feature/group-auth"],
-                        "state_requirements": {"remote_branch_absent": ["origin/feature/group-auth"]},
+                        "state_requirements": {
+                            "remote_branch_absent": ["origin/feature/group-auth"]
+                        },
                     },
                     {
                         "case_id": "rb-easy-corp-sprint",
@@ -4494,15 +8786,38 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Merge commit on main", "parents": [], "tree": {"README.md": "readme-v1", "src/compliance.py": "comp-v1"}},
-                                {"id": "c2", "message": "Feature tip (still on remote)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/compliance.py": "comp-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Merge commit on main",
+                                    "parents": [],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/compliance.py": "comp-v1",
+                                    },
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature tip (still on remote)",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/compliance.py": "comp-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/sprint12-compliance": "c2"}, "head": {"type": "branch", "name": "main"},
+                            "branches": {"main": "c1", "feature/sprint12-compliance": "c2"},
+                            "head": {"type": "branch", "name": "main"},
                             "remote_branches": {"origin/feature/sprint12-compliance": "c2"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git push origin --delete feature/sprint12-compliance"],
-                        "state_requirements": {"remote_branch_absent": ["origin/feature/sprint12-compliance"]},
+                        "solution_commands": [
+                            "git push origin --delete feature/sprint12-compliance"
+                        ],
+                        "state_requirements": {
+                            "remote_branch_absent": ["origin/feature/sprint12-compliance"]
+                        },
                     },
                 ],
             },
@@ -4519,13 +8834,27 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Main at latest", "parents": [], "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"}},
-                                {"id": "c2", "message": "Feature tip (already deleted on remote)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Main at latest",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature tip (already deleted on remote)",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/auth": "c2"}, "head": {"type": "branch", "name": "main"},
+                            "branches": {"main": "c1", "feature/auth": "c2"},
+                            "head": {"type": "branch", "name": "main"},
                             "remotes": {"origin": "https://github.com/team/ticketing-app.git"},
-                            "remote_branches": {"origin/feature/auth": "c2"}, "remote_stale_branches": ["origin/feature/auth"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "remote_branches": {"origin/feature/auth": "c2"},
+                            "remote_stale_branches": ["origin/feature/auth"],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git fetch --prune origin"],
                         "state_requirements": {"remote_branch_absent": ["origin/feature/auth"]},
@@ -4537,13 +8866,27 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Main at latest", "parents": [], "tree": {"README.md": "readme-v1", "src/orders.py": "ord-v1"}},
-                                {"id": "c2", "message": "Feature tip (already deleted on remote)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/orders.py": "ord-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Main at latest",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1", "src/orders.py": "ord-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature tip (already deleted on remote)",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/orders.py": "ord-v1"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/orders": "c2"}, "head": {"type": "branch", "name": "main"},
+                            "branches": {"main": "c1", "feature/orders": "c2"},
+                            "head": {"type": "branch", "name": "main"},
                             "remotes": {"origin": "https://github.com/team/e-commerce.git"},
-                            "remote_branches": {"origin/feature/orders": "c2"}, "remote_stale_branches": ["origin/feature/orders"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "remote_branches": {"origin/feature/orders": "c2"},
+                            "remote_stale_branches": ["origin/feature/orders"],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git fetch --prune origin"],
                         "state_requirements": {"remote_branch_absent": ["origin/feature/orders"]},
@@ -4555,13 +8898,27 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Main at latest", "parents": [], "tree": {"README.md": "readme-v1", "src/parser.py": "par-v1"}},
-                                {"id": "c2", "message": "Feature tip (already deleted on remote)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/parser.py": "par-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Main at latest",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1", "src/parser.py": "par-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature tip (already deleted on remote)",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/parser.py": "par-v1"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/parser": "c2"}, "head": {"type": "branch", "name": "main"},
+                            "branches": {"main": "c1", "feature/parser": "c2"},
+                            "head": {"type": "branch", "name": "main"},
                             "remotes": {"origin": "https://github.com/team/data-pipeline.git"},
-                            "remote_branches": {"origin/feature/parser": "c2"}, "remote_stale_branches": ["origin/feature/parser"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "remote_branches": {"origin/feature/parser": "c2"},
+                            "remote_stale_branches": ["origin/feature/parser"],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git fetch --prune origin"],
                         "state_requirements": {"remote_branch_absent": ["origin/feature/parser"]},
@@ -4573,16 +8930,38 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Main at latest", "parents": [], "tree": {"README.md": "readme-v1", "src/landing.py": "landing-v1"}},
-                                {"id": "c2", "message": "Feature tip (already deleted on remote)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/landing.py": "landing-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Main at latest",
+                                    "parents": [],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/landing.py": "landing-v1",
+                                    },
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature tip (already deleted on remote)",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/landing.py": "landing-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/old-landing": "c2"}, "head": {"type": "branch", "name": "main"},
+                            "branches": {"main": "c1", "feature/old-landing": "c2"},
+                            "head": {"type": "branch", "name": "main"},
                             "remotes": {"origin": "https://github.com/client/client-site.git"},
-                            "remote_branches": {"origin/feature/old-landing": "c2"}, "remote_stale_branches": ["origin/feature/old-landing"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "remote_branches": {"origin/feature/old-landing": "c2"},
+                            "remote_stale_branches": ["origin/feature/old-landing"],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git fetch --prune origin"],
-                        "state_requirements": {"remote_branch_absent": ["origin/feature/old-landing"]},
+                        "state_requirements": {
+                            "remote_branch_absent": ["origin/feature/old-landing"]
+                        },
                     },
                 ],
             },
@@ -4599,16 +8978,41 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Base commit", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Feature work (merged)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"}},
-                                {"id": "c3", "message": "Merge feature into main", "parents": ["c1", "c2"], "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Base commit",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature work (merged)",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"},
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Merge feature into main",
+                                    "parents": ["c1", "c2"],
+                                    "tree": {"README.md": "readme-v1", "src/auth.py": "auth-v1"},
+                                },
                             ],
-                            "branches": {"main": "c3", "feature/auth": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "remote_branches": {"origin/feature/auth": "c2"}, "upstream_tracking": {"feature/auth": "origin/feature/auth"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c3", "feature/auth": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "remote_branches": {"origin/feature/auth": "c2"},
+                            "upstream_tracking": {"feature/auth": "origin/feature/auth"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git push origin --delete feature/auth", "git branch -d feature/auth"],
-                        "state_requirements": {"remote_branch_absent": ["origin/feature/auth"], "branch_absent": ["feature/auth"]},
+                        "solution_commands": [
+                            "git push origin --delete feature/auth",
+                            "git branch -d feature/auth",
+                        ],
+                        "state_requirements": {
+                            "remote_branch_absent": ["origin/feature/auth"],
+                            "branch_absent": ["feature/auth"],
+                        },
                     },
                     {
                         "case_id": "v29h-orders",
@@ -4617,16 +9021,41 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Base commit", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Feature work (merged)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/orders.py": "ord-v1"}},
-                                {"id": "c3", "message": "Merge feature into main", "parents": ["c1", "c2"], "tree": {"README.md": "readme-v1", "src/orders.py": "ord-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Base commit",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature work (merged)",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/orders.py": "ord-v1"},
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Merge feature into main",
+                                    "parents": ["c1", "c2"],
+                                    "tree": {"README.md": "readme-v1", "src/orders.py": "ord-v1"},
+                                },
                             ],
-                            "branches": {"main": "c3", "feature/orders": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "remote_branches": {"origin/feature/orders": "c2"}, "upstream_tracking": {"feature/orders": "origin/feature/orders"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c3", "feature/orders": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "remote_branches": {"origin/feature/orders": "c2"},
+                            "upstream_tracking": {"feature/orders": "origin/feature/orders"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git push origin --delete feature/orders", "git branch -d feature/orders"],
-                        "state_requirements": {"remote_branch_absent": ["origin/feature/orders"], "branch_absent": ["feature/orders"]},
+                        "solution_commands": [
+                            "git push origin --delete feature/orders",
+                            "git branch -d feature/orders",
+                        ],
+                        "state_requirements": {
+                            "remote_branch_absent": ["origin/feature/orders"],
+                            "branch_absent": ["feature/orders"],
+                        },
                     },
                     {
                         "case_id": "v29h-parser",
@@ -4635,16 +9064,41 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Base commit", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "Feature work (merged)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/parser.py": "par-v1"}},
-                                {"id": "c3", "message": "Merge feature into main", "parents": ["c1", "c2"], "tree": {"README.md": "readme-v1", "src/parser.py": "par-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Base commit",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature work (merged)",
+                                    "parents": ["c1"],
+                                    "tree": {"README.md": "readme-v1", "src/parser.py": "par-v1"},
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Merge feature into main",
+                                    "parents": ["c1", "c2"],
+                                    "tree": {"README.md": "readme-v1", "src/parser.py": "par-v1"},
+                                },
                             ],
-                            "branches": {"main": "c3", "feature/parser": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "remote_branches": {"origin/feature/parser": "c2"}, "upstream_tracking": {"feature/parser": "origin/feature/parser"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c3", "feature/parser": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "remote_branches": {"origin/feature/parser": "c2"},
+                            "upstream_tracking": {"feature/parser": "origin/feature/parser"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git push origin --delete feature/parser", "git branch -d feature/parser"],
-                        "state_requirements": {"remote_branch_absent": ["origin/feature/parser"], "branch_absent": ["feature/parser"]},
+                        "solution_commands": [
+                            "git push origin --delete feature/parser",
+                            "git branch -d feature/parser",
+                        ],
+                        "state_requirements": {
+                            "remote_branch_absent": ["origin/feature/parser"],
+                            "branch_absent": ["feature/parser"],
+                        },
                     },
                     {
                         "case_id": "rb-hard-oss-full",
@@ -4653,17 +9107,50 @@ MODULE_2_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c1", "message": "Base commit", "parents": [], "tree": {"README.md": "readme-v1"}},
-                                {"id": "c2", "message": "OSS contribution (merged)", "parents": ["c1"], "tree": {"README.md": "readme-v1", "src/contrib.py": "contrib-v1"}},
-                                {"id": "c3", "message": "Merge contribution into main", "parents": ["c1", "c2"], "tree": {"README.md": "readme-v1", "src/contrib.py": "contrib-v1"}},
+                                {
+                                    "id": "c1",
+                                    "message": "Base commit",
+                                    "parents": [],
+                                    "tree": {"README.md": "readme-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "OSS contribution (merged)",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/contrib.py": "contrib-v1",
+                                    },
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Merge contribution into main",
+                                    "parents": ["c1", "c2"],
+                                    "tree": {
+                                        "README.md": "readme-v1",
+                                        "src/contrib.py": "contrib-v1",
+                                    },
+                                },
                             ],
-                            "branches": {"main": "c3", "feature/oss-contribution": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "remote_branches": {"origin/feature/oss-contribution": "c2"}, "upstream_tracking": {"feature/oss-contribution": "origin/feature/oss-contribution"},
+                            "branches": {"main": "c3", "feature/oss-contribution": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "remote_branches": {"origin/feature/oss-contribution": "c2"},
+                            "upstream_tracking": {
+                                "feature/oss-contribution": "origin/feature/oss-contribution"
+                            },
                             "remote_stale_branches": ["origin/feature/oss-contribution"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git push origin --delete feature/oss-contribution", "git branch -d feature/oss-contribution"],
-                        "state_requirements": {"remote_branch_absent": ["origin/feature/oss-contribution"], "branch_absent": ["feature/oss-contribution"]},
+                        "solution_commands": [
+                            "git push origin --delete feature/oss-contribution",
+                            "git branch -d feature/oss-contribution",
+                        ],
+                        "state_requirements": {
+                            "remote_branch_absent": ["origin/feature/oss-contribution"],
+                            "branch_absent": ["feature/oss-contribution"],
+                        },
                     },
                 ],
             },
@@ -4706,17 +9193,57 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Base commit", "parents": [], "tree": {"src/auth.js": "timeout=3000"}},
-                                {"id": "c1", "message": "Main update", "parents": ["c0"], "tree": {"src/auth.js": "timeout=5000"}},
-                                {"id": "c2", "message": "Feature branch update", "parents": ["c0"], "tree": {"src/auth.js": "timeout=2500"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Base commit",
+                                    "parents": [],
+                                    "tree": {"src/auth.js": "timeout=3000"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Main update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/auth.js": "timeout=5000"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/auth.js": "timeout=2500"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/auth-timeout": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "conflict_on_merge": True, "conflict_files": ["src/auth.js"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/auth-timeout": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "conflict_on_merge": True,
+                            "conflict_files": ["src/auth.js"],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge feature/auth-timeout", "git add src/auth.js", 'git commit -m "Resolve conflict cleanly"'],
-                        "solution_workspace_files": [{"mode": "write", "path": "src/auth.js", "content": "timeout=5000\nretry=enabled"}],
-                        "state_requirements": {"head_branch": "main", "staging_empty": True, "working_tree_clean": True, "conflict_free": True, "rules": [{"type": "merge_commit_contains_tree", "tree": {"src/auth.js": "timeout=5000\nretry=enabled"}}]},
+                        "solution_commands": [
+                            "git merge feature/auth-timeout",
+                            "git add src/auth.js",
+                            'git commit -m "Resolve conflict cleanly"',
+                        ],
+                        "solution_workspace_files": [
+                            {
+                                "mode": "write",
+                                "path": "src/auth.js",
+                                "content": "timeout=5000\nretry=enabled",
+                            }
+                        ],
+                        "state_requirements": {
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "conflict_free": True,
+                            "rules": [
+                                {
+                                    "type": "merge_commit_contains_tree",
+                                    "tree": {"src/auth.js": "timeout=5000\nretry=enabled"},
+                                }
+                            ],
+                        },
                     },
                     {
                         "case_id": "manual-easy-profile-copy",
@@ -4725,17 +9252,59 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Base commit", "parents": [], "tree": {"src/profile.tsx": "title=Profile"}},
-                                {"id": "c1", "message": "Main update", "parents": ["c0"], "tree": {"src/profile.tsx": "title=Account profile"}},
-                                {"id": "c2", "message": "Feature branch update", "parents": ["c0"], "tree": {"src/profile.tsx": "title=Member profile"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Base commit",
+                                    "parents": [],
+                                    "tree": {"src/profile.tsx": "title=Profile"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Main update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/profile.tsx": "title=Account profile"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/profile.tsx": "title=Member profile"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/profile-copy": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "conflict_on_merge": True, "conflict_files": ["src/profile.tsx"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/profile-copy": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "conflict_on_merge": True,
+                            "conflict_files": ["src/profile.tsx"],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge feature/profile-copy", "git add src/profile.tsx", 'git commit -m "Resolve conflict cleanly"'],
-                        "solution_workspace_files": [{"mode": "write", "path": "src/profile.tsx", "content": "title=Account profile\nsubtitle=Member profile"}],
-                        "state_requirements": {"head_branch": "main", "staging_empty": True, "working_tree_clean": True, "conflict_free": True, "rules": [{"type": "merge_commit_contains_tree", "tree": {"src/profile.tsx": "title=Account profile\nsubtitle=Member profile"}}]},
+                        "solution_commands": [
+                            "git merge feature/profile-copy",
+                            "git add src/profile.tsx",
+                            'git commit -m "Resolve conflict cleanly"',
+                        ],
+                        "solution_workspace_files": [
+                            {
+                                "mode": "write",
+                                "path": "src/profile.tsx",
+                                "content": "title=Account profile\nsubtitle=Member profile",
+                            }
+                        ],
+                        "state_requirements": {
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "conflict_free": True,
+                            "rules": [
+                                {
+                                    "type": "merge_commit_contains_tree",
+                                    "tree": {
+                                        "src/profile.tsx": "title=Account profile\nsubtitle=Member profile"
+                                    },
+                                }
+                            ],
+                        },
                     },
                     {
                         "case_id": "manual-easy-billing-copy",
@@ -4744,17 +9313,59 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Base commit", "parents": [], "tree": {"src/billing.py": "currency='USD'"}},
-                                {"id": "c1", "message": "Main update", "parents": ["c0"], "tree": {"src/billing.py": "currency='PHP'"}},
-                                {"id": "c2", "message": "Feature branch update", "parents": ["c0"], "tree": {"src/billing.py": "currency='EUR'"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Base commit",
+                                    "parents": [],
+                                    "tree": {"src/billing.py": "currency='USD'"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Main update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/billing.py": "currency='PHP'"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/billing.py": "currency='EUR'"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/regional-currency": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "conflict_on_merge": True, "conflict_files": ["src/billing.py"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/regional-currency": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "conflict_on_merge": True,
+                            "conflict_files": ["src/billing.py"],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge feature/regional-currency", "git add src/billing.py", 'git commit -m "Resolve conflict cleanly"'],
-                        "solution_workspace_files": [{"mode": "write", "path": "src/billing.py", "content": "currency='PHP'\nsupported=['PHP','EUR']"}],
-                        "state_requirements": {"head_branch": "main", "staging_empty": True, "working_tree_clean": True, "conflict_free": True, "rules": [{"type": "merge_commit_contains_tree", "tree": {"src/billing.py": "currency='PHP'\nsupported=['PHP','EUR']"}}]},
+                        "solution_commands": [
+                            "git merge feature/regional-currency",
+                            "git add src/billing.py",
+                            'git commit -m "Resolve conflict cleanly"',
+                        ],
+                        "solution_workspace_files": [
+                            {
+                                "mode": "write",
+                                "path": "src/billing.py",
+                                "content": "currency='PHP'\nsupported=['PHP','EUR']",
+                            }
+                        ],
+                        "state_requirements": {
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "conflict_free": True,
+                            "rules": [
+                                {
+                                    "type": "merge_commit_contains_tree",
+                                    "tree": {
+                                        "src/billing.py": "currency='PHP'\nsupported=['PHP','EUR']"
+                                    },
+                                }
+                            ],
+                        },
                     },
                     {
                         "case_id": "manual-easy-config-copy",
@@ -4763,17 +9374,59 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Base commit", "parents": [], "tree": {"src/config.py": "debug=False"}},
-                                {"id": "c1", "message": "Main update", "parents": ["c0"], "tree": {"src/config.py": "debug=False\nlog_level=INFO"}},
-                                {"id": "c2", "message": "Feature branch update", "parents": ["c0"], "tree": {"src/config.py": "debug=True\nlog_level=DEBUG"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Base commit",
+                                    "parents": [],
+                                    "tree": {"src/config.py": "debug=False"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Main update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/config.py": "debug=False\nlog_level=INFO"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/config.py": "debug=True\nlog_level=DEBUG"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/debug-config": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "conflict_on_merge": True, "conflict_files": ["src/config.py"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/debug-config": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "conflict_on_merge": True,
+                            "conflict_files": ["src/config.py"],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge feature/debug-config", "git add src/config.py", 'git commit -m "Resolve conflict cleanly"'],
-                        "solution_workspace_files": [{"mode": "write", "path": "src/config.py", "content": "debug=False\nlog_level=INFO\nverbose_errors=True"}],
-                        "state_requirements": {"head_branch": "main", "staging_empty": True, "working_tree_clean": True, "conflict_free": True, "rules": [{"type": "merge_commit_contains_tree", "tree": {"src/config.py": "debug=False\nlog_level=INFO\nverbose_errors=True"}}]},
+                        "solution_commands": [
+                            "git merge feature/debug-config",
+                            "git add src/config.py",
+                            'git commit -m "Resolve conflict cleanly"',
+                        ],
+                        "solution_workspace_files": [
+                            {
+                                "mode": "write",
+                                "path": "src/config.py",
+                                "content": "debug=False\nlog_level=INFO\nverbose_errors=True",
+                            }
+                        ],
+                        "state_requirements": {
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "conflict_free": True,
+                            "rules": [
+                                {
+                                    "type": "merge_commit_contains_tree",
+                                    "tree": {
+                                        "src/config.py": "debug=False\nlog_level=INFO\nverbose_errors=True"
+                                    },
+                                }
+                            ],
+                        },
                     },
                     {
                         "case_id": "manual-easy-navbar-copy",
@@ -4782,17 +9435,59 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Base commit", "parents": [], "tree": {"src/components/Navbar.tsx": "brand=AppName"}},
-                                {"id": "c1", "message": "Main update", "parents": ["c0"], "tree": {"src/components/Navbar.tsx": "brand=MyApp"}},
-                                {"id": "c2", "message": "Feature branch update", "parents": ["c0"], "tree": {"src/components/Navbar.tsx": "brand=BetaApp"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Base commit",
+                                    "parents": [],
+                                    "tree": {"src/components/Navbar.tsx": "brand=AppName"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Main update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/components/Navbar.tsx": "brand=MyApp"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/components/Navbar.tsx": "brand=BetaApp"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/navbar-rebrand": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "conflict_on_merge": True, "conflict_files": ["src/components/Navbar.tsx"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/navbar-rebrand": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "conflict_on_merge": True,
+                            "conflict_files": ["src/components/Navbar.tsx"],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge feature/navbar-rebrand", "git add src/components/Navbar.tsx", 'git commit -m "Resolve conflict cleanly"'],
-                        "solution_workspace_files": [{"mode": "write", "path": "src/components/Navbar.tsx", "content": "brand=MyApp\ntagline=Beta"}],
-                        "state_requirements": {"head_branch": "main", "staging_empty": True, "working_tree_clean": True, "conflict_free": True, "rules": [{"type": "merge_commit_contains_tree", "tree": {"src/components/Navbar.tsx": "brand=MyApp\ntagline=Beta"}}]},
+                        "solution_commands": [
+                            "git merge feature/navbar-rebrand",
+                            "git add src/components/Navbar.tsx",
+                            'git commit -m "Resolve conflict cleanly"',
+                        ],
+                        "solution_workspace_files": [
+                            {
+                                "mode": "write",
+                                "path": "src/components/Navbar.tsx",
+                                "content": "brand=MyApp\ntagline=Beta",
+                            }
+                        ],
+                        "state_requirements": {
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "conflict_free": True,
+                            "rules": [
+                                {
+                                    "type": "merge_commit_contains_tree",
+                                    "tree": {
+                                        "src/components/Navbar.tsx": "brand=MyApp\ntagline=Beta"
+                                    },
+                                }
+                            ],
+                        },
                     },
                 ],
             },
@@ -4806,59 +9501,175 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                     {
                         "case_id": "manual-medium-router",
                         "label": "Resolve src/routes.ts",
-                        "context": "support-portal's integration branch conflicts with main in src/routes.ts. Resolve the conflict and commit with message \"Resolve integration conflict\".",
+                        "context": 'support-portal\'s integration branch conflicts with main in src/routes.ts. Resolve the conflict and commit with message "Resolve integration conflict".',
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Base commit", "parents": [], "tree": {"src/routes.ts": "route-base"}},
-                                {"id": "c1", "message": "Main update", "parents": ["c0"], "tree": {"src/routes.ts": "route-main"}},
-                                {"id": "c2", "message": "Feature branch update", "parents": ["c0"], "tree": {"src/routes.ts": "route-feature"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Base commit",
+                                    "parents": [],
+                                    "tree": {"src/routes.ts": "route-base"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Main update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/routes.ts": "route-main"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/routes.ts": "route-feature"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/routes": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "conflict_on_merge": True, "conflict_files": ["src/routes.ts"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/routes": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "conflict_on_merge": True,
+                            "conflict_files": ["src/routes.ts"],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge feature/routes", "git add src/routes.ts", 'git commit -m "Resolve integration conflict"'],
-                        "solution_workspace_files": [{"mode": "write", "path": "src/routes.ts", "content": "route-resolved"}],
-                        "state_requirements": {"head_branch": "main", "staging_empty": True, "working_tree_clean": True, "conflict_free": True, "rules": [{"type": "merge_commit_contains_tree", "tree": {"src/routes.ts": "route-resolved"}}]},
+                        "solution_commands": [
+                            "git merge feature/routes",
+                            "git add src/routes.ts",
+                            'git commit -m "Resolve integration conflict"',
+                        ],
+                        "solution_workspace_files": [
+                            {"mode": "write", "path": "src/routes.ts", "content": "route-resolved"}
+                        ],
+                        "state_requirements": {
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "conflict_free": True,
+                            "rules": [
+                                {
+                                    "type": "merge_commit_contains_tree",
+                                    "tree": {"src/routes.ts": "route-resolved"},
+                                }
+                            ],
+                        },
                     },
                     {
                         "case_id": "manual-medium-policy",
                         "label": "Resolve src/policy.yml",
-                        "context": "policy-engine's integration branch conflicts with main in src/policy.yml. Resolve the conflict and commit with message \"Resolve integration conflict\".",
+                        "context": 'policy-engine\'s integration branch conflicts with main in src/policy.yml. Resolve the conflict and commit with message "Resolve integration conflict".',
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Base commit", "parents": [], "tree": {"src/policy.yml": "policy-base"}},
-                                {"id": "c1", "message": "Main update", "parents": ["c0"], "tree": {"src/policy.yml": "policy-main"}},
-                                {"id": "c2", "message": "Feature branch update", "parents": ["c0"], "tree": {"src/policy.yml": "policy-feature"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Base commit",
+                                    "parents": [],
+                                    "tree": {"src/policy.yml": "policy-base"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Main update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/policy.yml": "policy-main"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/policy.yml": "policy-feature"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/policy": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "conflict_on_merge": True, "conflict_files": ["src/policy.yml"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/policy": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "conflict_on_merge": True,
+                            "conflict_files": ["src/policy.yml"],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge feature/policy", "git add src/policy.yml", 'git commit -m "Resolve integration conflict"'],
-                        "solution_workspace_files": [{"mode": "write", "path": "src/policy.yml", "content": "policy-resolved"}],
-                        "state_requirements": {"head_branch": "main", "staging_empty": True, "working_tree_clean": True, "conflict_free": True, "rules": [{"type": "merge_commit_contains_tree", "tree": {"src/policy.yml": "policy-resolved"}}]},
+                        "solution_commands": [
+                            "git merge feature/policy",
+                            "git add src/policy.yml",
+                            'git commit -m "Resolve integration conflict"',
+                        ],
+                        "solution_workspace_files": [
+                            {
+                                "mode": "write",
+                                "path": "src/policy.yml",
+                                "content": "policy-resolved",
+                            }
+                        ],
+                        "state_requirements": {
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "conflict_free": True,
+                            "rules": [
+                                {
+                                    "type": "merge_commit_contains_tree",
+                                    "tree": {"src/policy.yml": "policy-resolved"},
+                                }
+                            ],
+                        },
                     },
                     {
                         "case_id": "manual-medium-gateway",
                         "label": "Resolve config/gateway.yml",
-                        "context": "api-gateway's integration branch conflicts with main in config/gateway.yml. Resolve the conflict and commit with message \"Resolve integration conflict\".",
+                        "context": 'api-gateway\'s integration branch conflicts with main in config/gateway.yml. Resolve the conflict and commit with message "Resolve integration conflict".',
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Base commit", "parents": [], "tree": {"config/gateway.yml": "gateway-base"}},
-                                {"id": "c1", "message": "Main update", "parents": ["c0"], "tree": {"config/gateway.yml": "gateway-main"}},
-                                {"id": "c2", "message": "Feature branch update", "parents": ["c0"], "tree": {"config/gateway.yml": "gateway-feature"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Base commit",
+                                    "parents": [],
+                                    "tree": {"config/gateway.yml": "gateway-base"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Main update",
+                                    "parents": ["c0"],
+                                    "tree": {"config/gateway.yml": "gateway-main"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch update",
+                                    "parents": ["c0"],
+                                    "tree": {"config/gateway.yml": "gateway-feature"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/gateway": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "conflict_on_merge": True, "conflict_files": ["config/gateway.yml"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/gateway": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "conflict_on_merge": True,
+                            "conflict_files": ["config/gateway.yml"],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge feature/gateway", "git add config/gateway.yml", 'git commit -m "Resolve integration conflict"'],
-                        "solution_workspace_files": [{"mode": "write", "path": "config/gateway.yml", "content": "gateway-resolved"}],
-                        "state_requirements": {"head_branch": "main", "staging_empty": True, "working_tree_clean": True, "conflict_free": True, "rules": [{"type": "merge_commit_contains_tree", "tree": {"config/gateway.yml": "gateway-resolved"}}]},
+                        "solution_commands": [
+                            "git merge feature/gateway",
+                            "git add config/gateway.yml",
+                            'git commit -m "Resolve integration conflict"',
+                        ],
+                        "solution_workspace_files": [
+                            {
+                                "mode": "write",
+                                "path": "config/gateway.yml",
+                                "content": "gateway-resolved",
+                            }
+                        ],
+                        "state_requirements": {
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "conflict_free": True,
+                            "rules": [
+                                {
+                                    "type": "merge_commit_contains_tree",
+                                    "tree": {"config/gateway.yml": "gateway-resolved"},
+                                }
+                            ],
+                        },
                     },
                 ],
             },
@@ -4872,78 +9683,240 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                     {
                         "case_id": "manual-hard-pricing",
                         "label": "Resolve src/pricing.rb",
-                        "context": "pricing-service's release branch conflicts with main in src/pricing.rb. Resolve the conflict and commit with message \"Resolve release conflict\".",
+                        "context": 'pricing-service\'s release branch conflicts with main in src/pricing.rb. Resolve the conflict and commit with message "Resolve release conflict".',
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Base commit", "parents": [], "tree": {"src/pricing.rb": "pricing-base"}},
-                                {"id": "c1", "message": "Main update", "parents": ["c0"], "tree": {"src/pricing.rb": "pricing-main"}},
-                                {"id": "c2", "message": "Feature branch update", "parents": ["c0"], "tree": {"src/pricing.rb": "pricing-feature"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Base commit",
+                                    "parents": [],
+                                    "tree": {"src/pricing.rb": "pricing-base"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Main update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/pricing.rb": "pricing-main"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/pricing.rb": "pricing-feature"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/pricing": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "conflict_on_merge": True, "conflict_files": ["src/pricing.rb"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/pricing": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "conflict_on_merge": True,
+                            "conflict_files": ["src/pricing.rb"],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge feature/pricing", "git add src/pricing.rb", 'git commit -m "Resolve release conflict"'],
-                        "solution_workspace_files": [{"mode": "write", "path": "src/pricing.rb", "content": "pricing-resolved"}],
-                        "state_requirements": {"head_branch": "main", "staging_empty": True, "working_tree_clean": True, "conflict_free": True, "rules": [{"type": "merge_commit_contains_tree", "tree": {"src/pricing.rb": "pricing-resolved"}}]},
+                        "solution_commands": [
+                            "git merge feature/pricing",
+                            "git add src/pricing.rb",
+                            'git commit -m "Resolve release conflict"',
+                        ],
+                        "solution_workspace_files": [
+                            {
+                                "mode": "write",
+                                "path": "src/pricing.rb",
+                                "content": "pricing-resolved",
+                            }
+                        ],
+                        "state_requirements": {
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "conflict_free": True,
+                            "rules": [
+                                {
+                                    "type": "merge_commit_contains_tree",
+                                    "tree": {"src/pricing.rb": "pricing-resolved"},
+                                }
+                            ],
+                        },
                     },
                     {
                         "case_id": "manual-hard-schema",
                         "label": "Resolve schema/orders.sql",
-                        "context": "warehouse-sync's release branch conflicts with main in schema/orders.sql. Resolve the conflict and commit with message \"Resolve release conflict\".",
+                        "context": 'warehouse-sync\'s release branch conflicts with main in schema/orders.sql. Resolve the conflict and commit with message "Resolve release conflict".',
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Base commit", "parents": [], "tree": {"schema/orders.sql": "schema-base"}},
-                                {"id": "c1", "message": "Main update", "parents": ["c0"], "tree": {"schema/orders.sql": "schema-main"}},
-                                {"id": "c2", "message": "Feature branch update", "parents": ["c0"], "tree": {"schema/orders.sql": "schema-feature"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Base commit",
+                                    "parents": [],
+                                    "tree": {"schema/orders.sql": "schema-base"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Main update",
+                                    "parents": ["c0"],
+                                    "tree": {"schema/orders.sql": "schema-main"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch update",
+                                    "parents": ["c0"],
+                                    "tree": {"schema/orders.sql": "schema-feature"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/schema": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "conflict_on_merge": True, "conflict_files": ["schema/orders.sql"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/schema": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "conflict_on_merge": True,
+                            "conflict_files": ["schema/orders.sql"],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge feature/schema", "git add schema/orders.sql", 'git commit -m "Resolve release conflict"'],
-                        "solution_workspace_files": [{"mode": "write", "path": "schema/orders.sql", "content": "schema-resolved"}],
-                        "state_requirements": {"head_branch": "main", "staging_empty": True, "working_tree_clean": True, "conflict_free": True, "rules": [{"type": "merge_commit_contains_tree", "tree": {"schema/orders.sql": "schema-resolved"}}]},
+                        "solution_commands": [
+                            "git merge feature/schema",
+                            "git add schema/orders.sql",
+                            'git commit -m "Resolve release conflict"',
+                        ],
+                        "solution_workspace_files": [
+                            {
+                                "mode": "write",
+                                "path": "schema/orders.sql",
+                                "content": "schema-resolved",
+                            }
+                        ],
+                        "state_requirements": {
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "conflict_free": True,
+                            "rules": [
+                                {
+                                    "type": "merge_commit_contains_tree",
+                                    "tree": {"schema/orders.sql": "schema-resolved"},
+                                }
+                            ],
+                        },
                     },
                     {
                         "case_id": "manual-hard-migration",
                         "label": "Resolve db/migrations/001_users.sql",
-                        "context": "user-service's release branch conflicts with main in db/migrations/001_users.sql. Resolve the conflict and commit with message \"Resolve release conflict\".",
+                        "context": 'user-service\'s release branch conflicts with main in db/migrations/001_users.sql. Resolve the conflict and commit with message "Resolve release conflict".',
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Base commit", "parents": [], "tree": {"db/migrations/001_users.sql": "migration-base"}},
-                                {"id": "c1", "message": "Main update", "parents": ["c0"], "tree": {"db/migrations/001_users.sql": "migration-main"}},
-                                {"id": "c2", "message": "Feature branch update", "parents": ["c0"], "tree": {"db/migrations/001_users.sql": "migration-feature"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Base commit",
+                                    "parents": [],
+                                    "tree": {"db/migrations/001_users.sql": "migration-base"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Main update",
+                                    "parents": ["c0"],
+                                    "tree": {"db/migrations/001_users.sql": "migration-main"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch update",
+                                    "parents": ["c0"],
+                                    "tree": {"db/migrations/001_users.sql": "migration-feature"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/migration": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "conflict_on_merge": True, "conflict_files": ["db/migrations/001_users.sql"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/migration": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "conflict_on_merge": True,
+                            "conflict_files": ["db/migrations/001_users.sql"],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge feature/migration", "git add db/migrations/001_users.sql", 'git commit -m "Resolve release conflict"'],
-                        "solution_workspace_files": [{"mode": "write", "path": "db/migrations/001_users.sql", "content": "migration-resolved"}],
-                        "state_requirements": {"head_branch": "main", "staging_empty": True, "working_tree_clean": True, "conflict_free": True, "rules": [{"type": "merge_commit_contains_tree", "tree": {"db/migrations/001_users.sql": "migration-resolved"}}]},
+                        "solution_commands": [
+                            "git merge feature/migration",
+                            "git add db/migrations/001_users.sql",
+                            'git commit -m "Resolve release conflict"',
+                        ],
+                        "solution_workspace_files": [
+                            {
+                                "mode": "write",
+                                "path": "db/migrations/001_users.sql",
+                                "content": "migration-resolved",
+                            }
+                        ],
+                        "state_requirements": {
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "conflict_free": True,
+                            "rules": [
+                                {
+                                    "type": "merge_commit_contains_tree",
+                                    "tree": {"db/migrations/001_users.sql": "migration-resolved"},
+                                }
+                            ],
+                        },
                     },
                     {
                         "case_id": "manual-hard-medium-carryover",
                         "label": "Resolve src/routes.ts (hard)",
-                        "context": "The routing conflict reappears with less scaffolding: resolve src/routes.ts on support-portal's integration branch and commit with message \"Resolve release conflict\".",
+                        "context": 'The routing conflict reappears with less scaffolding: resolve src/routes.ts on support-portal\'s integration branch and commit with message "Resolve release conflict".',
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Base commit", "parents": [], "tree": {"src/routes.ts": "route('/help')"}},
-                                {"id": "c1", "message": "Main update", "parents": ["c0"], "tree": {"src/routes.ts": "route('/support')"}},
-                                {"id": "c2", "message": "Feature branch update", "parents": ["c0"], "tree": {"src/routes.ts": "route('/help-center')"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Base commit",
+                                    "parents": [],
+                                    "tree": {"src/routes.ts": "route('/help')"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Main update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/routes.ts": "route('/support')"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/routes.ts": "route('/help-center')"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/help-center": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "conflict_on_merge": True, "conflict_files": ["src/routes.ts"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/help-center": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "conflict_on_merge": True,
+                            "conflict_files": ["src/routes.ts"],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge feature/help-center", "git add src/routes.ts", 'git commit -m "Resolve release conflict"'],
-                        "solution_workspace_files": [{"mode": "write", "path": "src/routes.ts", "content": "route('/support')\nroute('/help-center')"}],
-                        "state_requirements": {"head_branch": "main", "staging_empty": True, "working_tree_clean": True, "conflict_free": True, "rules": [{"type": "merge_commit_contains_tree", "tree": {"src/routes.ts": "route('/support')\nroute('/help-center')"}}]},
+                        "solution_commands": [
+                            "git merge feature/help-center",
+                            "git add src/routes.ts",
+                            'git commit -m "Resolve release conflict"',
+                        ],
+                        "solution_workspace_files": [
+                            {
+                                "mode": "write",
+                                "path": "src/routes.ts",
+                                "content": "route('/support')\nroute('/help-center')",
+                            }
+                        ],
+                        "state_requirements": {
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "conflict_free": True,
+                            "rules": [
+                                {
+                                    "type": "merge_commit_contains_tree",
+                                    "tree": {
+                                        "src/routes.ts": "route('/support')\nroute('/help-center')"
+                                    },
+                                }
+                            ],
+                        },
                     },
                 ],
             },
@@ -4969,17 +9942,57 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Base commit", "parents": [], "tree": {"src/auth.js": "timeout=3000"}},
-                                {"id": "c1", "message": "Main update", "parents": ["c0"], "tree": {"src/auth.js": "timeout=5000"}},
-                                {"id": "c2", "message": "Feature branch update", "parents": ["c0"], "tree": {"src/auth.js": "timeout=2500"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Base commit",
+                                    "parents": [],
+                                    "tree": {"src/auth.js": "timeout=3000"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Main update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/auth.js": "timeout=5000"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/auth.js": "timeout=2500"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/auth-timeout": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "conflict_on_merge": True, "conflict_files": ["src/auth.js"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/auth-timeout": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "conflict_on_merge": True,
+                            "conflict_files": ["src/auth.js"],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge feature/auth-timeout", "git add src/auth.js", "git commit"],
-                        "solution_workspace_files": [{"mode": "write", "path": "src/auth.js", "content": "timeout=5000\nretry=enabled"}],
-                        "state_requirements": {"head_branch": "main", "staging_empty": True, "working_tree_clean": True, "conflict_free": True, "rules": [{"type": "merge_commit_contains_tree", "tree": {"src/auth.js": "timeout=5000\nretry=enabled"}}]},
+                        "solution_commands": [
+                            "git merge feature/auth-timeout",
+                            "git add src/auth.js",
+                            "git commit",
+                        ],
+                        "solution_workspace_files": [
+                            {
+                                "mode": "write",
+                                "path": "src/auth.js",
+                                "content": "timeout=5000\nretry=enabled",
+                            }
+                        ],
+                        "state_requirements": {
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "conflict_free": True,
+                            "rules": [
+                                {
+                                    "type": "merge_commit_contains_tree",
+                                    "tree": {"src/auth.js": "timeout=5000\nretry=enabled"},
+                                }
+                            ],
+                        },
                     },
                     {
                         "case_id": "mergetool-easy-profile-copy",
@@ -4988,17 +10001,59 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Base commit", "parents": [], "tree": {"src/profile.tsx": "title=Profile"}},
-                                {"id": "c1", "message": "Main update", "parents": ["c0"], "tree": {"src/profile.tsx": "title=Account profile"}},
-                                {"id": "c2", "message": "Feature branch update", "parents": ["c0"], "tree": {"src/profile.tsx": "title=Member profile"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Base commit",
+                                    "parents": [],
+                                    "tree": {"src/profile.tsx": "title=Profile"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Main update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/profile.tsx": "title=Account profile"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/profile.tsx": "title=Member profile"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/profile-copy": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "conflict_on_merge": True, "conflict_files": ["src/profile.tsx"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/profile-copy": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "conflict_on_merge": True,
+                            "conflict_files": ["src/profile.tsx"],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge feature/profile-copy", "git add src/profile.tsx", "git commit"],
-                        "solution_workspace_files": [{"mode": "write", "path": "src/profile.tsx", "content": "title=Account profile\nsubtitle=Member profile"}],
-                        "state_requirements": {"head_branch": "main", "staging_empty": True, "working_tree_clean": True, "conflict_free": True, "rules": [{"type": "merge_commit_contains_tree", "tree": {"src/profile.tsx": "title=Account profile\nsubtitle=Member profile"}}]},
+                        "solution_commands": [
+                            "git merge feature/profile-copy",
+                            "git add src/profile.tsx",
+                            "git commit",
+                        ],
+                        "solution_workspace_files": [
+                            {
+                                "mode": "write",
+                                "path": "src/profile.tsx",
+                                "content": "title=Account profile\nsubtitle=Member profile",
+                            }
+                        ],
+                        "state_requirements": {
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "conflict_free": True,
+                            "rules": [
+                                {
+                                    "type": "merge_commit_contains_tree",
+                                    "tree": {
+                                        "src/profile.tsx": "title=Account profile\nsubtitle=Member profile"
+                                    },
+                                }
+                            ],
+                        },
                     },
                     {
                         "case_id": "mergetool-easy-billing-copy",
@@ -5007,17 +10062,59 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Base commit", "parents": [], "tree": {"src/billing.py": "currency='USD'"}},
-                                {"id": "c1", "message": "Main update", "parents": ["c0"], "tree": {"src/billing.py": "currency='PHP'"}},
-                                {"id": "c2", "message": "Feature branch update", "parents": ["c0"], "tree": {"src/billing.py": "currency='EUR'"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Base commit",
+                                    "parents": [],
+                                    "tree": {"src/billing.py": "currency='USD'"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Main update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/billing.py": "currency='PHP'"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/billing.py": "currency='EUR'"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/regional-currency": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "conflict_on_merge": True, "conflict_files": ["src/billing.py"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/regional-currency": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "conflict_on_merge": True,
+                            "conflict_files": ["src/billing.py"],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge feature/regional-currency", "git add src/billing.py", "git commit"],
-                        "solution_workspace_files": [{"mode": "write", "path": "src/billing.py", "content": "currency='PHP'\nsupported=['PHP','EUR']"}],
-                        "state_requirements": {"head_branch": "main", "staging_empty": True, "working_tree_clean": True, "conflict_free": True, "rules": [{"type": "merge_commit_contains_tree", "tree": {"src/billing.py": "currency='PHP'\nsupported=['PHP','EUR']"}}]},
+                        "solution_commands": [
+                            "git merge feature/regional-currency",
+                            "git add src/billing.py",
+                            "git commit",
+                        ],
+                        "solution_workspace_files": [
+                            {
+                                "mode": "write",
+                                "path": "src/billing.py",
+                                "content": "currency='PHP'\nsupported=['PHP','EUR']",
+                            }
+                        ],
+                        "state_requirements": {
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "conflict_free": True,
+                            "rules": [
+                                {
+                                    "type": "merge_commit_contains_tree",
+                                    "tree": {
+                                        "src/billing.py": "currency='PHP'\nsupported=['PHP','EUR']"
+                                    },
+                                }
+                            ],
+                        },
                     },
                     {
                         "case_id": "mergetool-easy-config-copy",
@@ -5026,17 +10123,59 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Base commit", "parents": [], "tree": {"src/config.py": "debug=False"}},
-                                {"id": "c1", "message": "Main update", "parents": ["c0"], "tree": {"src/config.py": "debug=False\nlog_level=INFO"}},
-                                {"id": "c2", "message": "Feature branch update", "parents": ["c0"], "tree": {"src/config.py": "debug=True\nlog_level=DEBUG"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Base commit",
+                                    "parents": [],
+                                    "tree": {"src/config.py": "debug=False"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Main update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/config.py": "debug=False\nlog_level=INFO"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/config.py": "debug=True\nlog_level=DEBUG"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/debug-config": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "conflict_on_merge": True, "conflict_files": ["src/config.py"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/debug-config": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "conflict_on_merge": True,
+                            "conflict_files": ["src/config.py"],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge feature/debug-config", "git add src/config.py", "git commit"],
-                        "solution_workspace_files": [{"mode": "write", "path": "src/config.py", "content": "debug=False\nlog_level=INFO\nverbose_errors=True"}],
-                        "state_requirements": {"head_branch": "main", "staging_empty": True, "working_tree_clean": True, "conflict_free": True, "rules": [{"type": "merge_commit_contains_tree", "tree": {"src/config.py": "debug=False\nlog_level=INFO\nverbose_errors=True"}}]},
+                        "solution_commands": [
+                            "git merge feature/debug-config",
+                            "git add src/config.py",
+                            "git commit",
+                        ],
+                        "solution_workspace_files": [
+                            {
+                                "mode": "write",
+                                "path": "src/config.py",
+                                "content": "debug=False\nlog_level=INFO\nverbose_errors=True",
+                            }
+                        ],
+                        "state_requirements": {
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "conflict_free": True,
+                            "rules": [
+                                {
+                                    "type": "merge_commit_contains_tree",
+                                    "tree": {
+                                        "src/config.py": "debug=False\nlog_level=INFO\nverbose_errors=True"
+                                    },
+                                }
+                            ],
+                        },
                     },
                     {
                         "case_id": "mergetool-easy-navbar-copy",
@@ -5045,17 +10184,59 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Base commit", "parents": [], "tree": {"src/components/Navbar.tsx": "brand=AppName"}},
-                                {"id": "c1", "message": "Main update", "parents": ["c0"], "tree": {"src/components/Navbar.tsx": "brand=MyApp"}},
-                                {"id": "c2", "message": "Feature branch update", "parents": ["c0"], "tree": {"src/components/Navbar.tsx": "brand=BetaApp"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Base commit",
+                                    "parents": [],
+                                    "tree": {"src/components/Navbar.tsx": "brand=AppName"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Main update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/components/Navbar.tsx": "brand=MyApp"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/components/Navbar.tsx": "brand=BetaApp"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/navbar-rebrand": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "conflict_on_merge": True, "conflict_files": ["src/components/Navbar.tsx"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/navbar-rebrand": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "conflict_on_merge": True,
+                            "conflict_files": ["src/components/Navbar.tsx"],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge feature/navbar-rebrand", "git add src/components/Navbar.tsx", "git commit"],
-                        "solution_workspace_files": [{"mode": "write", "path": "src/components/Navbar.tsx", "content": "brand=MyApp\ntagline=Beta"}],
-                        "state_requirements": {"head_branch": "main", "staging_empty": True, "working_tree_clean": True, "conflict_free": True, "rules": [{"type": "merge_commit_contains_tree", "tree": {"src/components/Navbar.tsx": "brand=MyApp\ntagline=Beta"}}]},
+                        "solution_commands": [
+                            "git merge feature/navbar-rebrand",
+                            "git add src/components/Navbar.tsx",
+                            "git commit",
+                        ],
+                        "solution_workspace_files": [
+                            {
+                                "mode": "write",
+                                "path": "src/components/Navbar.tsx",
+                                "content": "brand=MyApp\ntagline=Beta",
+                            }
+                        ],
+                        "state_requirements": {
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "conflict_free": True,
+                            "rules": [
+                                {
+                                    "type": "merge_commit_contains_tree",
+                                    "tree": {
+                                        "src/components/Navbar.tsx": "brand=MyApp\ntagline=Beta"
+                                    },
+                                }
+                            ],
+                        },
                     },
                 ],
             },
@@ -5073,17 +10254,53 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Base commit", "parents": [], "tree": {"src/routes.ts": "route-base"}},
-                                {"id": "c1", "message": "Main update", "parents": ["c0"], "tree": {"src/routes.ts": "route-main"}},
-                                {"id": "c2", "message": "Feature branch update", "parents": ["c0"], "tree": {"src/routes.ts": "route-feature"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Base commit",
+                                    "parents": [],
+                                    "tree": {"src/routes.ts": "route-base"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Main update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/routes.ts": "route-main"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/routes.ts": "route-feature"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/routes": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "conflict_on_merge": True, "conflict_files": ["src/routes.ts"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/routes": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "conflict_on_merge": True,
+                            "conflict_files": ["src/routes.ts"],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge feature/routes", "git add src/routes.ts", "git commit"],
-                        "solution_workspace_files": [{"mode": "write", "path": "src/routes.ts", "content": "route-resolved"}],
-                        "state_requirements": {"head_branch": "main", "staging_empty": True, "working_tree_clean": True, "conflict_free": True, "rules": [{"type": "merge_commit_contains_tree", "tree": {"src/routes.ts": "route-resolved"}}]},
+                        "solution_commands": [
+                            "git merge feature/routes",
+                            "git add src/routes.ts",
+                            "git commit",
+                        ],
+                        "solution_workspace_files": [
+                            {"mode": "write", "path": "src/routes.ts", "content": "route-resolved"}
+                        ],
+                        "state_requirements": {
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "conflict_free": True,
+                            "rules": [
+                                {
+                                    "type": "merge_commit_contains_tree",
+                                    "tree": {"src/routes.ts": "route-resolved"},
+                                }
+                            ],
+                        },
                     },
                     {
                         "case_id": "mergetool-medium-policy",
@@ -5092,17 +10309,57 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Base commit", "parents": [], "tree": {"src/policy.yml": "policy-base"}},
-                                {"id": "c1", "message": "Main update", "parents": ["c0"], "tree": {"src/policy.yml": "policy-main"}},
-                                {"id": "c2", "message": "Feature branch update", "parents": ["c0"], "tree": {"src/policy.yml": "policy-feature"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Base commit",
+                                    "parents": [],
+                                    "tree": {"src/policy.yml": "policy-base"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Main update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/policy.yml": "policy-main"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/policy.yml": "policy-feature"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/policy": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "conflict_on_merge": True, "conflict_files": ["src/policy.yml"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/policy": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "conflict_on_merge": True,
+                            "conflict_files": ["src/policy.yml"],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge feature/policy", "git add src/policy.yml", "git commit"],
-                        "solution_workspace_files": [{"mode": "write", "path": "src/policy.yml", "content": "policy-resolved"}],
-                        "state_requirements": {"head_branch": "main", "staging_empty": True, "working_tree_clean": True, "conflict_free": True, "rules": [{"type": "merge_commit_contains_tree", "tree": {"src/policy.yml": "policy-resolved"}}]},
+                        "solution_commands": [
+                            "git merge feature/policy",
+                            "git add src/policy.yml",
+                            "git commit",
+                        ],
+                        "solution_workspace_files": [
+                            {
+                                "mode": "write",
+                                "path": "src/policy.yml",
+                                "content": "policy-resolved",
+                            }
+                        ],
+                        "state_requirements": {
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "conflict_free": True,
+                            "rules": [
+                                {
+                                    "type": "merge_commit_contains_tree",
+                                    "tree": {"src/policy.yml": "policy-resolved"},
+                                }
+                            ],
+                        },
                     },
                     {
                         "case_id": "mergetool-medium-gateway",
@@ -5111,17 +10368,57 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Base commit", "parents": [], "tree": {"config/gateway.yml": "gateway-base"}},
-                                {"id": "c1", "message": "Main update", "parents": ["c0"], "tree": {"config/gateway.yml": "gateway-main"}},
-                                {"id": "c2", "message": "Feature branch update", "parents": ["c0"], "tree": {"config/gateway.yml": "gateway-feature"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Base commit",
+                                    "parents": [],
+                                    "tree": {"config/gateway.yml": "gateway-base"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Main update",
+                                    "parents": ["c0"],
+                                    "tree": {"config/gateway.yml": "gateway-main"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch update",
+                                    "parents": ["c0"],
+                                    "tree": {"config/gateway.yml": "gateway-feature"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/gateway": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "conflict_on_merge": True, "conflict_files": ["config/gateway.yml"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/gateway": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "conflict_on_merge": True,
+                            "conflict_files": ["config/gateway.yml"],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge feature/gateway", "git add config/gateway.yml", "git commit"],
-                        "solution_workspace_files": [{"mode": "write", "path": "config/gateway.yml", "content": "gateway-resolved"}],
-                        "state_requirements": {"head_branch": "main", "staging_empty": True, "working_tree_clean": True, "conflict_free": True, "rules": [{"type": "merge_commit_contains_tree", "tree": {"config/gateway.yml": "gateway-resolved"}}]},
+                        "solution_commands": [
+                            "git merge feature/gateway",
+                            "git add config/gateway.yml",
+                            "git commit",
+                        ],
+                        "solution_workspace_files": [
+                            {
+                                "mode": "write",
+                                "path": "config/gateway.yml",
+                                "content": "gateway-resolved",
+                            }
+                        ],
+                        "state_requirements": {
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "conflict_free": True,
+                            "rules": [
+                                {
+                                    "type": "merge_commit_contains_tree",
+                                    "tree": {"config/gateway.yml": "gateway-resolved"},
+                                }
+                            ],
+                        },
                     },
                     {
                         "case_id": "mergetool-medium-easy-carryover",
@@ -5130,17 +10427,57 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Base commit", "parents": [], "tree": {"src/auth.js": "timeout=3000"}},
-                                {"id": "c1", "message": "Main update", "parents": ["c0"], "tree": {"src/auth.js": "timeout=5000"}},
-                                {"id": "c2", "message": "Feature branch update", "parents": ["c0"], "tree": {"src/auth.js": "timeout=2500"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Base commit",
+                                    "parents": [],
+                                    "tree": {"src/auth.js": "timeout=3000"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Main update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/auth.js": "timeout=5000"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/auth.js": "timeout=2500"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/auth-timeout": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "conflict_on_merge": True, "conflict_files": ["src/auth.js"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/auth-timeout": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "conflict_on_merge": True,
+                            "conflict_files": ["src/auth.js"],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge feature/auth-timeout", "git add src/auth.js", "git commit"],
-                        "solution_workspace_files": [{"mode": "write", "path": "src/auth.js", "content": "timeout=5000\nretry=enabled"}],
-                        "state_requirements": {"head_branch": "main", "staging_empty": True, "working_tree_clean": True, "conflict_free": True, "rules": [{"type": "merge_commit_contains_tree", "tree": {"src/auth.js": "timeout=5000\nretry=enabled"}}]},
+                        "solution_commands": [
+                            "git merge feature/auth-timeout",
+                            "git add src/auth.js",
+                            "git commit",
+                        ],
+                        "solution_workspace_files": [
+                            {
+                                "mode": "write",
+                                "path": "src/auth.js",
+                                "content": "timeout=5000\nretry=enabled",
+                            }
+                        ],
+                        "state_requirements": {
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "conflict_free": True,
+                            "rules": [
+                                {
+                                    "type": "merge_commit_contains_tree",
+                                    "tree": {"src/auth.js": "timeout=5000\nretry=enabled"},
+                                }
+                            ],
+                        },
                     },
                 ],
             },
@@ -5158,17 +10495,57 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Base commit", "parents": [], "tree": {"src/pricing.rb": "pricing-base"}},
-                                {"id": "c1", "message": "Main update", "parents": ["c0"], "tree": {"src/pricing.rb": "pricing-main"}},
-                                {"id": "c2", "message": "Feature branch update", "parents": ["c0"], "tree": {"src/pricing.rb": "pricing-feature"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Base commit",
+                                    "parents": [],
+                                    "tree": {"src/pricing.rb": "pricing-base"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Main update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/pricing.rb": "pricing-main"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/pricing.rb": "pricing-feature"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/pricing": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "conflict_on_merge": True, "conflict_files": ["src/pricing.rb"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/pricing": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "conflict_on_merge": True,
+                            "conflict_files": ["src/pricing.rb"],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge feature/pricing", "git add src/pricing.rb", "git commit"],
-                        "solution_workspace_files": [{"mode": "write", "path": "src/pricing.rb", "content": "pricing-resolved"}],
-                        "state_requirements": {"head_branch": "main", "staging_empty": True, "working_tree_clean": True, "conflict_free": True, "rules": [{"type": "merge_commit_contains_tree", "tree": {"src/pricing.rb": "pricing-resolved"}}]},
+                        "solution_commands": [
+                            "git merge feature/pricing",
+                            "git add src/pricing.rb",
+                            "git commit",
+                        ],
+                        "solution_workspace_files": [
+                            {
+                                "mode": "write",
+                                "path": "src/pricing.rb",
+                                "content": "pricing-resolved",
+                            }
+                        ],
+                        "state_requirements": {
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "conflict_free": True,
+                            "rules": [
+                                {
+                                    "type": "merge_commit_contains_tree",
+                                    "tree": {"src/pricing.rb": "pricing-resolved"},
+                                }
+                            ],
+                        },
                     },
                     {
                         "case_id": "mergetool-hard-schema",
@@ -5177,17 +10554,57 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Base commit", "parents": [], "tree": {"schema/orders.sql": "schema-base"}},
-                                {"id": "c1", "message": "Main update", "parents": ["c0"], "tree": {"schema/orders.sql": "schema-main"}},
-                                {"id": "c2", "message": "Feature branch update", "parents": ["c0"], "tree": {"schema/orders.sql": "schema-feature"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Base commit",
+                                    "parents": [],
+                                    "tree": {"schema/orders.sql": "schema-base"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Main update",
+                                    "parents": ["c0"],
+                                    "tree": {"schema/orders.sql": "schema-main"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch update",
+                                    "parents": ["c0"],
+                                    "tree": {"schema/orders.sql": "schema-feature"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/schema": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "conflict_on_merge": True, "conflict_files": ["schema/orders.sql"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/schema": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "conflict_on_merge": True,
+                            "conflict_files": ["schema/orders.sql"],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge feature/schema", "git add schema/orders.sql", "git commit"],
-                        "solution_workspace_files": [{"mode": "write", "path": "schema/orders.sql", "content": "schema-resolved"}],
-                        "state_requirements": {"head_branch": "main", "staging_empty": True, "working_tree_clean": True, "conflict_free": True, "rules": [{"type": "merge_commit_contains_tree", "tree": {"schema/orders.sql": "schema-resolved"}}]},
+                        "solution_commands": [
+                            "git merge feature/schema",
+                            "git add schema/orders.sql",
+                            "git commit",
+                        ],
+                        "solution_workspace_files": [
+                            {
+                                "mode": "write",
+                                "path": "schema/orders.sql",
+                                "content": "schema-resolved",
+                            }
+                        ],
+                        "state_requirements": {
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "conflict_free": True,
+                            "rules": [
+                                {
+                                    "type": "merge_commit_contains_tree",
+                                    "tree": {"schema/orders.sql": "schema-resolved"},
+                                }
+                            ],
+                        },
                     },
                     {
                         "case_id": "mergetool-hard-migration",
@@ -5196,17 +10613,57 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Base commit", "parents": [], "tree": {"db/migrations/001_users.sql": "migration-base"}},
-                                {"id": "c1", "message": "Main update", "parents": ["c0"], "tree": {"db/migrations/001_users.sql": "migration-main"}},
-                                {"id": "c2", "message": "Feature branch update", "parents": ["c0"], "tree": {"db/migrations/001_users.sql": "migration-feature"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Base commit",
+                                    "parents": [],
+                                    "tree": {"db/migrations/001_users.sql": "migration-base"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Main update",
+                                    "parents": ["c0"],
+                                    "tree": {"db/migrations/001_users.sql": "migration-main"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch update",
+                                    "parents": ["c0"],
+                                    "tree": {"db/migrations/001_users.sql": "migration-feature"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/migration": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "conflict_on_merge": True, "conflict_files": ["db/migrations/001_users.sql"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/migration": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "conflict_on_merge": True,
+                            "conflict_files": ["db/migrations/001_users.sql"],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge feature/migration", "git add db/migrations/001_users.sql", "git commit"],
-                        "solution_workspace_files": [{"mode": "write", "path": "db/migrations/001_users.sql", "content": "migration-resolved"}],
-                        "state_requirements": {"head_branch": "main", "staging_empty": True, "working_tree_clean": True, "conflict_free": True, "rules": [{"type": "merge_commit_contains_tree", "tree": {"db/migrations/001_users.sql": "migration-resolved"}}]},
+                        "solution_commands": [
+                            "git merge feature/migration",
+                            "git add db/migrations/001_users.sql",
+                            "git commit",
+                        ],
+                        "solution_workspace_files": [
+                            {
+                                "mode": "write",
+                                "path": "db/migrations/001_users.sql",
+                                "content": "migration-resolved",
+                            }
+                        ],
+                        "state_requirements": {
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "conflict_free": True,
+                            "rules": [
+                                {
+                                    "type": "merge_commit_contains_tree",
+                                    "tree": {"db/migrations/001_users.sql": "migration-resolved"},
+                                }
+                            ],
+                        },
                     },
                     {
                         "case_id": "mergetool-hard-medium-carryover",
@@ -5215,17 +10672,59 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Base commit", "parents": [], "tree": {"src/routes.ts": "route('/help')"}},
-                                {"id": "c1", "message": "Main update", "parents": ["c0"], "tree": {"src/routes.ts": "route('/support')"}},
-                                {"id": "c2", "message": "Feature branch update", "parents": ["c0"], "tree": {"src/routes.ts": "route('/help-center')"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Base commit",
+                                    "parents": [],
+                                    "tree": {"src/routes.ts": "route('/help')"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Main update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/routes.ts": "route('/support')"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Feature branch update",
+                                    "parents": ["c0"],
+                                    "tree": {"src/routes.ts": "route('/help-center')"},
+                                },
                             ],
-                            "branches": {"main": "c1", "feature/help-center": "c2"}, "head": {"type": "branch", "name": "main"},
-                            "conflict_on_merge": True, "conflict_files": ["src/routes.ts"],
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c1", "feature/help-center": "c2"},
+                            "head": {"type": "branch", "name": "main"},
+                            "conflict_on_merge": True,
+                            "conflict_files": ["src/routes.ts"],
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
-                        "solution_commands": ["git merge feature/help-center", "git add src/routes.ts", "git commit"],
-                        "solution_workspace_files": [{"mode": "write", "path": "src/routes.ts", "content": "route('/support')\nroute('/help-center')"}],
-                        "state_requirements": {"head_branch": "main", "staging_empty": True, "working_tree_clean": True, "conflict_free": True, "rules": [{"type": "merge_commit_contains_tree", "tree": {"src/routes.ts": "route('/support')\nroute('/help-center')"}}]},
+                        "solution_commands": [
+                            "git merge feature/help-center",
+                            "git add src/routes.ts",
+                            "git commit",
+                        ],
+                        "solution_workspace_files": [
+                            {
+                                "mode": "write",
+                                "path": "src/routes.ts",
+                                "content": "route('/support')\nroute('/help-center')",
+                            }
+                        ],
+                        "state_requirements": {
+                            "head_branch": "main",
+                            "staging_empty": True,
+                            "working_tree_clean": True,
+                            "conflict_free": True,
+                            "rules": [
+                                {
+                                    "type": "merge_commit_contains_tree",
+                                    "tree": {
+                                        "src/routes.ts": "route('/support')\nroute('/help-center')"
+                                    },
+                                }
+                            ],
+                        },
                     },
                 ],
             },
@@ -5251,16 +10750,52 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Baseline", "parents": [], "tree": {"src/login.js": "login-base"}},
-                                {"id": "c1", "message": "Fix login timeout", "parents": ["c0"], "tree": {"src/login.js": "timeout-fix-v1"}},
-                                {"id": "c2", "message": "Main continues", "parents": ["c1"], "tree": {"src/login.js": "timeout-fix-v1", "src/other.js": "other-v1"}},
-                                {"id": "c3", "message": "Release branch base", "parents": ["c0"], "tree": {"src/login.js": "login-base"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Baseline",
+                                    "parents": [],
+                                    "tree": {"src/login.js": "login-base"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Fix login timeout",
+                                    "parents": ["c0"],
+                                    "tree": {"src/login.js": "timeout-fix-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Main continues",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "src/login.js": "timeout-fix-v1",
+                                        "src/other.js": "other-v1",
+                                    },
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Release branch base",
+                                    "parents": ["c0"],
+                                    "tree": {"src/login.js": "login-base"},
+                                },
                             ],
-                            "branches": {"main": "c2", "release-1.0": "c3"}, "head": {"type": "branch", "name": "release-1.0"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c2", "release-1.0": "c3"},
+                            "head": {"type": "branch", "name": "release-1.0"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git cherry-pick c1"],
-                        "state_requirements": {"head_branch": "release-1.0", "rules": [{"type": "cherry_pick_created_new_commit"}, {"type": "cherry_pick_copied_changes_from", "commit": "c1"}, {"type": "commit_tree_contains_tokens", "tokens": ["timeout-fix-v1"]}]},
+                        "state_requirements": {
+                            "head_branch": "release-1.0",
+                            "rules": [
+                                {"type": "cherry_pick_created_new_commit"},
+                                {"type": "cherry_pick_copied_changes_from", "commit": "c1"},
+                                {
+                                    "type": "commit_tree_contains_tokens",
+                                    "tokens": ["timeout-fix-v1"],
+                                },
+                            ],
+                        },
                     },
                     {
                         "case_id": "cherry-easy-invoice-rounding",
@@ -5269,16 +10804,52 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Baseline", "parents": [], "tree": {"src/invoice.py": "invoice-base"}},
-                                {"id": "c1", "message": "Fix rounding", "parents": ["c0"], "tree": {"src/invoice.py": "rounding-fix-v1"}},
-                                {"id": "c2", "message": "Main continues", "parents": ["c1"], "tree": {"src/invoice.py": "rounding-fix-v1", "src/other.py": "other-v1"}},
-                                {"id": "c3", "message": "Release branch base", "parents": ["c0"], "tree": {"src/invoice.py": "invoice-base"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Baseline",
+                                    "parents": [],
+                                    "tree": {"src/invoice.py": "invoice-base"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Fix rounding",
+                                    "parents": ["c0"],
+                                    "tree": {"src/invoice.py": "rounding-fix-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Main continues",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "src/invoice.py": "rounding-fix-v1",
+                                        "src/other.py": "other-v1",
+                                    },
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Release branch base",
+                                    "parents": ["c0"],
+                                    "tree": {"src/invoice.py": "invoice-base"},
+                                },
                             ],
-                            "branches": {"main": "c2", "release-1.1": "c3"}, "head": {"type": "branch", "name": "release-1.1"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c2", "release-1.1": "c3"},
+                            "head": {"type": "branch", "name": "release-1.1"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git cherry-pick c1"],
-                        "state_requirements": {"head_branch": "release-1.1", "rules": [{"type": "cherry_pick_created_new_commit"}, {"type": "cherry_pick_copied_changes_from", "commit": "c1"}, {"type": "commit_tree_contains_tokens", "tokens": ["rounding-fix-v1"]}]},
+                        "state_requirements": {
+                            "head_branch": "release-1.1",
+                            "rules": [
+                                {"type": "cherry_pick_created_new_commit"},
+                                {"type": "cherry_pick_copied_changes_from", "commit": "c1"},
+                                {
+                                    "type": "commit_tree_contains_tokens",
+                                    "tokens": ["rounding-fix-v1"],
+                                },
+                            ],
+                        },
                     },
                     {
                         "case_id": "cherry-easy-export-null",
@@ -5287,16 +10858,52 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Baseline", "parents": [], "tree": {"src/export.ts": "export-base"}},
-                                {"id": "c1", "message": "Fix null export", "parents": ["c0"], "tree": {"src/export.ts": "null-export-fix"}},
-                                {"id": "c2", "message": "Main continues", "parents": ["c1"], "tree": {"src/export.ts": "null-export-fix", "src/other.ts": "other-v1"}},
-                                {"id": "c3", "message": "Release branch base", "parents": ["c0"], "tree": {"src/export.ts": "export-base"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Baseline",
+                                    "parents": [],
+                                    "tree": {"src/export.ts": "export-base"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Fix null export",
+                                    "parents": ["c0"],
+                                    "tree": {"src/export.ts": "null-export-fix"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Main continues",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "src/export.ts": "null-export-fix",
+                                        "src/other.ts": "other-v1",
+                                    },
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Release branch base",
+                                    "parents": ["c0"],
+                                    "tree": {"src/export.ts": "export-base"},
+                                },
                             ],
-                            "branches": {"main": "c2", "release-2.0": "c3"}, "head": {"type": "branch", "name": "release-2.0"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c2", "release-2.0": "c3"},
+                            "head": {"type": "branch", "name": "release-2.0"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git cherry-pick c1"],
-                        "state_requirements": {"head_branch": "release-2.0", "rules": [{"type": "cherry_pick_created_new_commit"}, {"type": "cherry_pick_copied_changes_from", "commit": "c1"}, {"type": "commit_tree_contains_tokens", "tokens": ["null-export-fix"]}]},
+                        "state_requirements": {
+                            "head_branch": "release-2.0",
+                            "rules": [
+                                {"type": "cherry_pick_created_new_commit"},
+                                {"type": "cherry_pick_copied_changes_from", "commit": "c1"},
+                                {
+                                    "type": "commit_tree_contains_tokens",
+                                    "tokens": ["null-export-fix"],
+                                },
+                            ],
+                        },
                     },
                     {
                         "case_id": "cherry-easy-rate-limit",
@@ -5305,16 +10912,52 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Baseline", "parents": [], "tree": {"src/ratelimit.py": "ratelimit-base"}},
-                                {"id": "c1", "message": "Fix rate limit", "parents": ["c0"], "tree": {"src/ratelimit.py": "rate-limit-fix-v1"}},
-                                {"id": "c2", "message": "Main continues", "parents": ["c1"], "tree": {"src/ratelimit.py": "rate-limit-fix-v1", "src/other.py": "other-v1"}},
-                                {"id": "c3", "message": "Release branch base", "parents": ["c0"], "tree": {"src/ratelimit.py": "ratelimit-base"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Baseline",
+                                    "parents": [],
+                                    "tree": {"src/ratelimit.py": "ratelimit-base"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Fix rate limit",
+                                    "parents": ["c0"],
+                                    "tree": {"src/ratelimit.py": "rate-limit-fix-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Main continues",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "src/ratelimit.py": "rate-limit-fix-v1",
+                                        "src/other.py": "other-v1",
+                                    },
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Release branch base",
+                                    "parents": ["c0"],
+                                    "tree": {"src/ratelimit.py": "ratelimit-base"},
+                                },
                             ],
-                            "branches": {"main": "c2", "release-1.2": "c3"}, "head": {"type": "branch", "name": "release-1.2"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c2", "release-1.2": "c3"},
+                            "head": {"type": "branch", "name": "release-1.2"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git cherry-pick c1"],
-                        "state_requirements": {"head_branch": "release-1.2", "rules": [{"type": "cherry_pick_created_new_commit"}, {"type": "cherry_pick_copied_changes_from", "commit": "c1"}, {"type": "commit_tree_contains_tokens", "tokens": ["rate-limit-fix-v1"]}]},
+                        "state_requirements": {
+                            "head_branch": "release-1.2",
+                            "rules": [
+                                {"type": "cherry_pick_created_new_commit"},
+                                {"type": "cherry_pick_copied_changes_from", "commit": "c1"},
+                                {
+                                    "type": "commit_tree_contains_tokens",
+                                    "tokens": ["rate-limit-fix-v1"],
+                                },
+                            ],
+                        },
                     },
                     {
                         "case_id": "cherry-easy-null-check",
@@ -5323,16 +10966,52 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Baseline", "parents": [], "tree": {"src/parser.ts": "parser-base"}},
-                                {"id": "c1", "message": "Fix null check", "parents": ["c0"], "tree": {"src/parser.ts": "null-check-fix-v1"}},
-                                {"id": "c2", "message": "Main continues", "parents": ["c1"], "tree": {"src/parser.ts": "null-check-fix-v1", "src/other.ts": "other-v1"}},
-                                {"id": "c3", "message": "Release branch base", "parents": ["c0"], "tree": {"src/parser.ts": "parser-base"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Baseline",
+                                    "parents": [],
+                                    "tree": {"src/parser.ts": "parser-base"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Fix null check",
+                                    "parents": ["c0"],
+                                    "tree": {"src/parser.ts": "null-check-fix-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Main continues",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "src/parser.ts": "null-check-fix-v1",
+                                        "src/other.ts": "other-v1",
+                                    },
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Release branch base",
+                                    "parents": ["c0"],
+                                    "tree": {"src/parser.ts": "parser-base"},
+                                },
                             ],
-                            "branches": {"main": "c2", "release-2.1": "c3"}, "head": {"type": "branch", "name": "release-2.1"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c2", "release-2.1": "c3"},
+                            "head": {"type": "branch", "name": "release-2.1"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git cherry-pick c1"],
-                        "state_requirements": {"head_branch": "release-2.1", "rules": [{"type": "cherry_pick_created_new_commit"}, {"type": "cherry_pick_copied_changes_from", "commit": "c1"}, {"type": "commit_tree_contains_tokens", "tokens": ["null-check-fix-v1"]}]},
+                        "state_requirements": {
+                            "head_branch": "release-2.1",
+                            "rules": [
+                                {"type": "cherry_pick_created_new_commit"},
+                                {"type": "cherry_pick_copied_changes_from", "commit": "c1"},
+                                {
+                                    "type": "commit_tree_contains_tokens",
+                                    "tokens": ["null-check-fix-v1"],
+                                },
+                            ],
+                        },
                     },
                 ],
             },
@@ -5350,16 +11029,52 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Baseline", "parents": [], "tree": {"src/login.js": "login-base"}},
-                                {"id": "c1", "message": "Fix login timeout", "parents": ["c0"], "tree": {"src/login.js": "timeout-fix-v1"}},
-                                {"id": "c2", "message": "Main continues", "parents": ["c1"], "tree": {"src/login.js": "timeout-fix-v1", "src/other.js": "other-v1"}},
-                                {"id": "c3", "message": "Release branch base", "parents": ["c0"], "tree": {"src/login.js": "login-base"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Baseline",
+                                    "parents": [],
+                                    "tree": {"src/login.js": "login-base"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Fix login timeout",
+                                    "parents": ["c0"],
+                                    "tree": {"src/login.js": "timeout-fix-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Main continues",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "src/login.js": "timeout-fix-v1",
+                                        "src/other.js": "other-v1",
+                                    },
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Release branch base",
+                                    "parents": ["c0"],
+                                    "tree": {"src/login.js": "login-base"},
+                                },
                             ],
-                            "branches": {"main": "c2", "release-1.0": "c3"}, "head": {"type": "branch", "name": "release-1.0"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c2", "release-1.0": "c3"},
+                            "head": {"type": "branch", "name": "release-1.0"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git cherry-pick c1"],
-                        "state_requirements": {"head_branch": "release-1.0", "rules": [{"type": "cherry_pick_created_new_commit"}, {"type": "cherry_pick_copied_changes_from", "commit": "c1"}, {"type": "commit_tree_contains_tokens", "tokens": ["timeout-fix-v1"]}]},
+                        "state_requirements": {
+                            "head_branch": "release-1.0",
+                            "rules": [
+                                {"type": "cherry_pick_created_new_commit"},
+                                {"type": "cherry_pick_copied_changes_from", "commit": "c1"},
+                                {
+                                    "type": "commit_tree_contains_tokens",
+                                    "tokens": ["timeout-fix-v1"],
+                                },
+                            ],
+                        },
                     },
                     {
                         "case_id": "cherry-medium-invoice-rounding",
@@ -5368,16 +11083,52 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Baseline", "parents": [], "tree": {"src/invoice.py": "invoice-base"}},
-                                {"id": "c1", "message": "Fix rounding", "parents": ["c0"], "tree": {"src/invoice.py": "rounding-fix-v1"}},
-                                {"id": "c2", "message": "Main continues", "parents": ["c1"], "tree": {"src/invoice.py": "rounding-fix-v1", "src/other.py": "other-v1"}},
-                                {"id": "c3", "message": "Release branch base", "parents": ["c0"], "tree": {"src/invoice.py": "invoice-base"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Baseline",
+                                    "parents": [],
+                                    "tree": {"src/invoice.py": "invoice-base"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Fix rounding",
+                                    "parents": ["c0"],
+                                    "tree": {"src/invoice.py": "rounding-fix-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Main continues",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "src/invoice.py": "rounding-fix-v1",
+                                        "src/other.py": "other-v1",
+                                    },
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Release branch base",
+                                    "parents": ["c0"],
+                                    "tree": {"src/invoice.py": "invoice-base"},
+                                },
                             ],
-                            "branches": {"main": "c2", "release-1.1": "c3"}, "head": {"type": "branch", "name": "release-1.1"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c2", "release-1.1": "c3"},
+                            "head": {"type": "branch", "name": "release-1.1"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git cherry-pick c1"],
-                        "state_requirements": {"head_branch": "release-1.1", "rules": [{"type": "cherry_pick_created_new_commit"}, {"type": "cherry_pick_copied_changes_from", "commit": "c1"}, {"type": "commit_tree_contains_tokens", "tokens": ["rounding-fix-v1"]}]},
+                        "state_requirements": {
+                            "head_branch": "release-1.1",
+                            "rules": [
+                                {"type": "cherry_pick_created_new_commit"},
+                                {"type": "cherry_pick_copied_changes_from", "commit": "c1"},
+                                {
+                                    "type": "commit_tree_contains_tokens",
+                                    "tokens": ["rounding-fix-v1"],
+                                },
+                            ],
+                        },
                     },
                     {
                         "case_id": "cherry-medium-no-commit",
@@ -5386,16 +11137,53 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Baseline", "parents": [], "tree": {"src/report.ts": "report-base"}},
-                                {"id": "c1", "message": "Fix report hotfix", "parents": ["c0"], "tree": {"src/report.ts": "report-hotfix"}},
-                                {"id": "c2", "message": "Main continues", "parents": ["c1"], "tree": {"src/report.ts": "report-hotfix", "src/other.ts": "other-v1"}},
-                                {"id": "c3", "message": "Review branch base", "parents": ["c0"], "tree": {"src/report.ts": "report-base"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Baseline",
+                                    "parents": [],
+                                    "tree": {"src/report.ts": "report-base"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Fix report hotfix",
+                                    "parents": ["c0"],
+                                    "tree": {"src/report.ts": "report-hotfix"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Main continues",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "src/report.ts": "report-hotfix",
+                                        "src/other.ts": "other-v1",
+                                    },
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Review branch base",
+                                    "parents": ["c0"],
+                                    "tree": {"src/report.ts": "report-base"},
+                                },
                             ],
-                            "branches": {"main": "c2", "release-review": "c3"}, "head": {"type": "branch", "name": "release-review"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c2", "release-review": "c3"},
+                            "head": {"type": "branch", "name": "release-review"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git cherry-pick --no-commit c1"],
-                        "state_requirements": {"head_branch": "release-review", "staging_contains": ["src/report.ts"], "staging_contains_tokens": ["report-hotfix"], "rules": [{"type": "operation_metadata_equals", "key": "last_cherry_pick_source", "value": "c1"}]},
+                        "state_requirements": {
+                            "head_branch": "release-review",
+                            "staging_contains": ["src/report.ts"],
+                            "staging_contains_tokens": ["report-hotfix"],
+                            "rules": [
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_cherry_pick_source",
+                                    "value": "c1",
+                                }
+                            ],
+                        },
                     },
                     {
                         "case_id": "cherry-medium-staged-review",
@@ -5404,16 +11192,53 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Baseline", "parents": [], "tree": {"src/cache.py": "cache-base"}},
-                                {"id": "c1", "message": "Fix cache hotfix", "parents": ["c0"], "tree": {"src/cache.py": "cache-hotfix"}},
-                                {"id": "c2", "message": "Main continues", "parents": ["c1"], "tree": {"src/cache.py": "cache-hotfix", "src/other.py": "other-v1"}},
-                                {"id": "c3", "message": "Staged branch base", "parents": ["c0"], "tree": {"src/cache.py": "cache-base"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Baseline",
+                                    "parents": [],
+                                    "tree": {"src/cache.py": "cache-base"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Fix cache hotfix",
+                                    "parents": ["c0"],
+                                    "tree": {"src/cache.py": "cache-hotfix"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Main continues",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "src/cache.py": "cache-hotfix",
+                                        "src/other.py": "other-v1",
+                                    },
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Staged branch base",
+                                    "parents": ["c0"],
+                                    "tree": {"src/cache.py": "cache-base"},
+                                },
                             ],
-                            "branches": {"main": "c2", "release-staged": "c3"}, "head": {"type": "branch", "name": "release-staged"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c2", "release-staged": "c3"},
+                            "head": {"type": "branch", "name": "release-staged"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git cherry-pick --no-commit c1"],
-                        "state_requirements": {"head_branch": "release-staged", "staging_contains": ["src/cache.py"], "staging_contains_tokens": ["cache-hotfix"], "rules": [{"type": "operation_metadata_equals", "key": "last_cherry_pick_source", "value": "c1"}]},
+                        "state_requirements": {
+                            "head_branch": "release-staged",
+                            "staging_contains": ["src/cache.py"],
+                            "staging_contains_tokens": ["cache-hotfix"],
+                            "rules": [
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_cherry_pick_source",
+                                    "value": "c1",
+                                }
+                            ],
+                        },
                     },
                 ],
             },
@@ -5431,16 +11256,52 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Baseline", "parents": [], "tree": {"src/export.ts": "export-base"}},
-                                {"id": "c1", "message": "Fix null export", "parents": ["c0"], "tree": {"src/export.ts": "null-export-fix"}},
-                                {"id": "c2", "message": "Main continues", "parents": ["c1"], "tree": {"src/export.ts": "null-export-fix", "src/other.ts": "other-v1"}},
-                                {"id": "c3", "message": "Release branch base", "parents": ["c0"], "tree": {"src/export.ts": "export-base"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Baseline",
+                                    "parents": [],
+                                    "tree": {"src/export.ts": "export-base"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Fix null export",
+                                    "parents": ["c0"],
+                                    "tree": {"src/export.ts": "null-export-fix"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Main continues",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "src/export.ts": "null-export-fix",
+                                        "src/other.ts": "other-v1",
+                                    },
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Release branch base",
+                                    "parents": ["c0"],
+                                    "tree": {"src/export.ts": "export-base"},
+                                },
                             ],
-                            "branches": {"main": "c2", "release-2.0": "c3"}, "head": {"type": "branch", "name": "release-2.0"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c2", "release-2.0": "c3"},
+                            "head": {"type": "branch", "name": "release-2.0"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git cherry-pick c1"],
-                        "state_requirements": {"head_branch": "release-2.0", "rules": [{"type": "cherry_pick_created_new_commit"}, {"type": "cherry_pick_copied_changes_from", "commit": "c1"}, {"type": "commit_tree_contains_tokens", "tokens": ["null-export-fix"]}]},
+                        "state_requirements": {
+                            "head_branch": "release-2.0",
+                            "rules": [
+                                {"type": "cherry_pick_created_new_commit"},
+                                {"type": "cherry_pick_copied_changes_from", "commit": "c1"},
+                                {
+                                    "type": "commit_tree_contains_tokens",
+                                    "tokens": ["null-export-fix"],
+                                },
+                            ],
+                        },
                     },
                     {
                         "case_id": "cherry-hard-abort",
@@ -5449,18 +11310,60 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Baseline", "parents": [], "tree": {"src/search.ts": "search-base"}},
-                                {"id": "c1", "message": "Fix search hotfix", "parents": ["c0"], "tree": {"src/search.ts": "search-hotfix"}},
-                                {"id": "c2", "message": "Main continues", "parents": ["c1"], "tree": {"src/search.ts": "search-hotfix", "src/other.ts": "other-v1"}},
-                                {"id": "c3", "message": "Abort branch base", "parents": ["c0"], "tree": {"src/search.ts": "search-base"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Baseline",
+                                    "parents": [],
+                                    "tree": {"src/search.ts": "search-base"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Fix search hotfix",
+                                    "parents": ["c0"],
+                                    "tree": {"src/search.ts": "search-hotfix"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Main continues",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "src/search.ts": "search-hotfix",
+                                        "src/other.ts": "other-v1",
+                                    },
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Abort branch base",
+                                    "parents": ["c0"],
+                                    "tree": {"src/search.ts": "search-base"},
+                                },
                             ],
-                            "branches": {"main": "c2", "release-abort": "c3"}, "head": {"type": "branch", "name": "release-abort"},
-                            "cherry_pick_in_progress": True, "cherry_pick_original_head": "c3",
-                            "staging": {"src/search.ts": {"status": "modified", "content": "search-hotfix"}},
-                            "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c2", "release-abort": "c3"},
+                            "head": {"type": "branch", "name": "release-abort"},
+                            "cherry_pick_in_progress": True,
+                            "cherry_pick_original_head": "c3",
+                            "staging": {
+                                "src/search.ts": {"status": "modified", "content": "search-hotfix"}
+                            },
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git cherry-pick --abort"],
-                        "state_requirements": {"head_branch": "release-abort", "rules": [{"type": "branch_points_to", "branch": "release-abort", "commit": "c3"}, {"type": "operation_metadata_equals", "key": "last_cherry_pick_aborted", "value": True}]},
+                        "state_requirements": {
+                            "head_branch": "release-abort",
+                            "rules": [
+                                {
+                                    "type": "branch_points_to",
+                                    "branch": "release-abort",
+                                    "commit": "c3",
+                                },
+                                {
+                                    "type": "operation_metadata_equals",
+                                    "key": "last_cherry_pick_aborted",
+                                    "value": True,
+                                },
+                            ],
+                        },
                     },
                     {
                         "case_id": "cherry-hard-queue-finalize",
@@ -5469,16 +11372,49 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Baseline", "parents": [], "tree": {"src/queue.ts": "queue-base"}},
-                                {"id": "c1", "message": "Fix queue hotfix", "parents": ["c0"], "tree": {"src/queue.ts": "queue-hotfix"}},
-                                {"id": "c2", "message": "Main continues", "parents": ["c1"], "tree": {"src/queue.ts": "queue-hotfix", "src/other.ts": "other-v1"}},
-                                {"id": "c3", "message": "Finalize branch base", "parents": ["c0"], "tree": {"src/queue.ts": "queue-base"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Baseline",
+                                    "parents": [],
+                                    "tree": {"src/queue.ts": "queue-base"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Fix queue hotfix",
+                                    "parents": ["c0"],
+                                    "tree": {"src/queue.ts": "queue-hotfix"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Main continues",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "src/queue.ts": "queue-hotfix",
+                                        "src/other.ts": "other-v1",
+                                    },
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Finalize branch base",
+                                    "parents": ["c0"],
+                                    "tree": {"src/queue.ts": "queue-base"},
+                                },
                             ],
-                            "branches": {"main": "c2", "release-finalize": "c3"}, "head": {"type": "branch", "name": "release-finalize"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c2", "release-finalize": "c3"},
+                            "head": {"type": "branch", "name": "release-finalize"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git cherry-pick c1"],
-                        "state_requirements": {"head_branch": "release-finalize", "rules": [{"type": "cherry_pick_created_new_commit"}, {"type": "cherry_pick_copied_changes_from", "commit": "c1"}, {"type": "commit_tree_contains_tokens", "tokens": ["queue-hotfix"]}]},
+                        "state_requirements": {
+                            "head_branch": "release-finalize",
+                            "rules": [
+                                {"type": "cherry_pick_created_new_commit"},
+                                {"type": "cherry_pick_copied_changes_from", "commit": "c1"},
+                                {"type": "commit_tree_contains_tokens", "tokens": ["queue-hotfix"]},
+                            ],
+                        },
                     },
                     {
                         "case_id": "cherry-hard-rate-limit",
@@ -5487,16 +11423,52 @@ MODULE_3_LEVELS: list[dict[str, Any]] = [
                         "initial_state": {
                             "repository_initialized": True,
                             "commits": [
-                                {"id": "c0", "message": "Baseline", "parents": [], "tree": {"src/ratelimit.py": "ratelimit-base"}},
-                                {"id": "c1", "message": "Fix rate limit", "parents": ["c0"], "tree": {"src/ratelimit.py": "rate-limit-fix-v1"}},
-                                {"id": "c2", "message": "Main continues", "parents": ["c1"], "tree": {"src/ratelimit.py": "rate-limit-fix-v1", "src/other.py": "other-v1"}},
-                                {"id": "c3", "message": "Release branch base", "parents": ["c0"], "tree": {"src/ratelimit.py": "ratelimit-base"}},
+                                {
+                                    "id": "c0",
+                                    "message": "Baseline",
+                                    "parents": [],
+                                    "tree": {"src/ratelimit.py": "ratelimit-base"},
+                                },
+                                {
+                                    "id": "c1",
+                                    "message": "Fix rate limit",
+                                    "parents": ["c0"],
+                                    "tree": {"src/ratelimit.py": "rate-limit-fix-v1"},
+                                },
+                                {
+                                    "id": "c2",
+                                    "message": "Main continues",
+                                    "parents": ["c1"],
+                                    "tree": {
+                                        "src/ratelimit.py": "rate-limit-fix-v1",
+                                        "src/other.py": "other-v1",
+                                    },
+                                },
+                                {
+                                    "id": "c3",
+                                    "message": "Release branch base",
+                                    "parents": ["c0"],
+                                    "tree": {"src/ratelimit.py": "ratelimit-base"},
+                                },
                             ],
-                            "branches": {"main": "c2", "release-1.2": "c3"}, "head": {"type": "branch", "name": "release-1.2"},
-                            "staging": {}, "working_tree": {}, "conflicts": [],
+                            "branches": {"main": "c2", "release-1.2": "c3"},
+                            "head": {"type": "branch", "name": "release-1.2"},
+                            "staging": {},
+                            "working_tree": {},
+                            "conflicts": [],
                         },
                         "solution_commands": ["git cherry-pick c1"],
-                        "state_requirements": {"head_branch": "release-1.2", "rules": [{"type": "cherry_pick_created_new_commit"}, {"type": "cherry_pick_copied_changes_from", "commit": "c1"}, {"type": "commit_tree_contains_tokens", "tokens": ["rate-limit-fix-v1"]}]},
+                        "state_requirements": {
+                            "head_branch": "release-1.2",
+                            "rules": [
+                                {"type": "cherry_pick_created_new_commit"},
+                                {"type": "cherry_pick_copied_changes_from", "commit": "c1"},
+                                {
+                                    "type": "commit_tree_contains_tokens",
+                                    "tokens": ["rate-limit-fix-v1"],
+                                },
+                            ],
+                        },
                     },
                 ],
             },
@@ -5537,22 +11509,52 @@ def _module_4_hard_reset_case(index: int, *, depth: int, tier_prefix: str) -> di
         "initial_state": {
             "repository_initialized": True,
             "commits": [
-                {"id": "c0", "message": "Initial commit", "parents": [], "tree": {"README.md": "readme-v0"}},
-                {"id": "c1", "message": "Add feature groundwork", "parents": ["c0"], "tree": {"README.md": "readme-v1"}},
-                {"id": "c2", "message": "Continue feature work", "parents": ["c1"], "tree": {"README.md": "readme-v2"}},
-                {"id": "c3", "message": "Complete feature work (lost tip)", "parents": ["c2"], "tree": {"README.md": "readme-v3"}},
+                {
+                    "id": "c0",
+                    "message": "Initial commit",
+                    "parents": [],
+                    "tree": {"README.md": "readme-v0"},
+                },
+                {
+                    "id": "c1",
+                    "message": "Add feature groundwork",
+                    "parents": ["c0"],
+                    "tree": {"README.md": "readme-v1"},
+                },
+                {
+                    "id": "c2",
+                    "message": "Continue feature work",
+                    "parents": ["c1"],
+                    "tree": {"README.md": "readme-v2"},
+                },
+                {
+                    "id": "c3",
+                    "message": "Complete feature work (lost tip)",
+                    "parents": ["c2"],
+                    "tree": {"README.md": "readme-v3"},
+                },
             ],
-            "branches": {"main": f"c{3 - depth}"}, "head": {"type": "branch", "name": "main"},
+            "branches": {"main": f"c{3 - depth}"},
+            "head": {"type": "branch", "name": "main"},
             "reflog": [
                 {"ref": "main", "commit": "c3", "action": "commit"},
-                {"ref": "main", "commit": f"c{3 - depth}", "action": f"reset: moving to HEAD~{depth}"},
+                {
+                    "ref": "main",
+                    "commit": f"c{3 - depth}",
+                    "action": f"reset: moving to HEAD~{depth}",
+                },
             ],
-            "staging": {}, "working_tree": {}, "conflicts": [],
+            "staging": {},
+            "working_tree": {},
+            "conflicts": [],
         },
         "solution_commands": ["git reflog", "git show c3", f"git switch -c {recovery_branch} c3"],
         "state_requirements": {
-            "skip_required_commands": True, "branch_exists": [recovery_branch],
-            "branch_points_to": {recovery_branch: "c3"}, "staging_empty": True, "working_tree_clean": True,
+            "skip_required_commands": True,
+            "branch_exists": [recovery_branch],
+            "branch_points_to": {recovery_branch: "c3"},
+            "staging_empty": True,
+            "working_tree_clean": True,
         },
     }
 
@@ -5570,24 +11572,59 @@ def _module_4_revert_case(index: int, *, bad_commit: str, tier_prefix: str) -> d
         "initial_state": {
             "repository_initialized": True,
             "commits": [
-                {"id": "c0", "message": "Initial commit", "parents": [], "tree": {"README.md": "readme-v0"}},
-                {"id": "c1", "message": "Add config module", "parents": ["c0"], "tree": {"README.md": "readme-v0", "config.py": "config-v1"}},
-                {"id": "c2", "message": "Risky config change", "parents": ["c1"], "tree": {"README.md": "readme-v0", "config.py": "config-v2-risky"}},
-                {"id": "c3", "message": "Unrelated follow-up", "parents": ["c2"], "tree": {"README.md": "readme-v0", "config.py": "config-v2-risky", "notes.md": "notes-v1"}},
+                {
+                    "id": "c0",
+                    "message": "Initial commit",
+                    "parents": [],
+                    "tree": {"README.md": "readme-v0"},
+                },
+                {
+                    "id": "c1",
+                    "message": "Add config module",
+                    "parents": ["c0"],
+                    "tree": {"README.md": "readme-v0", "config.py": "config-v1"},
+                },
+                {
+                    "id": "c2",
+                    "message": "Risky config change",
+                    "parents": ["c1"],
+                    "tree": {"README.md": "readme-v0", "config.py": "config-v2-risky"},
+                },
+                {
+                    "id": "c3",
+                    "message": "Unrelated follow-up",
+                    "parents": ["c2"],
+                    "tree": {
+                        "README.md": "readme-v0",
+                        "config.py": "config-v2-risky",
+                        "notes.md": "notes-v1",
+                    },
+                },
             ],
-            "branches": {"main": "c3"}, "head": {"type": "branch", "name": "main"},
+            "branches": {"main": "c3"},
+            "head": {"type": "branch", "name": "main"},
             "remotes": {"origin": "https://example.test/backend-service.git"},
-            "remote_branches": {"origin/main": "c3"}, "upstream_tracking": {"main": "origin/main"},
-            "staging": {}, "working_tree": {}, "conflicts": [],
+            "remote_branches": {"origin/main": "c3"},
+            "upstream_tracking": {"main": "origin/main"},
+            "staging": {},
+            "working_tree": {},
+            "conflicts": [],
         },
         "solution_commands": [f"git revert {bad_commit}", "git push"],
         "state_requirements": {
-            "head_branch": "main", "working_tree_clean": True, "staging_empty": True, "conflict_free": True,
+            "head_branch": "main",
+            "working_tree_clean": True,
+            "staging_empty": True,
+            "conflict_free": True,
             "required_commands": ["git revert", "git push"],
             "rules": [
                 {"type": "new_revert_commit_exists"},
                 {"type": "revert_preserves_history", "commit": bad_commit, "branch": "main"},
-                {"type": "push_moved_remote_to_local_tip", "branch": "main", "remote_branch": "origin/main"},
+                {
+                    "type": "push_moved_remote_to_local_tip",
+                    "branch": "main",
+                    "remote_branch": "origin/main",
+                },
             ],
         },
     }
@@ -5605,18 +11642,44 @@ def _module_4_rebase_case(index: int, *, tier_prefix: str) -> dict[str, Any]:
         "initial_state": {
             "repository_initialized": True,
             "commits": [
-                {"id": "c0", "message": "Common base", "parents": [], "tree": {"src/app.ts": "app-base", "src/feature.ts": "feature-base"}},
-                {"id": "c1", "message": "Main update", "parents": ["c0"], "tree": {"src/app.ts": "app-v2", "src/feature.ts": "feature-base"}},
-                {"id": "c2", "message": "Feature work part 1", "parents": ["c0"], "tree": {"src/app.ts": "app-base", "src/feature.ts": "feature-v2"}},
-                {"id": "c3", "message": "Feature work part 2", "parents": ["c2"], "tree": {"src/app.ts": "app-base", "src/feature.ts": "feature-v3"}},
+                {
+                    "id": "c0",
+                    "message": "Common base",
+                    "parents": [],
+                    "tree": {"src/app.ts": "app-base", "src/feature.ts": "feature-base"},
+                },
+                {
+                    "id": "c1",
+                    "message": "Main update",
+                    "parents": ["c0"],
+                    "tree": {"src/app.ts": "app-v2", "src/feature.ts": "feature-base"},
+                },
+                {
+                    "id": "c2",
+                    "message": "Feature work part 1",
+                    "parents": ["c0"],
+                    "tree": {"src/app.ts": "app-base", "src/feature.ts": "feature-v2"},
+                },
+                {
+                    "id": "c3",
+                    "message": "Feature work part 2",
+                    "parents": ["c2"],
+                    "tree": {"src/app.ts": "app-base", "src/feature.ts": "feature-v3"},
+                },
             ],
-            "branches": {"main": "c1", "feature/recovery": "c3"}, "head": {"type": "branch", "name": "feature/recovery"},
-            "staging": {}, "working_tree": {}, "conflicts": [],
+            "branches": {"main": "c1", "feature/recovery": "c3"},
+            "head": {"type": "branch", "name": "feature/recovery"},
+            "staging": {},
+            "working_tree": {},
+            "conflicts": [],
         },
         "solution_commands": ["git rebase main", "git log --oneline --graph --all"],
         "state_requirements": {
-            "skip_required_commands": True, "head_branch": "feature/recovery",
-            "staging_empty": True, "working_tree_clean": True, "conflict_free": True,
+            "skip_required_commands": True,
+            "head_branch": "feature/recovery",
+            "staging_empty": True,
+            "working_tree_clean": True,
+            "conflict_free": True,
             "rules": [
                 {"type": "branch_moved_back_from_initial", "branch": "feature/recovery"},
                 {"type": "min_commits_on_branch", "branch": "feature/recovery", "minimum": 2},
@@ -5638,7 +11701,9 @@ MODULE_4_LEVELS: list[dict[str, Any]] = [
                 "story": "You are a junior engineer handling a low-pressure rollback incident after a shallow mistaken reset.",
                 "task": "Find the most recent lost tip and restore it to the requested recovery branch.",
                 "min_counted_commands": 2,
-                "cases": [_module_4_hard_reset_case(i, depth=1, tier_prefix="e") for i in range(1, 6)],
+                "cases": [
+                    _module_4_hard_reset_case(i, depth=1, tier_prefix="e") for i in range(1, 6)
+                ],
             },
             "medium": {
                 "required_successful_attempts": 1,
@@ -5646,7 +11711,9 @@ MODULE_4_LEVELS: list[dict[str, Any]] = [
                 "story": "You are the sprint lead responding to a deeper mistaken reset with limited guidance from teammates.",
                 "task": "Trace the correct history entry and restore the branch to the requested recovery point.",
                 "min_counted_commands": 2,
-                "cases": [_module_4_hard_reset_case(i, depth=2, tier_prefix="m") for i in range(1, 6)],
+                "cases": [
+                    _module_4_hard_reset_case(i, depth=2, tier_prefix="m") for i in range(1, 6)
+                ],
             },
             "hard": {
                 "required_successful_attempts": 1,
@@ -5654,7 +11721,9 @@ MODULE_4_LEVELS: list[dict[str, Any]] = [
                 "story": "You are the incident commander recovering critical work from a noisy reset trail under release pressure.",
                 "task": "Disambiguate noisy history evidence and recover exactly the requested lost tip branch.",
                 "min_counted_commands": 2,
-                "cases": [_module_4_hard_reset_case(i, depth=3, tier_prefix="h") for i in range(1, 6)],
+                "cases": [
+                    _module_4_hard_reset_case(i, depth=3, tier_prefix="h") for i in range(1, 6)
+                ],
             },
         },
     },
@@ -5670,7 +11739,9 @@ MODULE_4_LEVELS: list[dict[str, Any]] = [
                 "story": "You are a developer handling a straightforward rollback request right after a bad push.",
                 "task": "Append the rollback commit for the target change and ensure remote main is updated.",
                 "min_counted_commands": 2,
-                "cases": [_module_4_revert_case(i, bad_commit="c3", tier_prefix="re") for i in range(1, 6)],
+                "cases": [
+                    _module_4_revert_case(i, bad_commit="c3", tier_prefix="re") for i in range(1, 6)
+                ],
             },
             "medium": {
                 "required_successful_attempts": 1,
@@ -5678,7 +11749,9 @@ MODULE_4_LEVELS: list[dict[str, Any]] = [
                 "story": "You are supporting QA during regression triage, and the bad change is buried in published history.",
                 "task": "Identify the correct published change to roll back and synchronize the shared branch.",
                 "min_counted_commands": 2,
-                "cases": [_module_4_revert_case(i, bad_commit="c2", tier_prefix="rm") for i in range(1, 6)],
+                "cases": [
+                    _module_4_revert_case(i, bad_commit="c2", tier_prefix="rm") for i in range(1, 6)
+                ],
             },
             "hard": {
                 "required_successful_attempts": 1,
@@ -5686,7 +11759,9 @@ MODULE_4_LEVELS: list[dict[str, Any]] = [
                 "story": "You are the release owner during a high-stakes deploy window with strict rollback constraints.",
                 "task": "Execute the required rollback while preserving shared history integrity across local and remote.",
                 "min_counted_commands": 2,
-                "cases": [_module_4_revert_case(i, bad_commit="c2", tier_prefix="rh") for i in range(1, 6)],
+                "cases": [
+                    _module_4_revert_case(i, bad_commit="c2", tier_prefix="rh") for i in range(1, 6)
+                ],
             },
         },
     },
@@ -5740,10 +11815,14 @@ class Command(BaseCommand):
         # dict below is never actually used (Python still evaluates
         # dict[key] eagerly as the .get() default arg, so it must contain
         # every difficulty key even though none of them are consulted).
-        self._seed_adventure_levels(chapters[3], MODULE_3_LEVELS, {"easy": 0, "medium": 0, "hard": 0})
+        self._seed_adventure_levels(
+            chapters[3], MODULE_3_LEVELS, {"easy": 0, "medium": 0, "hard": 0}
+        )
         # Module 4 has no SESSION_COUNTS constant either - same reasoning as
         # Module 3's fallback dict above.
-        self._seed_adventure_levels(chapters[4], MODULE_4_LEVELS, {"easy": 0, "medium": 0, "hard": 0})
+        self._seed_adventure_levels(
+            chapters[4], MODULE_4_LEVELS, {"easy": 0, "medium": 0, "hard": 0}
+        )
         self.stdout.write(
             self.style.SUCCESS(
                 "Seeded Story, Chapters, Module 0 orientation lessons, and Module 1-4 levels."

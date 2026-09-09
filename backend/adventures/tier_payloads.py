@@ -109,7 +109,9 @@ def tier_run_payload(run: AdventureLevelTierRun, *, include_steps: bool = True) 
     }
 
 
-def command_run_payload(run: AdventureLevelTierRun, *, repository_state: dict, visualization: dict) -> dict:
+def command_run_payload(
+    run: AdventureLevelTierRun, *, repository_state: dict, visualization: dict
+) -> dict:
     payload = {
         "id": run.id,
         "replay": run.is_replay,
@@ -143,7 +145,11 @@ def progress_payload(run: AdventureLevelTierRun) -> dict:
         player_id=run.player_id, tier_id=run.tier_id
     ).first()
     completed = progress.successful_clears if progress else 0
-    return {"completed": completed, "total": required, "cleared": completed >= required and required > 0}
+    return {
+        "completed": completed,
+        "total": required,
+        "cleared": completed >= required and required > 0,
+    }
 
 
 def completion_payload(run: AdventureLevelTierRun) -> dict | None:

@@ -12,9 +12,9 @@ def orientation_lessons_for_chapter(*, player, chapter_id: int) -> list[ChapterO
     so the serializer can read it without a query per lesson.
     """
     lessons = list(
-        ChapterOrientationLesson.objects.filter(
-            chapter_id=chapter_id, is_published=True
-        ).order_by("sort_order", "id")
+        ChapterOrientationLesson.objects.filter(chapter_id=chapter_id, is_published=True).order_by(
+            "sort_order", "id"
+        )
     )
     _annotate_progress(player=player, lessons=lessons)
     return lessons
@@ -35,9 +35,7 @@ def orientation_lesson_detail(*, player, lesson_id: int) -> ChapterOrientationLe
 def mark_orientation_lesson_complete(
     *, player, lesson: ChapterOrientationLesson, highest_step_seen: int
 ) -> ChapterOrientationProgress:
-    progress, _ = ChapterOrientationProgress.objects.get_or_create(
-        player=player, lesson=lesson
-    )
+    progress, _ = ChapterOrientationProgress.objects.get_or_create(player=player, lesson=lesson)
     progress.highest_step_seen = max(progress.highest_step_seen, highest_step_seen)
     progress.completed_at = progress.completed_at or timezone.now()
     progress.save(update_fields=["highest_step_seen", "completed_at"])
