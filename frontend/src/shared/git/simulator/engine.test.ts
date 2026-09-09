@@ -65,6 +65,13 @@ describe('executeGitCommand', () => {
     )
 
     expect(initialized.next_state.repository_initialized).toBe(true)
+    expect(initialized.next_state.operation_metadata).toMatchObject({
+      last_init_directory: null,
+      last_init_current_directory: true,
+      last_init_initial_branch: 'main',
+      last_init_quiet: false,
+      last_init_reinitialized: false,
+    })
     // The pre-existing files must survive `git init` (real git only adds .git).
     expect(Object.keys(initialized.next_state.working_tree).sort()).toEqual([
       'README.md',
@@ -80,6 +87,32 @@ describe('executeGitCommand', () => {
       tree: { 'README.md': 'notes', 'src/app.py': "print('hi')\n" },
     })
     expect(committed.next_state.working_tree).toEqual({})
+  })
+
+  it('records all curriculum metadata for named, quiet, and reinitialized repositories', () => {
+    const named = executeGitCommand(
+      baseState({ repository_initialized: false, head: { type: 'branch', name: 'main' } }),
+      'git init --quiet --initial-branch=trunk invoice-tracker',
+    )
+
+    expect(named.output).toBe('')
+    expect(named.next_state.operation_metadata).toMatchObject({
+      last_init_directory: 'invoice-tracker',
+      last_init_current_directory: false,
+      last_init_initial_branch: 'trunk',
+      last_init_quiet: true,
+      last_init_reinitialized: false,
+    })
+
+    const reinitialized = executeGitCommand(named.next_state, 'git init -q')
+
+    expect(reinitialized.next_state.operation_metadata).toMatchObject({
+      last_init_directory: null,
+      last_init_current_directory: true,
+      last_init_initial_branch: 'trunk',
+      last_init_quiet: true,
+      last_init_reinitialized: true,
+    })
   })
 
   it('marks diagnostic commands without mutating repository state', () => {

@@ -68,12 +68,18 @@ class TestClientCommandExecutionService:
                 **previous.get("operation_metadata", {}),
                 "last_init_branch": "main",
                 "last_init_initial_branch": "main",
-                "last_init_directory": "",
+                "last_init_directory": None,
+                "last_init_current_directory": True,
+                "last_init_quiet": False,
+                "last_init_reinitialized": bool(previous.get("repository_initialized")),
                 "repository_reinitialized": bool(previous.get("repository_initialized")),
             },
             "last_init_branch": "main",
             "last_init_initial_branch": "main",
-            "last_init_directory": "",
+            "last_init_directory": None,
+            "last_init_current_directory": True,
+            "last_init_quiet": False,
+            "last_init_reinitialized": bool(previous.get("repository_initialized")),
             "repository_reinitialized": bool(previous.get("repository_initialized")),
         }
         return tools.normalize_state(next_state)
@@ -97,6 +103,18 @@ class TestClientCommandExecutionService:
         assert execution.state_mutated
         assert execution.next_state["repository_initialized"] is True
         assert execution.classification == COMMAND_COUNTED
+
+    def test_git_init_rejects_forged_curriculum_metadata(self):
+        forged = self.init_next_state()
+        forged["operation_metadata"]["last_init_directory"] = "invoice-tracker"
+        forged["last_init_directory"] = "invoice-tracker"
+
+        with pytest.raises(BadRequest, match="submitted git init command"):
+            self.execute(
+                {},
+                "git init",
+                frontend_execution_payload("git init", forged),
+            )
 
     def test_diagnostic_command_does_not_mutate_state(self):
         initialized = self.execute({}, "git init").next_state

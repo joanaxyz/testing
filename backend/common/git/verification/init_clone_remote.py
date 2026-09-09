@@ -22,23 +22,42 @@ class InitCloneRemoteVerificationMixin:
             or self._head_branch(previous_state)
             or "main"
         )
-        if next_state.get("repository_initialized") is not True:
-            raise BadRequest("execution.next_state does not match the submitted git init command.")
-        if next_state.get("working_tree") != previous_state.get("working_tree"):
-            raise BadRequest("git init cannot delete or rewrite workspace files.")
-        if branch not in (next_state.get("branches") or {}):
-            raise BadRequest("execution.next_state does not create the expected initial branch.")
-        head = next_state.get("head") or {}
-        if head.get("type") != "branch" or head.get("name") != branch:
-            raise BadRequest("execution.next_state does not point HEAD at the initialized branch.")
-        if previous_state.get("repository_initialized") is False:
-            # The browser init command resets Git metadata for a newly initialized
-            # authored workspace but preserves the user's existing files.
-            for key in ("staging", "conflicts", "remotes", "remote_branches", "upstream_tracking"):
-                if next_state.get(key) not in ({}, []):
-                    raise BadRequest(
-                        "execution.next_state does not match the submitted git init command."
-                    )
+        args = self._pathspecs(parts, value_options={"-b", "--initial-branch"})
+        directory = args[0] if args else None
+        quiet = "-q" in parts or "--quiet" in parts
+        reinitialized = bool(previous_state.get("repository_initialized"))
+        expected = copy.deepcopy(previous_state)
+        expected["repository_initialized"] = True
+        expected["head"] = {
+            "type": "branch",
+            "name": branch,
+            "target": (expected.get("branches") or {}).get(branch),
+        }
+        expected.setdefault("branches", {})
+        expected["branches"].setdefault(branch, None)
+        if not reinitialized:
+            # Match the browser simulator: Git metadata starts empty, while
+            # existing workspace files remain available to stage later.
+            expected["commits"] = []
+            expected["staging"] = {}
+            expected["conflicts"] = []
+            expected["remotes"] = {}
+            expected["remote_branches"] = {}
+            expected["upstream_tracking"] = {}
+        self._set_operation_metadata(
+            expected,
+            {
+                "last_init_branch": branch,
+                "last_init_initial_branch": branch,
+                "last_init_directory": directory,
+                "last_init_current_directory": directory is None,
+                "last_init_quiet": quiet,
+                "last_init_reinitialized": reinitialized,
+                "repository_reinitialized": reinitialized,
+            },
+        )
+        expected = self.tools.normalize_state(expected)
+        self._require_equivalent_expected(expected, next_state, "git init")
 
     def _verify_clone(self, *, command: str, previous_state: dict, next_state: dict) -> None:
         parts = parse_git_command(command) or []

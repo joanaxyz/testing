@@ -238,10 +238,20 @@ def test_first_repository_workflow_wave_does_not_complete_after_only_init(db, dj
             "staging": {},
             "operation_metadata": {
                 "last_init_branch": "main",
-                "last_init_directory": "",
+                "last_init_directory": None,
+                "last_init_current_directory": True,
                 "last_init_initial_branch": "main",
+                "last_init_quiet": False,
+                "last_init_reinitialized": False,
                 "repository_reinitialized": False,
             },
+            "last_init_branch": "main",
+            "last_init_directory": None,
+            "last_init_current_directory": True,
+            "last_init_initial_branch": "main",
+            "last_init_quiet": False,
+            "last_init_reinitialized": False,
+            "repository_reinitialized": False,
         }
     )
 
@@ -285,10 +295,20 @@ def test_first_snapshot_battle_progress_survives_invalid_commit_and_rewards_add(
             "staging": {},
             "operation_metadata": {
                 "last_init_branch": "main",
-                "last_init_directory": "",
+                "last_init_directory": None,
+                "last_init_current_directory": True,
                 "last_init_initial_branch": "main",
+                "last_init_quiet": False,
+                "last_init_reinitialized": False,
                 "repository_reinitialized": False,
             },
+            "last_init_branch": "main",
+            "last_init_directory": None,
+            "last_init_current_directory": True,
+            "last_init_initial_branch": "main",
+            "last_init_quiet": False,
+            "last_init_reinitialized": False,
+            "repository_reinitialized": False,
         }
     )
     init_result = service.submit(
@@ -319,12 +339,17 @@ def test_first_snapshot_battle_progress_survives_invalid_commit_and_rewards_add(
     assert invalid_result["command_outcome"]["rules_passing"] == init_progress
     assert invalid_result["command_outcome"]["rules_delta"] == 0
 
+    reinitialized = deepcopy(initialized)
+    reinitialized["operation_metadata"]["last_init_reinitialized"] = True
+    reinitialized["operation_metadata"]["repository_reinitialized"] = True
+    reinitialized["last_init_reinitialized"] = True
+    reinitialized["repository_reinitialized"] = True
     repeated_init_result = service.submit(
         attempt=run,
         command="git init",
         execution=frontend_execution_payload(
             "git init",
-            initialized,
+            reinitialized,
             client_run_revision=run.command_count,
         ),
     )

@@ -8,6 +8,8 @@ export function gitInit(state: MutableRepositoryState, parsed: ParsedGitCommand)
   const reinitialized = Boolean(state.repository_initialized)
   const branchValues = optionValues(parsed, '-b', '--initial-branch')
   const branch = String(branchValues.at(-1) ?? headBranch(state) ?? 'main')
+  const directory = parsed.args[0] ?? null
+  const quiet = hasOption(parsed, '-q') || hasOption(parsed, '--quiet')
   state.repository_initialized = true
   state.head = { type: 'branch', name: branch, target: state.branches?.[branch] ?? null }
   state.branches ??= {}
@@ -27,10 +29,13 @@ export function gitInit(state: MutableRepositoryState, parsed: ParsedGitCommand)
     last_init_branch: branch,
     // Curriculum evaluation rules assert on these keys; keep them in sync.
     last_init_initial_branch: branch,
-    last_init_directory: parsed.args[0] ?? '',
+    last_init_directory: directory,
+    last_init_current_directory: directory === null,
+    last_init_quiet: quiet,
+    last_init_reinitialized: reinitialized,
+    // Retain the original key for existing authored content and snapshots.
     repository_reinitialized: reinitialized,
   })
-  const quiet = hasOption(parsed, '-q') || hasOption(parsed, '--quiet')
   return {
     command: 'init',
     stdout: quiet
