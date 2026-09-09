@@ -42,4 +42,17 @@ STORIES = [
         "difficulty": "advanced",
         "prerequisite_story": "frostbound-citadel",
     },
+    {
+        "slug": "git-it-legacy",
+        "title": "GIT it! Legacy Modules",
+        "summary": (
+            "The original Module 0-4 curriculum, migrated into the current chapter and adventure-level format."
+        ),
+        "price": 0,
+        "sort_order": 100,
+        "is_published": True,
+        "world_slug": "legacy-modules-placeholder",
+        "difficulty": "beginner",
+        "prerequisite_story": None,
+    },
 ]
