@@ -19,6 +19,7 @@ import { ResetPasswordPage } from '@/features/auth/pages/ResetPasswordPage'
 import { HomePage } from '@/features/home/pages/HomePage'
 import { AdventureStartPage } from '@/features/adventures/pages/AdventureStartPage'
 import { ChallengeStartPage } from '@/features/challenges/pages/ChallengeStartPage'
+import { TierStartPage } from '@/features/story-map/pages/TierStartPage'
 import {
   DESIGN_PREVIEW_STORY_MAP_ROUTE,
   ADMIN_ROUTES,
@@ -238,6 +239,15 @@ const appRoutes: RouteObject[] = [
         lazy: async () => ({
           Component: (await import('@/features/adventures/pages/AdventureRunPage'))
             .AdventureRunPage,
+        }),
+      },
+      { path: '/adventure-level-tiers/:tierId/runs', element: <TierStartPage mode="start" /> },
+      { path: '/adventure-tier-runs/:runId/retry', element: <TierStartPage mode="retry" /> },
+      {
+        path: '/adventure-tier-runs/:runId',
+        lazy: async () => ({
+          Component: (await import('@/features/story-map/pages/TierRunPage'))
+            .TierRunPage,
         }),
       },
     ],
