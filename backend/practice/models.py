@@ -38,6 +38,13 @@ class CommandStep(models.Model):
         related_name="steps",
         on_delete=models.CASCADE,
     )
+    adventure_tier_run = models.ForeignKey(
+        "adventures.AdventureLevelTierRun",
+        null=True,
+        blank=True,
+        related_name="steps",
+        on_delete=models.CASCADE,
+    )
     command_text = models.TextField()
     terminal_output = models.TextField(blank=True)
     result_category = models.CharField(max_length=32, choices=ResultCategory.choices)
@@ -65,12 +72,14 @@ class CommandStep(models.Model):
             models.Index(fields=["challenge_run", "id"], name="cmdstep_run_id_idx"),
             # Adventure history is queried by the run held in attempt.
             models.Index(fields=["attempt", "id"], name="cmdstep_attempt_id_idx"),
+            models.Index(fields=["adventure_tier_run", "id"], name="cmdstep_tier_run_id_idx"),
         ]
         constraints = [
             models.CheckConstraint(
                 condition=(
-                    Q(challenge_run__isnull=False, attempt__isnull=True)
-                    | Q(challenge_run__isnull=True, attempt__isnull=False)
+                    Q(challenge_run__isnull=False, attempt__isnull=True, adventure_tier_run__isnull=True)
+                    | Q(challenge_run__isnull=True, attempt__isnull=False, adventure_tier_run__isnull=True)
+                    | Q(challenge_run__isnull=True, attempt__isnull=True, adventure_tier_run__isnull=False)
                 ),
                 name="command_step_exactly_one_parent",
             ),
