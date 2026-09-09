@@ -20,6 +20,9 @@ export function toDisplayItem(item: ShopItem): ShopDisplayItem {
     const preview = storyPreview(worldSlug)
     return {
       ...item,
+      // A story with no registered STORY_WORLDS entry has no dedicated theme
+      // art yet - fall back to the neutral tone rather than hiding it (see
+      // hasLocalDefinition, which used to filter these out entirely).
       art: preview?.storyMap,
       tone: STORY_WORLDS[worldSlug]?.tone ?? 'blue',
     }
@@ -34,10 +37,12 @@ export function toDisplayItem(item: ShopItem): ShopDisplayItem {
 }
 
 export function hasLocalDefinition(item: ShopItem) {
-  if (item.kind === 'story') {
-    const worldSlug = item.unlocks_story?.world_slug ?? item.slug
-    return Boolean(STORY_WORLDS[worldSlug])
-  }
+  // Stories are always shown - StoryShop already renders a graceful "no
+  // preview art" empty state (see StoryContents) for a world with no
+  // STORY_WORLDS entry, so there is no visually-broken case to gate here.
+  // Companions still require a registered definition: their card art has no
+  // placeholder path.
+  if (item.kind === 'story') return true
   return Boolean(COMPANIONS[item.slug])
 }
 

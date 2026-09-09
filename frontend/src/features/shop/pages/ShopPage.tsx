@@ -9,6 +9,7 @@ import { StoryShop } from '@/features/shop/components/StoryShop'
 import {
   actionDisabled,
   errorMessage,
+  invalidateShopUnlockQueries,
   isShopTab,
   type ShopTab,
 } from '@/features/shop/utils/shopDisplay'
@@ -56,6 +57,7 @@ export function ShopPage() {
         queryClient.setQueryData(queryKeys.shopCatalog, result.shop)
         queryClient.setQueryData(queryKeys.wallet, result.wallet)
       })
+      invalidateShopUnlockQueries(queryClient)
     },
   })
   const catalog = useMemo(() => {

@@ -1,5 +1,7 @@
 import { BookOpen, User, type LucideIcon } from 'lucide-react'
+import type { QueryClient } from '@tanstack/react-query'
 
+import { queryKeyRoots, queryKeys } from '@/shared/api/queryKeys'
 import type { ShopDisplayItem } from '@/shared/shop/model/shopPresentation'
 
 export type ShopTab = 'stories' | 'companions'
@@ -48,4 +50,20 @@ export function actionDisabled(
     || (!item.owned && !purchasesEnabled)
     || (!item.owned && item.price > 0 && !walletPending && item.price > balance)
   )
+}
+
+/**
+ * A story purchase can flip chapter lock state immediately (no run to wait
+ * on), so the chapter/overview queries that render lock UI need the same
+ * invalidation the run-completion flows already do (see
+ * invalidateLevelProgressQueries / invalidateTierProgressQueries) - otherwise
+ * the story map keeps serving pre-purchase cached data until its staleTime
+ * elapses or a hard refresh happens.
+ */
+export function invalidateShopUnlockQueries(queryClient: QueryClient) {
+  void queryClient.invalidateQueries({ queryKey: queryKeys.chapters })
+  void queryClient.invalidateQueries({ queryKey: queryKeyRoots.chapterOverview })
+  void queryClient.invalidateQueries({ queryKey: queryKeys.stories })
+  void queryClient.invalidateQueries({ queryKey: queryKeys.homeSummary })
+  void queryClient.invalidateQueries({ queryKey: queryKeys.statsSummary })
 }
