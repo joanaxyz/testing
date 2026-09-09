@@ -18,11 +18,20 @@ from curriculum.selectors import (
     chapter_locked,
     get_command_form,
     learned_command_skills,
+    mark_orientation_lesson_complete,
+    orientation_lesson_detail,
+    orientation_lessons_for_chapter,
     published_chapters,
     published_stories,
     stories_completed_map,
 )
-from curriculum.serializers import ChapterListSerializer, StorySerializer
+from curriculum.serializers import (
+    ChapterListSerializer,
+    ChapterOrientationCompleteSerializer,
+    ChapterOrientationLessonDetailSerializer,
+    ChapterOrientationLessonListSerializer,
+    StorySerializer,
+)
 from players.services import get_or_create_player
 
 
@@ -135,3 +144,54 @@ class CommandFormPreviewAPIView(APIView):
                 "command_preview": form.command_preview or form.command_skill.command_preview or {},
             }
         )
+
+
+class ChapterOrientationLessonListAPIView(APIView):
+    """Step-through reading lessons for one is_orientation=True chapter.
+
+    Distinct from ChapterContentOverviewAPIView: orientation chapters carry no
+    AdventureLevel/ChallengeLevel content, only ChapterOrientationLesson rows.
+    """
+
+    @extend_schema(responses={200: ChapterOrientationLessonListSerializer(many=True)})
+    def get(self, request, chapter_id: int):
+        player, chapter = _require_unlocked_chapter(request, chapter_id)
+        if not chapter.is_orientation:
+            raise NotFound("This chapter has no orientation lessons.")
+        lessons = orientation_lessons_for_chapter(player=player, chapter_id=chapter.id)
+        serializer = ChapterOrientationLessonListSerializer(lessons, many=True)
+        return Response(serializer.data)
+
+
+class OrientationLessonDetailAPIView(APIView):
+    @extend_schema(responses={200: ChapterOrientationLessonDetailSerializer})
+    def get(self, request, lesson_id: int):
+        player = _player_for(request)
+        lesson = orientation_lesson_detail(player=player, lesson_id=lesson_id)
+        if lesson is None:
+            raise NotFound("Lesson not found.")
+        serializer = ChapterOrientationLessonDetailSerializer(lesson)
+        return Response(serializer.data)
+
+
+class OrientationLessonCompleteAPIView(APIView):
+    @extend_schema(
+        request=ChapterOrientationCompleteSerializer,
+        responses={200: ChapterOrientationLessonDetailSerializer},
+    )
+    def post(self, request, lesson_id: int):
+        serializer = ChapterOrientationCompleteSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        player = _player_for(request)
+        if player is None:
+            raise NotFound("Lesson not found.")
+        lesson = orientation_lesson_detail(player=player, lesson_id=lesson_id)
+        if lesson is None:
+            raise NotFound("Lesson not found.")
+        mark_orientation_lesson_complete(
+            player=player,
+            lesson=lesson,
+            highest_step_seen=serializer.validated_data["highest_step_seen"],
+        )
+        lesson = orientation_lesson_detail(player=player, lesson_id=lesson_id)
+        return Response(ChapterOrientationLessonDetailSerializer(lesson).data)

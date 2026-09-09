@@ -103,6 +103,7 @@ class ChapterListSerializer(serializers.Serializer):
     description = serializers.CharField(read_only=True)
     sort_order = serializers.IntegerField(read_only=True)
     is_playable = serializers.BooleanField(read_only=True)
+    is_orientation = serializers.BooleanField(read_only=True)
     command_skill_count = serializers.IntegerField(read_only=True)
     challenge_count = serializers.IntegerField(read_only=True)
     adventure_level_count = serializers.IntegerField(read_only=True)
@@ -149,3 +150,29 @@ class ChapterListSerializer(serializers.Serializer):
         # Fixed, universal schedule computed at runtime - every chapter shows
         # the same reward-per-threshold preview; nothing is authored per chapter.
         return CHEST_SCHEDULE
+
+
+class ChapterOrientationLessonListSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    slug = serializers.CharField(read_only=True)
+    title = serializers.CharField(read_only=True)
+    subtitle = serializers.CharField(read_only=True)
+    sort_order = serializers.IntegerField(read_only=True)
+    is_complete = serializers.SerializerMethodField()
+
+    def get_is_complete(self, obj) -> bool:
+        return bool(getattr(obj, "_is_complete", False))
+
+
+class ChapterOrientationLessonDetailSerializer(ChapterOrientationLessonListSerializer):
+    content_html = serializers.CharField(read_only=True)
+    scoped_css = serializers.CharField(read_only=True)
+    interaction_steps = serializers.JSONField(read_only=True)
+    highest_step_seen = serializers.SerializerMethodField()
+
+    def get_highest_step_seen(self, obj) -> int:
+        return int(getattr(obj, "_highest_step_seen", 0))
+
+
+class ChapterOrientationCompleteSerializer(serializers.Serializer):
+    highest_step_seen = serializers.IntegerField(min_value=0)

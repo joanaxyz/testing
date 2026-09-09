@@ -20,6 +20,11 @@ from .book import book_command_payload, chapter_book, lesson_summary_payload
 from .challenge_queries import challenge_queryset
 from .command_skills import learned_command_skills
 from .content import chapter_content_overview
+from .orientation import (
+    mark_orientation_lesson_complete,
+    orientation_lesson_detail,
+    orientation_lessons_for_chapter,
+)
 from .progress_counts import chapter_completion_count_map, chapter_completion_denominator_map
 from .stories import (
     DEFAULT_CHAPTER_HEIGHT,
@@ -61,4 +66,7 @@ __all__ = [
     "challenge_level_access_payload",
     "challenge_trial_access_payload",
     "get_command_form",
+    "orientation_lessons_for_chapter",
+    "orientation_lesson_detail",
+    "mark_orientation_lesson_complete",
 ]
