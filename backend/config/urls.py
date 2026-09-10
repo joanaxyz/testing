@@ -20,4 +20,5 @@ urlpatterns = [
     path("api/", include("shop.urls")),
     path("api/progress/", include("progress.urls")),
     path("api/admin/", include("adminconsole.urls")),
+    path("api/ai/", include("ai_support.urls")),
 ]

@@ -19,6 +19,7 @@ REST_FRAMEWORK = {
         "auth_password_reset": "10000/hour",
         "auth_password_reset_confirm": "10000/hour",
         "command_submit": "10000/min",
+        "ai_chat": "10000/min",
     },
 }
 
