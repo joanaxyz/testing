@@ -25,6 +25,7 @@ HTTP_METHODS = {"get", "post", "put", "patch", "delete", "head", "options"}
 NO_BODY_SUCCESS_ALLOWLIST: set[str] = set()
 
 REQUIRED_OPERATION_RESPONSES = {
+    "ai_chat_create": "AIChatResponse",
     "admin_analytics_retrieve": "AdminAnalyticsResponse",
     "admin_chapters_retrieve": "AdminChapterListResponse",
     "admin_chapters_create": "AdminChapter",
