@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { AdventureOutcomeModal } from './AdventureOutcomeModal'
@@ -60,14 +60,26 @@ const run: AdventureRun = {
 describe('AdventureOutcomeModal', () => {
   afterEach(() => cleanup())
 
-  it('surfaces the pass state and per-command mastery', () => {
+  it('surfaces the pass state, keeping the per-command mastery breakdown collapsed until expanded', () => {
     render(<AdventureOutcomeModal open run={run} onRestart={vi.fn()} onClose={vi.fn()} />)
     expect(screen.getByRole('dialog')).toHaveClass('game-outcome-backdrop')
     expect(screen.getByRole('img', { name: 'You Won' })).toBeInTheDocument()
     expect(screen.getByText('Challenge unlocked')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /play again/i })).toBeInTheDocument()
+
+    const toggle = screen.getByRole('button', { name: /command mastery/i })
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    expect(screen.queryByText('Mastered')).not.toBeInTheDocument()
+    expect(screen.queryByText('In progress')).not.toBeInTheDocument()
+
+    fireEvent.click(toggle)
+    expect(toggle).toHaveAttribute('aria-expanded', 'true')
     expect(screen.getByText('Mastered')).toBeInTheDocument()
     expect(screen.getByText('In progress')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /play again/i })).toBeInTheDocument()
+
+    fireEvent.click(toggle)
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    expect(screen.queryByText('Mastered')).not.toBeInTheDocument()
   })
 
   it('shows a next level action when the adventure has another level', () => {

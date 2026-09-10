@@ -36,7 +36,7 @@ export function GameOutcomeStatTile({
 
   return (
     <div
-      className="game-outcome-stat-tile group relative overflow-hidden rounded-xl border border-border/60 p-2.5 transition-all duration-200 hover:-translate-y-0.5"
+      className="game-outcome-stat-tile group relative overflow-hidden rounded-xl border border-border/60 transition-all duration-200 hover:-translate-y-0.5"
       style={
         {
           animationDelay: `${animationDelay}ms`,

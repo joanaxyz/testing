@@ -1,0 +1,413 @@
+.game-outcome-confetti {
+  position: absolute;
+  left: 50%;
+  top: 5.5rem;
+  width: var(--confetti-width);
+  height: var(--confetti-height);
+  border-radius: 999px;
+  background: var(--confetti-color);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--confetti-color) 42%, transparent);
+  opacity: 0;
+  transform: translate(-50%, -50%) rotate(0deg);
+  animation: game-outcome-confetti-pop var(--confetti-duration) cubic-bezier(0.18, 0.88, 0.22, 1.02) var(--confetti-delay) both;
+}
+
+.game-outcome-party-popper {
+  position: absolute;
+  bottom: 1.2rem;
+  z-index: 1;
+  filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.35));
+  opacity: 0;
+  animation: game-outcome-popper-enter 720ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.game-outcome-party-popper-left {
+  left: 1.25rem;
+  transform-origin: bottom left;
+}
+
+.game-outcome-party-popper-right {
+  right: 1.25rem;
+  transform-origin: bottom right;
+  animation-delay: 80ms;
+}
+
+@keyframes game-outcome-confetti-pop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.3) rotate(0deg);
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  45% {
+    opacity: 1;
+    transform: translate(calc(-50% + var(--confetti-x) * 0.55), calc(-50% + var(--confetti-y) * -0.15)) scale(1.05) rotate(calc(var(--confetti-rotate) * 0.4));
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--confetti-x)), var(--confetti-y)) scale(0.7) rotate(var(--confetti-rotate));
+  }
+}
+
+@keyframes game-outcome-popper-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(1rem) scale(0.68) rotate(-10deg);
+  }
+
+  70% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(2deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .game-outcome-confetti,
+  .game-outcome-party-popper {
+    animation: none;
+    opacity: 0.7;
+  }
+
+  .game-outcome-sparkle-glow,
+  .game-outcome-stat-tile,
+  .game-outcome-badge {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes game-outcome-sparkle-glow-pulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 18px rgba(var(--theme-primary-rgb), 0.38)) drop-shadow(0 0 42px rgba(var(--theme-rail-rgb), 0.18));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 32px rgba(var(--theme-primary-rgb), 0.78)) drop-shadow(0 0 72px rgba(var(--theme-accent-rgb), 0.36));
+  }
+}
+
+.game-outcome-sparkle-glow {
+  animation: game-outcome-sparkle-glow-pulse 2.8s ease-in-out infinite;
+}
+
+@keyframes game-outcome-stat-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.game-outcome-stat-tile {
+  /* `p-2.5` in the tile's className has no matching utility in this app's
+     hand-rolled CSS (only whole/half-rem steps are defined), so padding was
+     silently 0 - fix it here with a deliberately tight value instead of the
+     10px the dead class implied. */
+  padding: 0.5rem 0.625rem;
+  animation: game-outcome-stat-fade-up 360ms ease-out both;
+}
+
+@keyframes game-outcome-badge-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.55);
+  }
+
+  62% {
+    transform: scale(1.12);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.game-outcome-badge {
+  animation: game-outcome-badge-pop 380ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.game-outcome-backdrop {
+  background: hsl(var(--background) / 0.72);
+}
+
+.game-outcome-shell {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.game-outcome {
+  --outcome-accent: rgb(var(--theme-primary-rgb));
+  --outcome-blue: rgb(var(--theme-rail-rgb));
+  --outcome-glow: rgba(var(--theme-primary-rgb), 0.38);
+  isolation: isolate;
+  max-height: calc(100vh - 1.5rem);
+  padding: clamp(0.75rem, 2.5vw, 1.25rem);
+  overflow-y: auto;
+  text-shadow: 0 8px 28px rgba(0, 0, 0, 0.56);
+}
+
+.game-outcome.is-failure {
+  --outcome-accent: hsl(var(--destructive));
+  --outcome-blue: rgb(var(--theme-rail-rgb));
+  --outcome-glow: hsl(var(--destructive) / 0.30);
+}
+
+.game-outcome-hero {
+  position: relative;
+  z-index: 1;
+}
+
+.game-outcome-confetti-layer,
+.game-outcome-party-popper {
+  position: absolute;
+}
+
+.game-outcome-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 3;
+  border: 0;
+  background: transparent;
+  color: hsl(var(--foreground));
+  filter: drop-shadow(0 0 12px var(--outcome-glow));
+}
+
+.game-outcome-hero {
+  display: grid;
+  place-items: center;
+  align-content: start;
+}
+
+/* Baked star-arc hero art (battle-outcome win-N / lose-0 assets). Sized to
+   stay the visual peak of the screen without eating a disproportionate share
+   of the available height - see game-outcome-title-art below for the sibling
+   size this scales alongside. */
+.game-outcome-star-art {
+  display: block;
+  width: min(20rem, 58vw);
+  margin-inline: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 14px 34px rgba(0, 0, 0, 0.5));
+}
+
+/* "YOU WON" / "GAME OVER" wordmarks from the stacked titles.png sheet. This is
+   the emotional peak of the screen, so it carries the biggest size and glow
+   of any element here. */
+.game-outcome-title-art {
+  width: min(19rem, 55vw);
+  aspect-ratio: 1921 / 410;
+  margin: 0.5rem auto 0;
+  background-repeat: no-repeat;
+  background-size: 100% 200%;
+  background-position: center top;
+  filter: drop-shadow(0 12px 30px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 34px var(--outcome-glow));
+}
+
+.game-outcome-title-art.is-lost {
+  background-position: center bottom;
+}
+
+/* The arc art bakes in the divider line; tuck the title under it. */
+.game-outcome-title-art.has-star-arc {
+  margin-top: -1.4rem;
+}
+
+/* h3/p carry a browser-default vertical margin with nothing here to reset it
+   (this app doesn't run a Tailwind-preflight-style reset) - zero the bottom
+   half explicitly so spacing below these is only ever the next element's
+   own margin-top, not that plus a ~1em UA default stacked on top. */
+.game-outcome-subline {
+  margin-bottom: 0;
+  color: var(--outcome-accent);
+  text-shadow: 0 0 16px var(--outcome-glow), 0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+.game-outcome-icon-crest {
+  position: relative;
+  display: grid;
+  width: clamp(4rem, 11vw, 5.5rem);
+  height: clamp(4rem, 11vw, 5.5rem);
+  place-items: center;
+  margin: 0 auto;
+  color: var(--outcome-accent);
+}
+
+.game-outcome-result-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+/* Color comes from the `text-muted-foreground` utility in the className
+   (quiet subtext, not a second headline) rather than a rule here, so it
+   doesn't fight that utility's cascade order. */
+.game-outcome-message {
+  margin-bottom: 0;
+}
+
+.game-outcome-stat-tile-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.7rem;
+  align-items: center;
+}
+
+.game-outcome-stat-icon {
+  width: 2.8rem;
+  height: 2.8rem;
+  object-fit: contain;
+}
+
+.game-outcome-stat-chip {
+  display: grid;
+  width: 1.5rem;
+  height: 1.5rem;
+  place-items: center;
+  border-radius: 0.375rem;
+}
+
+.game-outcome-stat-body {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+  text-align: left;
+}
+
+.game-outcome-badge-icon {
+  width: 1.05rem;
+  height: 1.05rem;
+  object-fit: contain;
+}
+
+/* Amber "Challenge unlocked" pill; !important beats the utility layer. */
+.game-outcome-badge--gold {
+  border-color: rgba(243, 210, 122, 0.6) !important;
+  background: rgba(243, 210, 122, 0.1) !important;
+  color: #f3d27a !important;
+  box-shadow: 0 0 16px rgba(243, 210, 122, 0.22);
+}
+
+/* Green "Mastered" pill matching the check.png node asset. */
+.game-outcome-pill-mastered {
+  border: 1px solid rgba(61, 220, 132, 0.5);
+  background: rgba(61, 220, 132, 0.12);
+  color: #3ddc84;
+}
+
+.game-outcome-node-art {
+  width: 2.6rem;
+  height: 1.9rem;
+  object-fit: contain;
+}
+
+.game-outcome-node-status {
+  color: hsl(var(--muted-foreground));
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Failure actions follow the mock's red drench instead of the cyan primary. */
+.game-outcome.is-failure .game-outcome-actions .ui-button {
+  border: 1px solid hsl(var(--destructive) / 0.66) !important;
+  background: rgba(26, 4, 7, 0.6) !important;
+  color: #ff9d9d !important;
+  box-shadow: 0 0 16px hsl(var(--destructive) / 0.16) !important;
+}
+
+.game-outcome.is-failure .game-outcome-actions .ui-button:hover,
+.game-outcome.is-failure .game-outcome-actions .ui-button:focus-visible {
+  border-color: hsl(var(--destructive)) !important;
+  color: #ffc4c4 !important;
+  box-shadow: 0 0 22px hsl(var(--destructive) / 0.34) !important;
+}
+
+.game-outcome-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 0.5rem;
+  width: min(47rem, 100%);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.game-outcome-mastery-panel,
+.game-outcome-level-nav {
+  border-color: hsl(var(--border) / 0.42) !important;
+  background: rgba(8, 12, 20, 0.18) !important;
+  box-shadow: none !important;
+  backdrop-filter: none;
+}
+
+.game-outcome-mastery-panel-head {
+  cursor: pointer;
+  background: transparent;
+  transition: background-color 160ms ease;
+}
+
+.game-outcome-mastery-panel-head:hover {
+  background: hsl(var(--foreground) / 0.05);
+}
+
+/* `<ul>` carries a ~1em browser-default top/bottom margin with nothing here
+   to reset it - left alone it adds ~32px of unintended height on top of the
+   panel's own border. */
+.game-outcome-mastery-list {
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .game-outcome {
+    max-height: calc(100vh - 0.75rem);
+    padding: 0.85rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
+  }
+
+  .game-outcome-star-art {
+    width: min(14rem, 68vw);
+  }
+
+  .game-outcome-title-art {
+    width: min(13.5rem, 62vw);
+  }
+
+  .game-outcome-title-art.has-star-arc {
+    margin-top: -1.1rem;
+  }
+
+  .game-outcome-stat-grid {
+    margin-top: 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .game-outcome-actions {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    width: 100%;
+    margin-top: 0.75rem;
+    padding: 0.45rem 0 calc(0.2rem + env(safe-area-inset-bottom));
+    background: transparent;
+  }
+
+  .game-outcome-actions > * {
+    flex: 1 1 9.5rem;
+  }
+}

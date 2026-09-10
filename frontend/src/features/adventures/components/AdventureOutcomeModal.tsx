@@ -1,5 +1,5 @@
-import { ArrowRight, BookOpen, Castle, CheckCircle2, DoorOpen, RefreshCcw, Sparkles, Trophy, XCircle } from 'lucide-react'
-import { useEffect } from 'react'
+import { ArrowRight, BookOpen, Castle, CheckCircle2, ChevronDown, DoorOpen, RefreshCcw, Sparkles, Trophy, XCircle } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import type { CSSProperties } from 'react'
 
 import forkIconImage from '@/assets/images/battle-outcome/fork.png'
@@ -42,6 +42,10 @@ export function AdventureOutcomeModal({
   const hasPerfectScore = run.stars >= 3
   const wonBelowPerfect = !isFailed && run.status === 'completed' && !hasPerfectScore
   const runTitle = run.selected_level?.title ?? run.story?.title ?? 'Story'
+  // The per-command breakdown is a detail view - the stat grid above already
+  // surfaces the "commands mastered" total, so collapse it by default and
+  // let players expand when they want the full list.
+  const [masteryExpanded, setMasteryExpanded] = useState(false)
 
   useEffect(() => {
     if (!open) return
@@ -178,41 +182,56 @@ export function AdventureOutcomeModal({
       stats={stats}
       actions={actions}
     >
-      <div className="game-outcome-mastery-panel mt-4 overflow-hidden rounded-xl border border-border/50">
-        <div className="game-outcome-mastery-panel-head flex items-center gap-1.5 border-b border-border/50 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
+      <div className="game-outcome-mastery-panel mt-3 overflow-hidden rounded-xl border border-border/50">
+        <button
+          type="button"
+          className="game-outcome-mastery-panel-head flex w-full items-center gap-1.5 border-b border-border/50 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground"
+          title={masteryExpanded ? 'Collapse Command Mastery' : 'View Command Mastery'}
+          aria-expanded={masteryExpanded}
+          onClick={() => setMasteryExpanded((expanded) => !expanded)}
+        >
           <Trophy className="size-3" />
           Command mastery
-        </div>
-        <ul className="divide-y divide-border/40">
-          {commands.map((command) => {
-            const state = command.mastered ? 'mastered' : command.introduced ? 'progress' : 'untried'
-            return (
-              <li key={command.form_id} className="flex items-center justify-between gap-3 px-3 py-1.5 text-sm">
-                <CheckCircle2
-                  aria-hidden="true"
-                  className={cn(
-                    'size-4 shrink-0',
-                    state === 'mastered' ? 'text-primary' : 'text-muted-foreground/40',
-                  )}
-                />
-                <span className="min-w-0 flex-1 truncate text-left font-medium text-foreground">{command.title}</span>
-                <span className="shrink-0 font-mono text-xs text-muted-foreground">
-                  {command.strength}/{command.mastered_bar}
-                </span>
-                <span
-                  className={cn(
-                    'shrink-0 rounded-full px-2 py-0.5 text-[11px] font-semibold',
-                    state === 'mastered' && 'game-outcome-pill-mastered',
-                    state === 'progress' && 'bg-warning/15 text-warning',
-                    state === 'untried' && 'bg-border/40 text-muted-foreground',
-                  )}
-                >
-                  {state === 'mastered' ? 'Mastered' : state === 'progress' ? 'In progress' : 'Untried'}
-                </span>
-              </li>
-            )
-          })}
-        </ul>
+          <span className="font-mono text-[11px] text-muted-foreground/70">
+            ({run.mastery.commands_mastered}/{run.mastery.total_commands})
+          </span>
+          <ChevronDown
+            aria-hidden="true"
+            className={cn('ml-auto size-3.5 transition-transform duration-200', masteryExpanded && 'rotate-180')}
+          />
+        </button>
+        {masteryExpanded ? (
+          <ul className="game-outcome-mastery-list divide-y divide-border/40">
+            {commands.map((command) => {
+              const state = command.mastered ? 'mastered' : command.introduced ? 'progress' : 'untried'
+              return (
+                <li key={command.form_id} className="flex items-center justify-between gap-3 px-3 py-1 text-sm">
+                  <CheckCircle2
+                    aria-hidden="true"
+                    className={cn(
+                      'size-4 shrink-0',
+                      state === 'mastered' ? 'text-primary' : 'text-muted-foreground/40',
+                    )}
+                  />
+                  <span className="min-w-0 flex-1 truncate text-left font-medium text-foreground">{command.title}</span>
+                  <span className="shrink-0 font-mono text-xs text-muted-foreground">
+                    {command.strength}/{command.mastered_bar}
+                  </span>
+                  <span
+                    className={cn(
+                      'shrink-0 rounded-full px-2 py-0.5 text-[11px] font-semibold',
+                      state === 'mastered' && 'game-outcome-pill-mastered',
+                      state === 'progress' && 'bg-warning/15 text-warning',
+                      state === 'untried' && 'bg-border/40 text-muted-foreground',
+                    )}
+                  >
+                    {state === 'mastered' ? 'Mastered' : state === 'progress' ? 'In progress' : 'Untried'}
+                  </span>
+                </li>
+              )
+            })}
+          </ul>
+        ) : null}
       </div>
     </GameOutcomeModal>
   )
