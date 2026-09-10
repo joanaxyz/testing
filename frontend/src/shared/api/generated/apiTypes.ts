@@ -7,6 +7,10 @@ export type JsonValue = JsonPrimitive | JsonObject | JsonValue[]
 export type JsonObject = { [key: string]: JsonValue }
 
 export type ApiSchemas = {
+  "AIChatError": { "detail": string }
+  "AIChatMessage": { "content": string; "role": ApiSchemas["RoleEnum"] }
+  "AIChatRequest": { "history"?: Array<ApiSchemas["AIChatMessage"]>; "message": string; "page_context": ApiSchemas["PageContextEnum"] }
+  "AIChatResponse": { "policy_status": ApiSchemas["PolicyStatusEnum"]; "reply": string; "request_id": string }
   "AccessTokenResponse": { "access": string }
   "ActionEnum": "grant_coins" | "set_staff" | "set_active"
   "AdminAnalyticsResponse": { "active_learners_30d": number; "completions": ApiSchemas["AdminCompletions"]; "per_story": Array<ApiSchemas["AdminStoryAnalytics"]>; "runs": ApiSchemas["AdminRuns"] }
@@ -95,6 +99,7 @@ export type ApiSchemas = {
   "Login": { "identifier": string; "password": string }
   "MotionModeEnum": "system" | "reduced" | "full"
   "OnboardingPhaseEnum": "stories" | "shop" | "purchase" | "home" | "equip" | "done"
+  "PageContextEnum": "home" | "stories" | "story_map" | "performance" | "shop" | "settings" | "other"
   "PartialEnum": true
   "PasswordChange": { "current_password": string; "password": string; "password_confirm": string }
   "PasswordResetConfirm": { "password": string; "password_confirm": string; "token": string; "uid": string }
@@ -107,9 +112,11 @@ export type ApiSchemas = {
   "PerformanceModule": { "arc": ApiSchemas["RateMetric"]; "hlcr": ApiSchemas["RateMetric"]; "number": number; "rtr": ApiSchemas["RateMetric"]; "scr": ApiSchemas["RateMetric"]; "title": string }
   "PerformanceSummaryResponse": { "completed_sessions": number; "kpis": ApiSchemas["PerformanceKpiSet"]; "modules": Array<ApiSchemas["PerformanceModule"]> }
   "PlayerPreferences": { "motion_mode"?: ApiSchemas["MotionModeEnum"]; "onboarding_phase"?: ApiSchemas["OnboardingPhaseEnum"] }
+  "PolicyStatusEnum": "allowed" | "redirected"
   "RateMetric": { "denominator": number; "numerator": number; "value": number | null }
   "Register": { "email": string; "password": string; "password_confirm": string; "username": string }
   "RegisterResponse": { "user": ApiSchemas["User"] }
+  "RoleEnum": "user" | "assistant"
   "RuntimeStepResponse": { "command_text": string; "id": number; "result_category": string; "terminal_output": string }
   "SessionResponse": { "access": string; "user": ApiSchemas["User"] }
   "ShopEquipResponse": { "active_companion": string | null; "shop": ApiSchemas["ShopResponse"] }
@@ -164,6 +171,7 @@ export type ApiPath =
   | "/api/adventure-tier-runs/{run_id}/retry/"
   | "/api/adventure-tier-runs/{run_id}/submit-command/"
   | "/api/adventures/{adventure_slug}/runs/"
+  | "/api/ai/chat/"
   | "/api/auth/login/"
   | "/api/auth/logout/"
   | "/api/auth/me/"
@@ -239,6 +247,7 @@ export type ApiMethodByPath = {
   "/api/adventure-tier-runs/{run_id}/retry/": "POST"
   "/api/adventure-tier-runs/{run_id}/submit-command/": "POST"
   "/api/adventures/{adventure_slug}/runs/": "POST"
+  "/api/ai/chat/": "POST"
   "/api/auth/login/": "POST"
   "/api/auth/logout/": "POST"
   "/api/auth/me/": "GET"
@@ -324,6 +333,7 @@ export const apiOperations = {
   adventure_tier_runs_retry_create: { method: "POST", path: "/api/adventure-tier-runs/{run_id}/retry/", operationId: "adventure_tier_runs_retry_create", tags: ["adventure-tier-runs"] },
   adventure_tier_runs_submit_command_create: { method: "POST", path: "/api/adventure-tier-runs/{run_id}/submit-command/", operationId: "adventure_tier_runs_submit_command_create", tags: ["adventure-tier-runs"] },
   adventures_runs_create: { method: "POST", path: "/api/adventures/{adventure_slug}/runs/", operationId: "adventures_runs_create", tags: ["adventures"] },
+  ai_chat_create: { method: "POST", path: "/api/ai/chat/", operationId: "ai_chat_create", tags: ["ai-support"] },
   auth_login_create: { method: "POST", path: "/api/auth/login/", operationId: "auth_login_create", tags: ["auth"] },
   auth_logout_create: { method: "POST", path: "/api/auth/logout/", operationId: "auth_logout_create", tags: ["auth"] },
   auth_me_retrieve: { method: "GET", path: "/api/auth/me/", operationId: "auth_me_retrieve", tags: ["auth"] },
@@ -421,6 +431,7 @@ export type ApiRequestBodyByOperation = {
   adventure_tier_runs_retry_create: null
   adventure_tier_runs_submit_command_create: ApiSchemas["CommandSubmit"]
   adventures_runs_create: null
+  ai_chat_create: ApiSchemas["AIChatRequest"]
   auth_login_create: ApiSchemas["Login"]
   auth_logout_create: null
   auth_me_retrieve: null
@@ -515,6 +526,7 @@ export type ApiResponseBodyByOperation = {
   adventure_tier_runs_retry_create: ApiSchemas["AdventureLevelTierRunResponse"]
   adventure_tier_runs_submit_command_create: ApiSchemas["AdventureLevelTierCommandResponse"]
   adventures_runs_create: ApiSchemas["AdventureRunResponse"]
+  ai_chat_create: ApiSchemas["AIChatResponse"]
   auth_login_create: ApiSchemas["SessionResponse"]
   auth_logout_create: null
   auth_me_retrieve: ApiSchemas["User"]

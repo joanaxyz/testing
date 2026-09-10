@@ -4,6 +4,7 @@ import { Outlet, useLocation } from 'react-router-dom'
 import { startBackgroundMusic, stopBackgroundMusic } from '@/shared/audio/battleAudio'
 import { CursorGlow } from '@/shared/components/CursorGlow'
 import { OnboardingProvider } from '@/features/onboarding/OnboardingProvider'
+import { AIChatbot } from '@/features/ai-support/components/AIChatbot'
 import { useAuthStore } from '@/shared/auth/useAuth'
 import { AppMobileNav, AppTopbar } from '@/shared/navigation/AppNavigation'
 import { isStoryMapRoute } from '@/shared/navigation/routes'
@@ -35,6 +36,7 @@ export function HomeLayout() {
         </OnboardingProvider>
       </main>
       <AppMobileNav />
+      <AIChatbot />
     </div>
   )
 }

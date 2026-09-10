@@ -21,6 +21,7 @@ import '@/styles/features/auth.css'
 import '@/styles/features/settings.css'
 import '@/styles/features/onboarding.css'
 import '@/styles/features/performance.css'
+import '@/styles/features/ai-chatbot.css'
 
 initializePreferences()
 

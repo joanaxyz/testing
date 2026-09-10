@@ -1324,6 +1324,66 @@
                 }
             }
         },
+        "/api/ai/chat/": {
+            "post": {
+                "operationId": "ai_chat_create",
+                "tags": [
+                    "ai-support"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AIChatRequest"
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AIChatRequest"
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AIChatRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AIChatResponse"
+                                }
+                            }
+                        },
+                        "description": ""
+                    },
+                    "429": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AIChatError"
+                                }
+                            }
+                        },
+                        "description": ""
+                    },
+                    "503": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AIChatError"
+                                }
+                            }
+                        },
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/api/auth/login/": {
             "post": {
                 "operationId": "auth_login_create",
@@ -3173,6 +3233,77 @@
     },
     "components": {
         "schemas": {
+            "AIChatError": {
+                "type": "object",
+                "properties": {
+                    "detail": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "detail"
+                ]
+            },
+            "AIChatMessage": {
+                "type": "object",
+                "description": "Serializer that rejects undeclared fields instead of silently ignoring them.",
+                "properties": {
+                    "role": {
+                        "$ref": "#/components/schemas/RoleEnum"
+                    },
+                    "content": {
+                        "type": "string",
+                        "maxLength": 2000
+                    }
+                },
+                "required": [
+                    "content",
+                    "role"
+                ]
+            },
+            "AIChatRequest": {
+                "type": "object",
+                "description": "Serializer that rejects undeclared fields instead of silently ignoring them.",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "maxLength": 1000
+                    },
+                    "history": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AIChatMessage"
+                        }
+                    },
+                    "page_context": {
+                        "$ref": "#/components/schemas/PageContextEnum"
+                    }
+                },
+                "required": [
+                    "message",
+                    "page_context"
+                ]
+            },
+            "AIChatResponse": {
+                "type": "object",
+                "properties": {
+                    "reply": {
+                        "type": "string"
+                    },
+                    "policy_status": {
+                        "$ref": "#/components/schemas/PolicyStatusEnum"
+                    },
+                    "request_id": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "required": [
+                    "policy_status",
+                    "reply",
+                    "request_id"
+                ]
+            },
             "AccessTokenResponse": {
                 "type": "object",
                 "properties": {
@@ -6057,6 +6188,19 @@
                 "type": "string",
                 "description": "* `stories` - Stories\n* `shop` - Shop\n* `purchase` - Purchase\n* `home` - Home\n* `equip` - Equip\n* `done` - Done"
             },
+            "PageContextEnum": {
+                "enum": [
+                    "home",
+                    "stories",
+                    "story_map",
+                    "performance",
+                    "shop",
+                    "settings",
+                    "other"
+                ],
+                "type": "string",
+                "description": "* `home` - home\n* `stories` - stories\n* `story_map` - story_map\n* `performance` - performance\n* `shop` - shop\n* `settings` - settings\n* `other` - other"
+            },
             "PartialEnum": {
                 "enum": [
                     true
@@ -6349,6 +6493,14 @@
                     }
                 }
             },
+            "PolicyStatusEnum": {
+                "enum": [
+                    "allowed",
+                    "redirected"
+                ],
+                "type": "string",
+                "description": "* `allowed` - allowed\n* `redirected` - redirected"
+            },
             "RateMetric": {
                 "type": "object",
                 "properties": {
@@ -6409,6 +6561,14 @@
                 "required": [
                     "user"
                 ]
+            },
+            "RoleEnum": {
+                "enum": [
+                    "user",
+                    "assistant"
+                ],
+                "type": "string",
+                "description": "* `user` - user\n* `assistant` - assistant"
             },
             "RuntimeStepResponse": {
                 "type": "object",

@@ -6,6 +6,7 @@ django-environ==0.13.0
 django-redis==6.0.0
 whitenoise==6.11.0
 redis==7.4.0
+groq==1.7.0
 drf-spectacular==0.29.0
 psycopg[binary]==3.3.4
 # Production WSGI server (POSIX-only; Windows dev uses manage.py runserver)

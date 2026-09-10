@@ -61,6 +61,11 @@ env = environ.Env(
     SECURE_CONTENT_TYPE_NOSNIFF=(bool, True),
     SECURE_REFERRER_POLICY=(str, "same-origin"),
     API_VERSION=(str, "0.1.0"),
+    AI_CHAT_ENABLED=(bool, False),
+    GROQ_API_KEY=(str, ""),
+    GROQ_MODEL=(str, "openai/gpt-oss-20b"),
+    GROQ_TIMEOUT_SECONDS=(float, 12.0),
+    AI_CHAT_MAX_OUTPUT_TOKENS=(int, 700),
 )
 
 _os_database_url_before_read_env = os.environ.get("DATABASE_URL")
@@ -118,6 +123,7 @@ INSTALLED_APPS = [
     "progress",
     "common",
     "adminconsole",
+    "ai_support.apps.AISupportConfig",
 ]
 
 MIDDLEWARE = [
@@ -349,9 +355,20 @@ REST_FRAMEWORK = {
             "THROTTLE_AUTH_PASSWORD_RESET_CONFIRM", default="60/hour"
         ),
         "command_submit": env("THROTTLE_COMMAND_SUBMIT", default="120/min"),
+        "ai_chat": env("THROTTLE_AI_CHAT", default="5/min"),
     },
 }
 
+AI_CHAT_ENABLED = env("AI_CHAT_ENABLED")
+GROQ_API_KEY = env("GROQ_API_KEY").strip()
+GROQ_MODEL = env("GROQ_MODEL").strip()
+GROQ_TIMEOUT_SECONDS = env("GROQ_TIMEOUT_SECONDS")
+AI_CHAT_MAX_OUTPUT_TOKENS = env("AI_CHAT_MAX_OUTPUT_TOKENS")
+
+if GROQ_TIMEOUT_SECONDS <= 0:
+    raise RuntimeError("GROQ_TIMEOUT_SECONDS must be greater than 0.")
+if AI_CHAT_MAX_OUTPUT_TOKENS <= 0:
+    raise RuntimeError("AI_CHAT_MAX_OUTPUT_TOKENS must be greater than 0.")
 JWT_ACCESS_TOKEN_LIFETIME_MINUTES = env("JWT_ACCESS_TOKEN_LIFETIME_MINUTES")
 JWT_REFRESH_TOKEN_LIFETIME_DAYS = env("JWT_REFRESH_TOKEN_LIFETIME_DAYS")
 
